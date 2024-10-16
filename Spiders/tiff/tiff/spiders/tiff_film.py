@@ -22,7 +22,22 @@ class TiffFilmSpider(scrapy.Spider):
 
 
     def parse(self, response):
-        titles_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
-        unique_titles_url=set(titles_url)
+
+        # extract links for each movie titles
+        film_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
+        unique_film_url=set(film_url)
+
+        for link in unique_film_url:
+            yield scrapy.Request(
+                url=response.urljoin(link),
+                callback=self.parse_movie_info,
+                meta=dict(
+                    playwright=True,
+                )
+            )
+
+    def parse_movie_info(self,response):
+        title=response.css("div[class*=style__title]::text").get()
+        print(title)
+
         
-        pass
