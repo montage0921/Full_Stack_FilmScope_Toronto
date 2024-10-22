@@ -27,7 +27,7 @@ class TiffFilmSpider(scrapy.Spider):
         
         film_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
         unique_film_url=set(film_url) # one movie with mutiple showtimes, only record once
-
+        print(len(unique_film_url))
         for link in unique_film_url:
             yield scrapy.Request(
                 url=response.urljoin(link),
@@ -41,41 +41,76 @@ class TiffFilmSpider(scrapy.Spider):
     def parse_movie_info(self,response):
 
         film_info={}
+
+        # show name
         main_title=response.css("div[class*=style__title]::text").get()
-        # for some page, movie info contains after a header "Playing as part of this programme:"
-        # in this case, it may screen more than one film at each screening
+        film_info["show_title"]=main_title
+
+        # schedule
+        dates=response.css("div[class*=style__scheduleItemBlock]")
+        showtimes=[]
+        for d in dates:
+            showtime=[]
+            date=d.css("div[class*=style__scheduleItemDate]::text").get()
+            time=d.css("span[class*=style__scheduleItemDisplayTime]::text").get()
+            link=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").get()
+            showtime.extend([date,time,link]) # use extend() to add all 3 elements in one line
+            showtimes.append(showtime)
+        
+        film_info["showtimes"]=showtimes
+        
+        # for some page, one show contains mutiple shorts/movies
         if response.css("div[class*=style__childEventsHeader]"):
            info_container=response.css("div[class*=style__childInfo]")
            for c in info_container:
                title_eng=c.css("div[class*=style__childTitle]::text").get()
-               print(title_eng)
-           
-           """
-          
-           title_eng=response.css("div[class*=style__childTitle]::text").getall()
 
-           director=response.css("div[class*=style__childDirector] span::text").get()
-    
-           credits=response.css("div[class*=style__childCredits] span::text").getall()
+               # english movie doesn't have title in antoher language displayed
+            
+               title_original=c.css("div[class*=style__childTitleSecond]::text").get()
+               
+        
+               director=c.css("div[class*=style__childDirector] span::text").get()
 
-           description=response.css("div[class*=style__childPitch] p::text").getall()
+               credits=c.css("div[class*=style__childCredits] span::text").getall() # countries, year, length, language 
 
-           
-           for i in range(len(title_eng)):
-               film_info["main_title"]=main_title
-               film_info["title_eng"]=title_eng[i]
+               cleaned_credits=[c.strip().replace('|','').strip() for c in credits]
+
+               pitch=c.css("div[class*=style__childPitch] p *::text").getall() # select every textcontent inside p tag
+               full_description=" ".join(pitch)
+               
+               film_info["english_title"]=title_eng
+               film_info["original_title"]=title_original
                film_info["director"]=director
-               film_info["countries"]=credits[0].strip().replace("|","")
-               film_info["year"]=credits[1].strip().replace("|","")
-               film_info["length"]=credits[2].strip().replace("|","")
-               film_info["language"]=credits[3].strip().replace("|","")
-               film_info["description"]=description[i]
-               
+               film_info["credits"]=cleaned_credits
+               film_info["description"]=full_description
+               film_info["genre"]=""
+
                yield film_info
-            """
-               
+            
         else:
-            print("no, it doesnt have it")
+            director=response.css("div[class*=style__director] span::text").getall()
+
+            credits=response.css("div[class*=style__runtimeSection] span[class*=charlie]::text").get()
+            print(credits)
+           
+            notes=response.css("div[class*=style__note] p *::text").getall()
+            full_notes=" ".join(notes)
+
+            genre=response.css("div[class*=style__tag] a::text").getall()
+
+
+            film_info["english_title"]=main_title
+            film_info["original_title"]=""
+            film_info["director"]=director
+            film_info["credits"]=credits
+            film_info["description"]=full_notes
+            film_info["genre"]=genre
+
+
+            yield film_info
+    
+
         
         
 
