@@ -1,6 +1,10 @@
 import scrapy
 from scrapy_playwright.page import PageMethod
 
+import pycountry
+from langdetect import detect_langs
+import re
+
 
 class TiffFilmSpider(scrapy.Spider):
     name = "tiff_film"
@@ -24,7 +28,6 @@ class TiffFilmSpider(scrapy.Spider):
     # extract link of each movie
     def parse(self, response):
 
-        
         film_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
         unique_film_url=set(film_url) # one movie with mutiple showtimes, only record once
         print(len(unique_film_url))
@@ -82,7 +85,7 @@ class TiffFilmSpider(scrapy.Spider):
                film_info["english_title"]=title_eng
                film_info["original_title"]=title_original
                film_info["director"]=director
-               film_info["credits"]=cleaned_credits
+               self.credit_process(film_info,cleaned_credits)
                film_info["description"]=full_description
                film_info["genre"]=""
 
@@ -92,23 +95,50 @@ class TiffFilmSpider(scrapy.Spider):
             director=response.css("div[class*=style__director] span::text").getall()
 
             credits=response.css("div[class*=style__runtimeSection] span[class*=charlie]::text").get()
-            print(credits)
-           
+            
+            if credits:
+                credits_list=credits.split("|")
+                credits=[c.strip().replace("|","").strip() for c in credits_list]
+            
             notes=response.css("div[class*=style__note] p *::text").getall()
             full_notes=" ".join(notes)
 
             genre=response.css("div[class*=style__tag] a::text").getall()
 
-
             film_info["english_title"]=main_title
             film_info["original_title"]=""
             film_info["director"]=director
-            film_info["credits"]=credits
+            self.credit_process(film_info,credits) 
             film_info["description"]=full_notes
             film_info["genre"]=genre
 
 
             yield film_info
+    
+    def isCountry(self,name):
+        try:
+            return pycountry.countries.lookup(name) is not None
+        except LookupError:
+            return False
+                
+    # convert credit string to country, year, length and language
+    def credit_process(self,film_info,credits):
+        if not credits:
+            return
+        year_pattern = re.compile(r'^\d{4}$')  # 4-digit year
+        length_pattern = re.compile(r'^\d+m$')  # e.g., '119m'
+
+        for c in credits:
+            if year_pattern.match(c):
+                film_info["year"]=c
+            elif length_pattern.match(c):
+                film_info["length"]=c
+            elif self.isCountry(c.split(",")[0]):
+                film_info["country"]=c
+            else:
+                film_info["language"]=c
+        
+        
     
 
         
