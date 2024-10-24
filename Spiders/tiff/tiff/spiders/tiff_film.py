@@ -1,8 +1,6 @@
 import scrapy
 from scrapy_playwright.page import PageMethod
 
-import pycountry
-from langdetect import detect_langs
 import re
 
 
@@ -30,7 +28,6 @@ class TiffFilmSpider(scrapy.Spider):
 
         film_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
         unique_film_url=set(film_url) # one movie with mutiple showtimes, only record once
-        print(len(unique_film_url))
         for link in unique_film_url:
             yield scrapy.Request(
                 url=response.urljoin(link),
@@ -44,6 +41,8 @@ class TiffFilmSpider(scrapy.Spider):
     def parse_movie_info(self,response):
 
         film_info={}
+
+        film_info["theatre"]="TIFF Lightbox"
 
         # show name
         main_title=response.css("div[class*=style__title]::text").get()
@@ -68,75 +67,67 @@ class TiffFilmSpider(scrapy.Spider):
            for c in info_container:
                title_eng=c.css("div[class*=style__childTitle]::text").get()
 
-               # english movie doesn't have title in antoher language displayed
-            
-               title_original=c.css("div[class*=style__childTitleSecond]::text").get()
-               
-        
-               director=c.css("div[class*=style__childDirector] span::text").get()
+               director=c.css("div[class*=style__childDirector] span *::text").get()
 
-               credits=c.css("div[class*=style__childCredits] span::text").getall() # countries, year, length, language 
+               year=self.get_year_page_type1(c)
 
-               cleaned_credits=[c.strip().replace('|','').strip() for c in credits]
-
-               pitch=c.css("div[class*=style__childPitch] p *::text").getall() # select every textcontent inside p tag
-               full_description=" ".join(pitch)
-               
                film_info["english_title"]=title_eng
-               film_info["original_title"]=title_original
                film_info["director"]=director
-               self.credit_process(film_info,cleaned_credits)
-               film_info["description"]=full_description
-               film_info["genre"]=""
+               film_info["year"]=year
 
                yield film_info
             
         else:
             director=response.css("div[class*=style__director] span::text").getall()
-
-            credits=response.css("div[class*=style__runtimeSection] span[class*=charlie]::text").get()
-            
-            if credits:
-                credits_list=credits.split("|")
-                credits=[c.strip().replace("|","").strip() for c in credits_list]
-            
-            notes=response.css("div[class*=style__note] p *::text").getall()
-            full_notes=" ".join(notes)
-
-            genre=response.css("div[class*=style__tag] a::text").getall()
+            year=self.get_year_page_type2(response)
 
             film_info["english_title"]=main_title
-            film_info["original_title"]=""
             film_info["director"]=director
-            self.credit_process(film_info,credits) 
-            film_info["description"]=full_notes
-            film_info["genre"]=genre
-
-
+            film_info["year"]=year
+        
             yield film_info
-    
-    def isCountry(self,name):
-        try:
-            return pycountry.countries.lookup(name) is not None
-        except LookupError:
-            return False
-                
-    # convert credit string to country, year, length and language
-    def credit_process(self,film_info,credits):
-        if not credits:
-            return
-        year_pattern = re.compile(r'^\d{4}$')  # 4-digit year
-        length_pattern = re.compile(r'^\d+m$')  # e.g., '119m'
+                 
+    # get year from credits info
+    def get_year_page_type1(self,c):
+        year=''
 
+        credits=c.css("div[class*=style__childCredits] span::text").getall() # countries, year, length, language 
+
+        cleaned_credits=[c.strip().replace('|','').strip() for c in credits]
+        print(cleaned_credits)
+        
+        if not cleaned_credits:
+            return year
+        
+        year_pattern = re.compile(r'^\d{4}$')  # 4-digit year
+        
+        for c in cleaned_credits:
+            if year_pattern.match(c):
+                year=c
+
+        return year
+
+    def get_year_page_type2(self,response):
+        year=""
+        credits=response.css("div[class*=style__runtimeSection] span[class*=charlie]::text").get()
+
+        if not credits:
+            return year
+            
+        if credits:
+            credits_list=credits.split("|")
+            credits=[c.strip().replace("|","").strip() for c in credits_list]
+        
+        year_pattern = re.compile(r'^\d{4}$')  # 4-digit year
+        
         for c in credits:
             if year_pattern.match(c):
-                film_info["year"]=c
-            elif length_pattern.match(c):
-                film_info["length"]=c
-            elif self.isCountry(c.split(",")[0]):
-                film_info["country"]=c
-            else:
-                film_info["language"]=c
+                year=c
+
+        return year
+            
+
+           
         
         
     
