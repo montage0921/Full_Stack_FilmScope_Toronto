@@ -62,9 +62,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "tiff.pipelines.TiffPipeline": 300,
-#}
+ITEM_PIPELINES = {
+    "tiff.pipelines.TiffPipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -106,5 +106,5 @@ DOWNLOAD_HANDLERS = {
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    "headless": False,  # Set this to False to open a visible browser
+    "headless": True,  # Set this to False to open a visible browser
 }

@@ -70,6 +70,7 @@ class TiffFilmSpider(scrapy.Spider):
                title_eng=c.css("div[class*=style__childTitle]::text").get()
 
                director=c.css("div[class*=style__childDirector] span *::text").get()
+               
 
                year=self.get_year_page_type1(c)
 
@@ -82,7 +83,9 @@ class TiffFilmSpider(scrapy.Spider):
                    yield complete_info # each show matches a film matches a showtime
             
         else:
-            director=response.css("div[class*=style__director] span::text").getall()
+            director=response.css("div[class*=style__director] span::text").getall() # director is a list
+            director=','.join(director) 
+            
             year=self.get_year_page_type2(response)
 
             film_info["english_title"]=show_title
@@ -95,7 +98,7 @@ class TiffFilmSpider(scrapy.Spider):
                  
     # get year from credits info
     def get_year_page_type1(self,c):
-        year=''
+        year=0
 
         credits=c.css("div[class*=style__childCredits] span::text").getall() # countries, year, length, language 
 
@@ -108,13 +111,13 @@ class TiffFilmSpider(scrapy.Spider):
         
         for c in cleaned_credits:
             if year_pattern.match(c):
-                year=c
+                year=int(c)
                 break;
         
-        return int(year) if year else ""
+        return year
 
     def get_year_page_type2(self,response):
-        year=""
+        year=0
         credits=response.css("div[class*=style__runtimeSection] span[class*=charlie]::text").get()
 
         if not credits:
@@ -128,10 +131,10 @@ class TiffFilmSpider(scrapy.Spider):
         
         for c in credits:
             if year_pattern.match(c):
-                year=c
+                year=int(c)
                 break
         
-        return int(year) if year else ""
+        return year
 
     # convert scraped date info to SQL Date TYpe
     def formatted_date(self,date_str):
