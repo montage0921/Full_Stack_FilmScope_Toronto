@@ -108,8 +108,8 @@ class TiffFilmSpider(scrapy.Spider):
         for c in cleaned_credits:
             if year_pattern.match(c):
                 year=c
-
-        return year
+        
+        return int(year) if year else ""
 
     def get_year_page_type2(self,response):
         year=""
@@ -127,8 +127,8 @@ class TiffFilmSpider(scrapy.Spider):
         for c in credits:
             if year_pattern.match(c):
                 year=c
-
-        return year
+        
+        return int(year) if year else ""
 
     # convert scraped date info to SQL Date TYpe
     def formatted_date(self,date_str):
