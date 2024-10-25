@@ -1,6 +1,7 @@
 import scrapy
 from scrapy_playwright.page import PageMethod
 
+
 import re
 
 
@@ -52,11 +53,16 @@ class TiffFilmSpider(scrapy.Spider):
         dates=response.css("div[class*=style__scheduleItemBlock]")
         showtimes=[]
         for d in dates:
-            showtime=[]
+            showtime={}
             date=d.css("div[class*=style__scheduleItemDate]::text").get()
             time=d.css("span[class*=style__scheduleItemDisplayTime]::text").get()
             link=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").get()
-            showtime.extend([date,time,link]) # use extend() to add all 3 elements in one line
+
+            # convert to date object
+            
+            showtime["date"]=date.strip()
+            showtime["time"]=time
+            showtime["link"]=link
             showtimes.append(showtime)
         
         film_info["showtimes"]=showtimes
@@ -94,7 +100,6 @@ class TiffFilmSpider(scrapy.Spider):
         credits=c.css("div[class*=style__childCredits] span::text").getall() # countries, year, length, language 
 
         cleaned_credits=[c.strip().replace('|','').strip() for c in credits]
-        print(cleaned_credits)
         
         if not cleaned_credits:
             return year
