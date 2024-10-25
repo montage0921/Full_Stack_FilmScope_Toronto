@@ -39,12 +39,11 @@ class TiffFilmSpider(scrapy.Spider):
     def parse_movie_info(self,response):
 
         film_info={}
-
+        # movie theatre
         film_info["theatre"]="TIFF Lightbox"
-
         # show name
-        main_title=response.css("div[class*=style__title]::text").get()
-        film_info["show_title"]=main_title
+        show_title=response.css("div[class*=style__title]::text").get()
+        film_info["show_title"]=show_title
 
         # schedule
         dates=response.css("div[class*=style__scheduleItemBlock]")
@@ -64,9 +63,7 @@ class TiffFilmSpider(scrapy.Spider):
             showtime["link"]=link
             showtimes.append(showtime)
         
-        film_info["showtimes"]=showtimes
-        
-        # for some page, one show contains mutiple shorts/movies
+        # for child events (mutiple films in one show)
         if response.css("div[class*=style__childEventsHeader]"):
            info_container=response.css("div[class*=style__childInfo]")
            for c in info_container:
@@ -80,17 +77,21 @@ class TiffFilmSpider(scrapy.Spider):
                film_info["director"]=director
                film_info["year"]=year
 
-               yield film_info
+               for showtime in showtimes:
+                   complete_info={**film_info,**showtime}
+                   yield complete_info # each show matches a film matches a showtime
             
         else:
             director=response.css("div[class*=style__director] span::text").getall()
             year=self.get_year_page_type2(response)
 
-            film_info["english_title"]=main_title
+            film_info["english_title"]=show_title
             film_info["director"]=director
             film_info["year"]=year
-        
-            yield film_info
+
+            for showtime in showtimes:
+                complete_info={**film_info,**showtime}
+                yield complete_info
                  
     # get year from credits info
     def get_year_page_type1(self,c):
@@ -110,7 +111,7 @@ class TiffFilmSpider(scrapy.Spider):
                 year=c
                 break;
         
-        return datetime.strptime(year,"%Y") if year else ""
+        return int(year) if year else ""
 
     def get_year_page_type2(self,response):
         year=""
@@ -130,7 +131,7 @@ class TiffFilmSpider(scrapy.Spider):
                 year=c
                 break
         
-        return datetime.strptime(year,"%Y") if year else ""
+        return int(year) if year else ""
 
     # convert scraped date info to SQL Date TYpe
     def formatted_date(self,date_str):
@@ -166,6 +167,4 @@ class TiffFilmSpider(scrapy.Spider):
     
 
         
-        
-
-        
+    
