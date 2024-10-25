@@ -1,9 +1,7 @@
 import scrapy
 from scrapy_playwright.page import PageMethod
-
-
 import re
-
+from datetime import datetime
 
 class TiffFilmSpider(scrapy.Spider):
     name = "tiff_film"
@@ -26,7 +24,6 @@ class TiffFilmSpider(scrapy.Spider):
 
     # extract link of each movie
     def parse(self, response):
-
         film_url=response.css("h3[class*=style__cardTitle] a::attr(href)").getall()
         unique_film_url=set(film_url) # one movie with mutiple showtimes, only record once
         for link in unique_film_url:
@@ -54,14 +51,16 @@ class TiffFilmSpider(scrapy.Spider):
         showtimes=[]
         for d in dates:
             showtime={}
-            date=d.css("div[class*=style__scheduleItemDate]::text").get()
+            date=d.css("div[class*=style__scheduleItemDate]::text").get().strip()
             time=d.css("span[class*=style__scheduleItemDisplayTime]::text").get()
             link=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").get()
 
-            # convert to date object
-            
-            showtime["date"]=date.strip()
-            showtime["time"]=time
+            formatted_date=self.formatted_date(date)
+            if time:
+                formatted_time=self.formatted_time(time)
+
+            showtime["date"]=formatted_date
+            showtime["time"]=formatted_time if time else None
             showtime["link"]=link
             showtimes.append(showtime)
         
@@ -130,6 +129,33 @@ class TiffFilmSpider(scrapy.Spider):
                 year=c
 
         return year
+
+    # convert scraped date info to SQL Date TYpe
+    def formatted_date(self,date_str):
+
+        current_month=datetime.now().month # return a number (10 is October for example)
+        showtime_month=datetime.strptime(date_str,"%A, %B %d").month
+
+        # if show time month >= current month, show happens in this year
+        # else show happens in next year
+        if showtime_month >=current_month:
+            show_year=datetime.now().year
+        else:
+            show_year=datetime.now().year+1
+        
+        full_date_str=f"{date_str} {show_year}"
+
+        date_obj = datetime.strptime(full_date_str, "%A, %B %d %Y")
+        formatted_date=date_obj.strftime('%Y-%m-%d')
+        return formatted_date    
+
+    # convert scraped time to SQL TIME DATA TYPE
+    def formatted_time(self,time_str):
+        time_obj=datetime.strptime(time_str,'%I:%M %p')
+        formatted_time=time_obj.strftime('%H:%M:%S')
+        return formatted_time
+
+
             
 
            
