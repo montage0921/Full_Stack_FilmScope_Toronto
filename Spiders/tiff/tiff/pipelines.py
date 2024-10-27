@@ -23,7 +23,6 @@ class TiffPipeline:
         self.cursor=self.connection.cursor()
 
     def process_item(self, item, spider):
-        print(item)
 
         insert_query="""
             INSERT INTO showtime (theatre,show_title,show_date,show_time,film_title,director,year,link)

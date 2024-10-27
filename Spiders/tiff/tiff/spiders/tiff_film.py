@@ -49,19 +49,20 @@ class TiffFilmSpider(scrapy.Spider):
         dates=response.css("div[class*=style__scheduleItemBlock]")
         showtimes=[]
         for d in dates:
-            showtime={}
             date=d.css("div[class*=style__scheduleItemDate]::text").get().strip()
-            time=d.css("span[class*=style__scheduleItemDisplayTime]::text").get()
-            link=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").get()
+            times=d.css("span[class*=style__scheduleItemDisplayTime]::text").getall()
+            links=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").getall()
 
-            formatted_date=self.formatted_date(date)
-            if time:
+            if date:
+                formatted_date=self.formatted_date(date)
+            
+            for time, link in zip(times,links):
+                showtime={}
                 formatted_time=self.formatted_time(time)
-
-            showtime["date"]=formatted_date
-            showtime["time"]=formatted_time if time else None
-            showtime["link"]=link
-            showtimes.append(showtime)
+                showtime["date"]=formatted_date
+                showtime["time"]=formatted_time if time else None
+                showtime["link"]=link
+                showtimes.append(showtime)
         
         # for child events (mutiple films in one show)
         if response.css("div[class*=style__childEventsHeader]"):
