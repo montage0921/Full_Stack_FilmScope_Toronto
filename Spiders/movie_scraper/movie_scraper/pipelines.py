@@ -10,7 +10,7 @@ import pymysql
 import pymysql.cursors
 
 
-class TiffPipeline:
+class MovieScraperPipeline:
     def __init__(self):
         self.connection=pymysql.connect(
             host='127.0.0.1',

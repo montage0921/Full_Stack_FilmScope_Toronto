@@ -3,8 +3,8 @@ from scrapy_playwright.page import PageMethod
 import re
 from datetime import datetime
 
-class TiffFilmSpider(scrapy.Spider):
-    name = "tiff_film"
+class TiffSpider(scrapy.Spider):
+    name = "tiff"
     allowed_domains = ["www.tiff.net"]
     start_urls = ["https://www.tiff.net/calendar"]
 
