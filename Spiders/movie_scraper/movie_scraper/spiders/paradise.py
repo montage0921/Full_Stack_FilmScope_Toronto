@@ -20,17 +20,18 @@ class ParadiseSpider(scrapy.Spider):
                 show_title=show.css("h2.show-title a::text").get()
                 film_info["show_title"]=show_title
                 film_info["english_title"]=show_title
-
-                date=show.css("div.show-datelist.single-date span::text").get().strip()
-                date=self.formatted_date(date)
-                film_info["date"]=date
-
-                time=show.css("ol.showtime-button-row li a::text").get().strip()
-                time=self.formatted_time(time)
-                film_info["time"]=time
-
-                link=show.css("ol.showtime-button-row li a::attr(href)").get()
-                film_info["link"]=link
+ 
+                if show.css("div.show-datelist.single-date span::text"):
+                    date=show.css("div.show-datelist.single-date span::text").get().strip()
+                    date=self.formatted_date(date)
+                    film_info["date"]=date
+                
+                if show.css("ol.showtime-button-row li a::text"):
+                    time=show.css("ol.showtime-button-row li a::text").get().strip()
+                    time=self.formatted_time(time)
+                    film_info["time"]=time
+                    link=show.css("ol.showtime-button-row li a::attr(href)").get()
+                    film_info["link"]=link
 
                 details=show.css("p.show-specs span::text").getall()
                 for i in range(len(details)):
@@ -43,15 +44,17 @@ class ParadiseSpider(scrapy.Spider):
                 film_info["director"]=director
                 film_info["year"]=year
                 
-            
-            print(film_info)
             yield film_info
 
     def formatted_date(self,date):
         current_month=datetime.now().month
 
-        showtime_month=datetime.strptime(date,"%a, %b %d").month
+        # to cope with "Today, Nov 12"
+        if "Today" in date:
+            today_weekday = datetime.now().strftime("%a")
+            date = date.replace("Today", today_weekday)
 
+        showtime_month=datetime.strptime(date,"%a, %b %d").month
         if showtime_month>=current_month:
             show_year=datetime.now().year
         else:
