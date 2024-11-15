@@ -4,21 +4,27 @@ import DatabaseOperator
 import requests
 import json
 import time
+from dotenv import load_dotenv
+import os
 
-# My SQL configuration
-host='127.0.0.1'
-user='root'
-password='nicaiwojiaosha1.A'
-db='filmscope_toronto'
+load_dotenv(r"C:\Users\19692\Downloads\Full_Stack_FilmScope_Toronto\Config\.env")
+api_key=os.getenv("API_KEY")
+host=os.getenv("DB_HOST")
+user=os.getenv("DB_USER")
+password=os.getenv("DB_PASSWORD")
+db=os.getenv("DB_NAME")
+
 
 # header for my TMDB API
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYzFmODNhOTU4M2FmYjNkMTUyMzRkMWRlNDQyMjc3MyIsIm5iZiI6MTczMTUzOTcyOS41NTk1NDIyLCJzdWIiOiI2NzE4NGQ2NDQ1NDJlMzcxZmUwYTEyNTkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.NRlzDrRbn2nfSrs5ZgRhz8NUHKB83psINIkjQUlORmc"
+    "Authorization": api_key
 }
 
 # Fetch All Movies that doesn't have movie information yet
+# create a DB Operator
 db_operator=DatabaseOperator.DatabaseOperator(host,user,password,db)
+
 films=db_operator.extract_for_api() # return all the films in database
 
 def fetch_movie_info(film):

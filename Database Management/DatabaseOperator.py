@@ -16,7 +16,7 @@ class DatabaseOperator():
     
     def extract_for_api(self):
         extract_query="""
-                      SELECT DISTINCT film_title,film_id,director,year FROM showtime WHERE film_id =0
+                      SELECT DISTINCT film_title, year FROM showtime WHERE film_id =0
                       """
         
         try:
