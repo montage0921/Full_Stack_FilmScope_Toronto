@@ -118,6 +118,8 @@ for film in films:
     film_info=fetch_movie_info(film)
     print(film_info)
     db_operator.upload_film_info(film_info)
+
+db_operator.update_film_id()
 db_operator.close()
     
 
