@@ -1,0 +1,12 @@
+Field,Type,Null,Key,Default,Extra
+id,int,NO,PRI,NULL,auto_increment
+theatre,varchar(255),NO,MUL,NULL,
+show_title,varchar(255),NO,,NULL,
+show_date,varchar(255),YES,,N/A,
+show_time,varchar(255),YES,,N/A,
+film_title,varchar(255),YES,,N/A,
+director,varchar(255),YES,,N/A,
+year,int,YES,,0,
+link,varchar(255),YES,,N/A,
+film_id,int,YES,,0,
+published,tinyint(1),YES,,0,

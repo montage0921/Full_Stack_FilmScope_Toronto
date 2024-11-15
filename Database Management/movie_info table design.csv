@@ -1,0 +1,15 @@
+Field,Type,Null,Key,Default,Extra
+id,int,NO,PRI,NULL,auto_increment
+film_id,int,YES,,NULL,
+title,varchar(255),NO,MUL,NULL,
+original_title,varchar(255),YES,,NULL,
+directors,json,YES,,NULL,
+casts,json,YES,,NULL,
+genres,json,YES,,NULL,
+release_year,int,YES,,NULL,
+countries,json,YES,,NULL,
+languages,json,YES,,NULL,
+runtime,int,YES,,NULL,
+poster_path,varchar(255),YES,,NULL,
+overview,text,YES,,NULL,
+imdb_id,varchar(20),YES,,NULL,
