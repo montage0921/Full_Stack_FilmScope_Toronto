@@ -54,6 +54,20 @@ class DatabaseOperator():
         except pymysql.MySQLError as e:
              print(e)
     
+    def update_film_id(self):
+        update_id_query=update_query = """
+            UPDATE showtime AS s
+            JOIN movie_info AS m ON s.film_title = m.title AND s.year = m.release_year
+            SET s.film_id = m.film_id
+            WHERE m.film_id IS NOT NULL;
+            """
+        try:
+            self.cursor.execute(update_id_query)
+            self.connection.commit()
+        except pymysql.MySQLError as e:
+            print(e)
+
+
     def close(self):
          self.cursor.close()
          self.connection.close()
