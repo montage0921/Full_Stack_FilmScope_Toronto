@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Getter
 @Setter
@@ -16,8 +19,8 @@ public class ShowDto {
     private Integer id;
     private String theatre;
     private String showTitle;
-    private String showDate;
-    private String showTime;
+    private LocalDate showDate;
+    private LocalTime showTime;
     private String filmTitle;
     private String director;
     private Integer releaseYear;

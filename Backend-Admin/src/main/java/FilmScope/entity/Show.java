@@ -1,10 +1,15 @@
 package FilmScope.entity;
 
+import ch.qos.logback.classic.pattern.DateConverter;
 import jakarta.persistence.*; // JPA library
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -24,11 +29,13 @@ public class Show {
     @Column(name="show_title",nullable = false)
     private String showTitle;
 
-    @Column(name="show_date")
-    private String showDate;
+    @Column(name="show_date",columnDefinition = "VARCHAR(255)")
+    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    private LocalDate showDate;
 
-    @Column(name="show_time")
-    private String showTime;
+    @Column(name="show_time",columnDefinition = "VARCHAR(255)")
+    @Convert(converter = Jsr310JpaConverters.LocalTimeConverter.class)
+    private LocalTime showTime;
 
     @Column(name="film_title")
     private String filmTitle;
