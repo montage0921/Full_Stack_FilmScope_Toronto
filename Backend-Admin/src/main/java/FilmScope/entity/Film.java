@@ -63,7 +63,7 @@ public class Film {
     private String posterPath;
 
     @Lob // indicate it is a large object
-    @Column(name="overview")
+    @Column(name="overview",columnDefinition = "TEXT")
     private String overview;
 
     @Column(name="imdb_id")
