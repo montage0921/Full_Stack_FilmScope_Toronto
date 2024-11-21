@@ -27,5 +27,4 @@ public class ShowDto {
     private String link;
     private Integer filmId;
     private Boolean published;
-
 }
