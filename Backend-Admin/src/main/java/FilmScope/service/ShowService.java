@@ -21,4 +21,12 @@ public class ShowService {
                 .map(ShowListMapper::mapShowListToDto)
                 .collect(Collectors.toList());
     }
+
+    public List<ShowListDto> getUpcomingShows(){
+        List<Object[]> upcomingShowList=showRepository.getUpcomingShows();
+
+        return upcomingShowList.stream()
+                .map(ShowListMapper::mapShowListToDto)
+                .collect(Collectors.toList());
+    }
 }
