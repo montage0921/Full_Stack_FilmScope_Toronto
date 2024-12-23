@@ -8,6 +8,7 @@
 from itemadapter import ItemAdapter
 import pymysql
 import pymysql.cursors
+import json
 
 
 class MovieScraperPipeline:
@@ -25,22 +26,20 @@ class MovieScraperPipeline:
     def process_item(self, item, spider):
 
         insert_query="""
-            INSERT INTO showtime (theatre,show_title,show_date,show_time,film_title,director,year,link)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            INSERT INTO showtime (theatre,show_title,film_title,director,year,showtimes_dict)
+            VALUES (%s,%s,%s,%s,%s,%s)
         """
 
         try:
             director=item['director'] if item['director'] else None
-            link=item['link'] if item['link'] else None
+            showtime_json=json.dumps(item['showtimes_dict'])
             self.cursor.execute(insert_query,(
                 item['theatre'],
                 item['show_title'],
-                item['date'],
-                item['time'],
                 item['english_title'],
                 director,
                 item['year'],
-                link
+                showtime_json
             ))
 
             self.connection.commit()
