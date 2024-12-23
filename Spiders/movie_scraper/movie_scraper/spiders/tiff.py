@@ -50,12 +50,13 @@ class TiffSpider(scrapy.Spider):
         showtimes={}
         
         for d in dates:
-            date=d.css("div[class*=style__scheduleItemDate]::text").get().strip()
+            if d.css("div[class*=style__scheduleItemDate]::text"):
+                date=d.css("div[class*=style__scheduleItemDate]::text").get().strip()
 
             times=d.css("span[class*=style__scheduleItemDisplayTime]::text").getall()
             links=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").getall()
-            if date:
-                formatted_date=self.formatted_date(date)
+
+            formatted_date=self.formatted_date(date)
 
             for time, link in zip(times,links):
                 if formatted_date not in showtimes:
@@ -80,7 +81,7 @@ class TiffSpider(scrapy.Spider):
                film_info["year"]=year
 
                film_info["showtimes_dict"]=showtimes
-               print(film_info)
+
                yield film_info
             
         else:
@@ -93,7 +94,7 @@ class TiffSpider(scrapy.Spider):
             film_info["director"]=director
             film_info["year"]=year
             film_info["showtimes_dict"]=showtimes
-            print(film_info)
+
             yield film_info
                  
     # get year from credits info
