@@ -17,7 +17,7 @@ class MySQLPipeline:
         mysql_user = crawler.settings.get('MYSQL_USER')
         mysql_password = crawler.settings.get('MYSQL_PASSWORD')
         return cls(mysql_host, mysql_db, mysql_user, mysql_password)
-
+    return cls(mysql_host, mysql_db, mysql_user, mysql_password)
     def open_spider(self, spider):
         try:
             self.connection = pymysql.connect(
