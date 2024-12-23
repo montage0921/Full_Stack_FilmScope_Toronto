@@ -47,23 +47,23 @@ class TiffSpider(scrapy.Spider):
 
         # schedule
         dates=response.css("div[class*=style__scheduleItemBlock]")
-        showtimes=[]
+        showtimes={}
+        
         for d in dates:
             date=d.css("div[class*=style__scheduleItemDate]::text").get().strip()
+
             times=d.css("span[class*=style__scheduleItemDisplayTime]::text").getall()
             links=d.css("div[class*=style__scheduleItemDiv] a::attr(href)").getall()
-
             if date:
                 formatted_date=self.formatted_date(date)
-            
+
             for time, link in zip(times,links):
-                showtime={}
+                if formatted_date not in showtimes:
+                    showtimes[formatted_date]=[]
                 formatted_time=self.formatted_time(time)
-                showtime["date"]=formatted_date
-                showtime["time"]=formatted_time if time else None
-                showtime["link"]=link
-                showtimes.append(showtime)
-        
+                time_link=(formatted_time,link)
+                showtimes[formatted_date].append(time_link)
+
         # for child events (mutiple films in one show)
         if response.css("div[class*=style__childEventsHeader]"):
            info_container=response.css("div[class*=style__childInfo]")
@@ -79,9 +79,9 @@ class TiffSpider(scrapy.Spider):
                film_info["director"]=director
                film_info["year"]=year
 
-               for showtime in showtimes:
-                   complete_info={**film_info,**showtime}
-                   yield complete_info # each show matches a film matches a showtime
+               film_info["showtimes_dict"]=showtimes
+               print(film_info)
+               yield film_info
             
         else:
             director=response.css("div[class*=style__director] span::text").getall() # director is a list
@@ -92,10 +92,9 @@ class TiffSpider(scrapy.Spider):
             film_info["english_title"]=show_title
             film_info["director"]=director
             film_info["year"]=year
-
-            for showtime in showtimes:
-                complete_info={**film_info,**showtime}
-                yield complete_info
+            film_info["showtimes_dict"]=showtimes
+            print(film_info)
+            yield film_info
                  
     # get year from credits info
     def get_year_page_type1(self,c):
