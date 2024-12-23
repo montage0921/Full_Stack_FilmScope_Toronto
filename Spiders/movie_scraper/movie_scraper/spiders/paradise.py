@@ -20,19 +20,23 @@ class ParadiseSpider(scrapy.Spider):
                 show_title=show.css("h2.show-title a::text").get()
                 film_info["show_title"]=show_title
                 film_info["english_title"]=show_title
- 
+
+                # scrape showtime info
+                showtimes={}
                 if show.css("div.show-datelist.single-date span::text"):
                     date=show.css("div.show-datelist.single-date span::text").get().strip()
                     date=self.formatted_date(date)
-                    film_info["date"]=date
+                    showtimes[date]=[]
                 
                 if show.css("ol.showtime-button-row li a::text"):
                     time=show.css("ol.showtime-button-row li a::text").get().strip()
                     time=self.formatted_time(time)
-                    film_info["time"]=time
                     link=show.css("ol.showtime-button-row li a::attr(href)").get()
-                    film_info["link"]=link
+                    show_link=(time,link)
+                    showtimes[date].append(show_link)
+                film_info["showtimes_dict"]=showtimes
 
+                # scrape director and year info
                 details=show.css("p.show-specs span::text").getall()
                 for i in range(len(details)):
                     if details[i]=="Director:":
