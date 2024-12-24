@@ -1,6 +1,5 @@
 package FilmScope.dto;
 
-import FilmScope.converter.helper.TimeLink;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class ShowDto {
     private Integer id;
     private String theatre;
     private String showTitle;
-    private Map<LocalDate,List<TimeLink>> showtimes;
+    private Map<LocalDate,List<List<String>>> showtimes;
     private String filmTitle;
     private String director;
     private Integer releaseYear;

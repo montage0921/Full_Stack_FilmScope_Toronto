@@ -1,5 +1,5 @@
 package FilmScope.converter;
-import FilmScope.converter.helper.TimeLink;
+
 // A Jackson exception class
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,16 +13,17 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 @Converter
-public class JsonShowTimeConverter implements AttributeConverter<Map<LocalDate, List<TimeLink>>, String> {
+public class JsonShowTimeConverter implements AttributeConverter<Map<LocalDate, List<List<String>>>, String> {
     private final ObjectMapper objectMapper=new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(Map<LocalDate,List<TimeLink>> showtimes){
+    public String convertToDatabaseColumn(Map<LocalDate,List<List<String>>> showtimes){
         if(showtimes==null){
             return null;
         }
@@ -30,19 +31,21 @@ public class JsonShowTimeConverter implements AttributeConverter<Map<LocalDate, 
         try{
             return objectMapper.writeValueAsString(showtimes);
         } catch(JsonProcessingException e){
+
             throw new IllegalArgumentException("Error converting Json string to showtimes");
         }
     }
 
     @Override
-    public Map<LocalDate,List<TimeLink>> convertToEntityAttribute(String showtimesJson){
+    public Map<LocalDate,List<List<String>>> convertToEntityAttribute(String showtimesJson){
         if (showtimesJson == null || showtimesJson.isEmpty()) {
             return null;
         }
 
         try{
-            return objectMapper.readValue(showtimesJson, new TypeReference<Map<LocalDate,List<TimeLink>>>() {});
+            return objectMapper.readValue(showtimesJson, new TypeReference<Map<LocalDate,List<List<String>>>>() {});
         } catch(JsonProcessingException e){
+
             throw new IllegalArgumentException("Error converting Json string to showtimes");
         }
     }

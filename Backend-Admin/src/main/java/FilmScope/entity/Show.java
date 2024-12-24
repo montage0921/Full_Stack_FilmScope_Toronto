@@ -1,7 +1,6 @@
 package FilmScope.entity;
 
 import FilmScope.converter.JsonShowTimeConverter;
-import FilmScope.converter.helper.TimeLink;
 import ch.qos.logback.classic.pattern.DateConverter;
 import jakarta.persistence.*; // JPA library
 import lombok.AllArgsConstructor;
@@ -35,7 +34,7 @@ public class Show {
 
     @Column(name="showtimes_dict",columnDefinition = "JSON")
     @Convert(converter=JsonShowTimeConverter.class)
-    private Map<LocalDate,List<TimeLink>> showTimes;
+    private Map<LocalDate,List<List<String>>> showTimes;
 
     @Column(name="film_title")
     private String filmTitle;
