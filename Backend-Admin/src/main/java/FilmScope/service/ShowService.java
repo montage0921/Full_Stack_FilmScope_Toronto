@@ -1,12 +1,13 @@
 package FilmScope.service;
 
+import FilmScope.dto.ShowListDto;
+import FilmScope.entity.Show;
 import lombok.AllArgsConstructor;
 import FilmScope.repository.ShowRepository;
 import org.springframework.stereotype.Service;
-import FilmScope.dto.ShowListDto;
-import FilmScope.mapper.ShowListMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,19 +15,12 @@ import java.util.stream.Collectors;
 public class ShowService {
     private final ShowRepository showRepository;
 
-    public List<ShowListDto> getShowList(){
+    public List<ShowListDto> getAllShows(){
+        List<Show> shows= showRepository.findAll();
+        Map<String,List<List<String>>> showDate=shows.get(0).getShowTimes();
+        System.out.println(showDate);
 
-        List<Object[]> showListData=showRepository.getShowListData();
-        return showListData.stream()
-                .map(ShowListMapper::mapShowListToDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ShowListDto> getUpcomingShows(){
-        List<Object[]> upcomingShowList=showRepository.getUpcomingShows();
-
-        return upcomingShowList.stream()
-                .map(ShowListMapper::mapShowListToDto)
-                .collect(Collectors.toList());
+        return shows.stream().map(show->new ShowListDto(show.getId(),show.getTheatre(),show.getShowTitle()))
+                .toList();
     }
 }
