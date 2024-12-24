@@ -1,14 +1,12 @@
 package FilmScope.controller;
 
 import FilmScope.dto.ShowDetailedDto;
+import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
 import FilmScope.service.ShowService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,9 +31,19 @@ public class ShowController{
     }
 
     // get movie detailed info by showTitle
-    @GetMapping("{showName}")
-    public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@PathVariable("showName") String showName){
-        ShowDetailedDto showDetail=showService.getDetailedInfo(showName);
+    @GetMapping("{showTitle}")
+    public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@PathVariable("showTitle") String showTitle){
+        ShowDetailedDto showDetail=showService.getDetailedInfo(showTitle);
         return ResponseEntity.ok(showDetail);
+    }
+
+    // update show info by showTitle
+    // only show_title and showtimes can be updated
+    @PutMapping("{showTitle}")
+    public ResponseEntity<List<ShowDto>> updateShow(@PathVariable("showTitle") String showTitle,
+                                              @RequestBody ShowDto updatedShow)
+    {
+        List<ShowDto> updatedShows=showService.updateShow(showTitle,updatedShow);
+        return ResponseEntity.ok(updatedShows);
     }
 }

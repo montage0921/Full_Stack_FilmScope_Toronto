@@ -1,9 +1,11 @@
 package FilmScope.service;
 
 import FilmScope.dto.ShowDetailedDto;
+import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
 import FilmScope.entity.Film;
 import FilmScope.entity.Show;
+import FilmScope.mapper.ShowMapper;
 import FilmScope.repository.FilmRepository;
 import lombok.AllArgsConstructor;
 import FilmScope.repository.ShowRepository;
@@ -68,6 +70,20 @@ public class ShowService {
 
         List<Film> films=filmRepository.findByFilmIdIn(filmIDs);
 
+
         return new ShowDetailedDto(theatre,showTitle,showtimes,published,films,filmIDs,IDs);
+    }
+
+    // update show info
+    public List<ShowDto> updateShow(String showTitle,ShowDto updatedShow){
+        List<Show> shows=showRepository.findByShowTitle((showTitle));
+        for (Show show:shows){
+            show.setShowTimes(updatedShow.getShowtimes());
+            show.setShowTitle(updatedShow.getShowTitle());
+            show.setPublished(updatedShow.getPublished());
+        }
+        showRepository.saveAll((shows));
+
+        return shows.stream().map(ShowMapper::mapToShowDto).toList();
     }
 }
