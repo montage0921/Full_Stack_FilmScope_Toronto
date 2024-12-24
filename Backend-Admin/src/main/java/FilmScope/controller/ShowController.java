@@ -22,4 +22,11 @@ public class ShowController{
         List<ShowListDto> shows=showService.getAllShows();
         return ResponseEntity.ok(shows);
     }
+
+    // get recent movie screening list (in 7 days)
+    @GetMapping("recent")
+    public ResponseEntity<List<ShowListDto>> getRecentShowList(){
+        List<ShowListDto> recentShows=showService.getRecentShows();
+        return ResponseEntity.ok(recentShows);
+    }
 }
