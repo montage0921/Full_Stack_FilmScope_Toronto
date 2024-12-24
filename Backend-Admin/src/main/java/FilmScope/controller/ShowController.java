@@ -1,10 +1,12 @@
 package FilmScope.controller;
 
+import FilmScope.dto.ShowDetailedDto;
 import FilmScope.dto.ShowListDto;
 import FilmScope.service.ShowService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +30,12 @@ public class ShowController{
     public ResponseEntity<List<ShowListDto>> getRecentShowList(){
         List<ShowListDto> recentShows=showService.getRecentShows();
         return ResponseEntity.ok(recentShows);
+    }
+
+    // get movie detailed info by showTitle
+    @GetMapping("{showName}")
+    public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@PathVariable("showName") String showName){
+        ShowDetailedDto showDetail=showService.getDetailedInfo(showName);
+        return ResponseEntity.ok(showDetail);
     }
 }
