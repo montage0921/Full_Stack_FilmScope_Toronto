@@ -34,7 +34,7 @@ public class Show {
 
     @Column(name="showtimes_dict",columnDefinition = "JSON")
     @Convert(converter=JsonShowTimeConverter.class)
-    private Map<LocalDate,List<List<String>>> showTimes;
+    private Map<String,List<List<String>>> showTimes;
 
     @Column(name="film_title")
     private String filmTitle;

@@ -19,11 +19,11 @@ import java.util.Map;
 
 
 @Converter
-public class JsonShowTimeConverter implements AttributeConverter<Map<LocalDate, List<List<String>>>, String> {
+public class JsonShowTimeConverter implements AttributeConverter<Map<String, List<List<String>>>, String> {
     private final ObjectMapper objectMapper=new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(Map<LocalDate,List<List<String>>> showtimes){
+    public String convertToDatabaseColumn(Map<String,List<List<String>>> showtimes){
         if(showtimes==null){
             return null;
         }
@@ -37,13 +37,13 @@ public class JsonShowTimeConverter implements AttributeConverter<Map<LocalDate, 
     }
 
     @Override
-    public Map<LocalDate,List<List<String>>> convertToEntityAttribute(String showtimesJson){
+    public Map<String,List<List<String>>> convertToEntityAttribute(String showtimesJson){
         if (showtimesJson == null || showtimesJson.isEmpty()) {
             return null;
         }
 
         try{
-            return objectMapper.readValue(showtimesJson, new TypeReference<Map<LocalDate,List<List<String>>>>() {});
+            return objectMapper.readValue(showtimesJson, new TypeReference<Map<String,List<List<String>>>>() {});
         } catch(JsonProcessingException e){
 
             throw new IllegalArgumentException("Error converting Json string to showtimes");

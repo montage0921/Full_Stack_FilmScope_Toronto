@@ -21,7 +21,7 @@ public class ShowDto {
     private Integer id;
     private String theatre;
     private String showTitle;
-    private Map<LocalDate,List<List<String>>> showtimes;
+    private Map<String,List<List<String>>> showtimes;
     private String filmTitle;
     private String director;
     private Integer releaseYear;
