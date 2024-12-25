@@ -97,4 +97,14 @@ public class ShowController{
         }
     }
 
+    @PostMapping("add-show")
+    public ResponseEntity<String> addNewShow(ShowDetailedDto newShowDetails){
+        String addedShowStatus=showService.addNewShow(newShowDetails);
+        if(addedShowStatus.contains("Error")){
+            return ResponseEntity.badRequest().body(addedShowStatus);
+        }else{
+            return ResponseEntity.ok(addedShowStatus);
+        }
+    }
+
 }

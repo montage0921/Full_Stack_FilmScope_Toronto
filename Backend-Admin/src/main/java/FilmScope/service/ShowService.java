@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import FilmScope.repository.ShowRepository;
 import org.springframework.cglib.core.Local;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -145,8 +146,33 @@ public class ShowService {
     }
 
     // add show
-    public ShowDetailedDto addNewShow(ShowDetailedDto showDetailedDto){
+    @Transactional
+    public String addNewShow(ShowDetailedDto showDetailedDto){
+        List<FilmDto> filmDtoList=showDetailedDto.getDetailedMovieInfo();
 
-        return null;
+        String show_title=showDetailedDto.getShowTitle();
+        String theatre=showDetailedDto.getTheatre();
+        Map<String,List<List<String>>> showtimes=showDetailedDto.getShowtimes();
+        Boolean published=showDetailedDto.getPublished();
+
+        try{
+            for (FilmDto filmDto:filmDtoList){
+                String filmTitle=filmDto.getTitle();
+                String directors = filmDto.getDirectors().isEmpty() ? "" : filmDto.getDirectors().get(0);
+                Integer releaseYear=filmDto.getReleaseYear();
+                Integer filmId=filmDto.getFilmId();
+
+                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published);
+                Film film=FilmMapper.mapToFilmEntity(filmDto);
+
+                showRepository.save(show);
+                filmRepository.save(film);
+            }
+            return "Show and Films added successfully";
+        } catch(DataIntegrityViolationException e){
+            return "Error: duplicate record";
+        } catch(Exception e){
+            return String.format("Error %s",e.getMessage());
+        }
     }
 }
