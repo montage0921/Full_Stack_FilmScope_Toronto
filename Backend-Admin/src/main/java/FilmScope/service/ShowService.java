@@ -1,12 +1,15 @@
 package FilmScope.service;
 
+import FilmScope.dto.FilmDto;
 import FilmScope.dto.ShowDetailedDto;
 import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
 import FilmScope.entity.Film;
 import FilmScope.entity.Show;
+import FilmScope.mapper.FilmMapper;
 import FilmScope.mapper.ShowMapper;
 import FilmScope.repository.FilmRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import FilmScope.repository.ShowRepository;
 import org.springframework.cglib.core.Local;
@@ -74,6 +77,7 @@ public class ShowService {
         return new ShowDetailedDto(theatre,showTitle,showtimes,published,films,filmIDs,IDs);
     }
 
+    @Transactional
     // update show info
     public List<ShowDto> updateShow(String showTitle,ShowDto updatedShow){
         List<Show> shows=showRepository.findByShowTitle((showTitle));
@@ -85,5 +89,40 @@ public class ShowService {
         showRepository.saveAll((shows));
 
         return shows.stream().map(ShowMapper::mapToShowDto).toList();
+    }
+
+    @Transactional
+    // update Film info
+    public FilmDto updateFilm(Integer filmId, FilmDto updatedFilmDto){
+        // get film record by filmId from database
+        Film film=filmRepository.findByFilmId(filmId);
+
+        // update it with new info from updatedFilmDto
+        film.setTitle(updatedFilmDto.getTitle());
+        film.setOriginalTitle(updatedFilmDto.getOriginalTitle());
+        film.setDirectors(updatedFilmDto.getDirectors());
+        film.setCasts(updatedFilmDto.getCasts());
+        film.setGenres(updatedFilmDto.getGenres());
+        film.setReleaseYear(updatedFilmDto.getReleaseYear());
+        film.setCountries(updatedFilmDto.getCountries());
+        film.setLanguages(updatedFilmDto.getLanguages());
+        film.setRuntime(updatedFilmDto.getRuntime());
+        film.setPosterPath(updatedFilmDto.getPosterPath());
+        film.setOverview(updatedFilmDto.getOverview());
+        film.setImdbId(updatedFilmDto.getImdbId());
+
+        // save the change
+        filmRepository.save(film);
+
+        // get show records by filmID
+        List<Show> shows=showRepository.findByFilmId(filmId);
+        for (Show show:shows){
+            show.setFilmTitle(updatedFilmDto.getTitle());
+            // directors can be more than one however film info in showtime table is just for api search purpose, so no need to be accurate. Save one director is enough to get the accurate info im TMDB API
+            show.setDirector(updatedFilmDto.getDirectors().get(0));
+            show.setReleaseYear(updatedFilmDto.getReleaseYear());
+        }
+
+        return FilmMapper.mapToFilmDto(film);
     }
 }

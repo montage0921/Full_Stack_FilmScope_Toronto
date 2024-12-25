@@ -1,13 +1,16 @@
 package FilmScope.controller;
 
+import FilmScope.dto.FilmDto;
 import FilmScope.dto.ShowDetailedDto;
 import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
+import FilmScope.entity.Film;
 import FilmScope.service.ShowService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -39,11 +42,19 @@ public class ShowController{
 
     // update show info by showTitle
     // only show_title and showtimes can be updated
-    @PutMapping("{showTitle}")
+    @PutMapping("update-show/{showTitle}")
     public ResponseEntity<List<ShowDto>> updateShow(@PathVariable("showTitle") String showTitle,
                                               @RequestBody ShowDto updatedShow)
     {
         List<ShowDto> updatedShows=showService.updateShow(showTitle,updatedShow);
         return ResponseEntity.ok(updatedShows);
+    }
+
+    // update movie info by filmId
+    @PutMapping("update-film/{filmId}")
+    public ResponseEntity<FilmDto> updateFilm(@PathVariable("filmId") Integer filmId,@RequestBody
+    FilmDto updatedFilmDto){
+        FilmDto updatedFilmRes=showService.updateFilm(filmId,updatedFilmDto);
+        return ResponseEntity.ok(updatedFilmRes);
     }
 }
