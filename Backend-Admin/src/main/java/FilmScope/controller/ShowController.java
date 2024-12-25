@@ -33,10 +33,10 @@ public class ShowController{
         return ResponseEntity.ok(recentShows);
     }
 
-    // get movie detailed info by showTitle
-    @GetMapping("{showTitle}")
-    public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@PathVariable("showTitle") String showTitle){
-        ShowDetailedDto showDetail=showService.getDetailedInfo(showTitle);
+    // get a show's detailed info by showTitle
+    @GetMapping("detailed-showInfo")
+    public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@RequestParam String showTitle,@RequestParam String theatre){
+        ShowDetailedDto showDetail=showService.getDetailedInfo(showTitle,theatre);
         return ResponseEntity.ok(showDetail);
     }
 

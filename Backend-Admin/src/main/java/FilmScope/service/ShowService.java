@@ -61,18 +61,17 @@ public class ShowService {
     }
 
     // get detailed movie info
-    public ShowDetailedDto getDetailedInfo(String showName){
+    public ShowDetailedDto getDetailedInfo(String showName,String theatre){
         List<Show> shows=showRepository.findByShowTitle(showName);
-        String theatre=shows.get(0).getTheatre();
-        String showTitle=shows.get(0).getShowTitle();
-        Boolean published=shows.get(0).getPublished();
-        Map<String,List<List<String>>> showtimes=shows.get(0).getShowTimes();
+        List<Show> showsInATheatre=shows.stream().filter(show -> show.getTheatre().equals(theatre)).toList();
+        String showTitle=showsInATheatre.get(0).getShowTitle();
+        Boolean published=showsInATheatre.get(0).getPublished();
+        Map<String,List<List<String>>> showtimes=showsInATheatre.get(0).getShowTimes();
 
-        List<Integer> filmIDs=shows.stream().map(Show::getFilmId).toList();
-        List<Integer> IDs=shows.stream().map(Show::getId).toList();
+        List<Integer> filmIDs=showsInATheatre.stream().map(Show::getFilmId).toList();
+        List<Integer> IDs=showsInATheatre.stream().map(Show::getId).toList();
 
         List<Film> films=filmRepository.findByFilmIdIn(filmIDs);
-
 
         return new ShowDetailedDto(theatre,showTitle,showtimes,published,films,filmIDs,IDs);
     }
