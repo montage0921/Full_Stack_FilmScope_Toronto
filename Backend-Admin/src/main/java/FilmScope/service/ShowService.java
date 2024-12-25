@@ -72,8 +72,9 @@ public class ShowService {
         List<Integer> IDs=showsInATheatre.stream().map(Show::getId).toList();
 
         List<Film> films=filmRepository.findByFilmIdIn(filmIDs);
+        List<FilmDto> filmDtoList=films.stream().map(FilmMapper::mapToFilmDto).toList();
 
-        return new ShowDetailedDto(theatre,showTitle,showtimes,published,films,filmIDs,IDs);
+        return new ShowDetailedDto(theatre,showTitle,showtimes,published,filmDtoList,filmIDs,IDs);
     }
 
     @Transactional
@@ -136,10 +137,16 @@ public class ShowService {
     // delete a showBy Film
     // In our database, each unique film in a single show has a separate record
     // for example, if a show "Lord of the Ring Trilogy" has 3 movies, then we have 3 records,
-    // each of them has same showTitle but a different film. So delete a film is like delete a whole show record
+    // each of them has same showTitle but a different film. So delete a film means we need to delete a show record
     public void deleteFilm(String showTitle, String theatre, String filmTitle){
         List<Show> shows=showRepository.findByShowTitle(showTitle);
         Show show=shows.stream().filter(show1 -> show1.getTheatre().equals(theatre)).filter(show1 -> show1.getFilmTitle().equals(filmTitle) ).toList().get(0);
         showRepository.delete(show);
+    }
+
+    // add show
+    public ShowDetailedDto addNewShow(ShowDetailedDto showDetailedDto){
+
+        return null;
     }
 }

@@ -20,7 +20,7 @@ public class ShowDetailedDto {
     private String showTitle;
     private Map<String,List<List<String>>> showtimes;
     private Boolean published;
-    private List<Film> detailedMovieInfo;
+    private List<FilmDto> detailedMovieInfo;
     private List<Integer> filmIds;
     private List<Integer> Ids;
 }
