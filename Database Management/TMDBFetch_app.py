@@ -15,10 +15,11 @@ password=os.getenv("DB_PASSWORD")
 db=os.getenv("DB_NAME")
 
 # create a DB Operator
-db_operator=DatabaseOperator(host,user,password,db)
+
 
 @app.route('/fetch-movie-info',methods=['POST'])
 def fetch_movie_info_endpoint():
+    db_operator=DatabaseOperator(host,user,password,db)
     try:
         film=request.json # get film ("film_title","year") from JAVA backend
         film_info=fetch_movie_info(film)
