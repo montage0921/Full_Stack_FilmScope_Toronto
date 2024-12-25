@@ -70,7 +70,7 @@ public class ShowController{
     public ResponseEntity<String> deleteFilmInAShow(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
     String theatre,@RequestParam("filmId") String filmTitle){
         showService.deleteFilm(showTitle,theatre,filmTitle);
-        return ResponseEntity.ok(String.format("Film %d of show %s in theatre %s is successfully deleted", filmId,showTitle,theatre));
+        return ResponseEntity.ok(String.format("Film %s of show %s in theatre %s is successfully deleted", filmTitle,showTitle,theatre));
     }
 
 }
