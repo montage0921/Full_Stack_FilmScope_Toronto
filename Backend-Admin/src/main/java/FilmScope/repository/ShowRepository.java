@@ -9,4 +9,5 @@ import java.util.List;
 public interface ShowRepository extends JpaRepository<Show,Integer> {
     List<Show> findByShowTitle(String showTitle); // for simple SQL operation, we can only define it as findByFeatureName
     List<Show> findByFilmId(Integer filmId);
+    List<Show> findByFilmTitle(String filmTitle);
 }

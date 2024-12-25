@@ -51,10 +51,10 @@ public class ShowController{
     }
 
     // update movie info by filmId
-    @PutMapping("update-film/{filmId}")
-    public ResponseEntity<FilmDto> updateFilm(@PathVariable("filmId") Integer filmId,@RequestBody
+    @PutMapping("update-film/{filmTitle}")
+    public ResponseEntity<FilmDto> updateFilm(@PathVariable("filmTitle") String filmTitle,@RequestBody
     FilmDto updatedFilmDto){
-        FilmDto updatedFilmRes=showService.updateFilm(filmId,updatedFilmDto);
+        FilmDto updatedFilmRes=showService.updateFilm(filmTitle,updatedFilmDto);
         return ResponseEntity.ok(updatedFilmRes);
     }
 

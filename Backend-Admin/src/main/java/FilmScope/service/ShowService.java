@@ -92,9 +92,9 @@ public class ShowService {
 
     @Transactional
     // update Film info
-    public FilmDto updateFilm(Integer filmId, FilmDto updatedFilmDto){
+    public FilmDto updateFilm(String filmTitle, FilmDto updatedFilmDto){
         // get film record by filmId from database
-        Film film=filmRepository.findByFilmId(filmId);
+        Film film=filmRepository.findByTitle(filmTitle);
 
         // update it with new info from updatedFilmDto
         film.setTitle(updatedFilmDto.getTitle());
@@ -114,7 +114,8 @@ public class ShowService {
         filmRepository.save(film);
 
         // get show records by filmID
-        List<Show> shows=showRepository.findByFilmId(filmId);
+        List<Show> shows=showRepository.findByFilmTitle(filmTitle);
+
         for (Show show:shows){
             show.setFilmTitle(updatedFilmDto.getTitle());
             // directors can be more than one however film info in showtime table is just for api search purpose, so no need to be accurate. Save one director is enough to get the accurate info im TMDB API
