@@ -11,11 +11,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -74,9 +76,22 @@ public class ShowController{
     // delete a film in a show
     @DeleteMapping("delete-film")
     public ResponseEntity<String> deleteShowByFilm(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
-    String theatre,@RequestParam("filmId") String filmTitle){
+    String theatre,@RequestParam("filmTitle") String filmTitle){
         showService.deleteFilm(showTitle,theatre,filmTitle);
         return ResponseEntity.ok(String.format("Film %s of show %s in theatre %s is successfully deleted", filmTitle,showTitle,theatre));
+    }
+
+    // delete all expired show
+    @DeleteMapping("delete-expired-show")
+    public ResponseEntity<String> deleteExpiredShow(){
+        try{
+            showService.deleteExpiredShows();
+            return ResponseEntity.ok("All shows before today are deleted!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(String.format("Error:%s",e.getMessage()));
+        }
+
+
     }
 
     // Obtain a film's detailed info from TMDB API via python flask app
@@ -106,5 +121,7 @@ public class ShowController{
             return ResponseEntity.ok(addedShowStatus);
         }
     }
+
+
 
 }

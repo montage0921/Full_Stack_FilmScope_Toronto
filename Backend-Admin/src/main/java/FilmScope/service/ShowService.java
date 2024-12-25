@@ -145,6 +145,25 @@ public class ShowService {
         showRepository.delete(show);
     }
 
+    // delete all expired shows
+    public void deleteExpiredShows(){
+        LocalDate today=LocalDate.now();
+        List<Show> shows=showRepository.findAll();
+
+        List<Show> expiredShows=shows.stream().filter(show -> {
+            List<String> showDates=show.getShowTimes().keySet().stream().toList();
+            for (String dateStr:showDates){
+                LocalDate date=LocalDate.parse(dateStr);
+                if(date.isAfter(today)){
+                    return false;
+                }
+            }
+            return true;
+        }).toList();
+
+        showRepository.deleteAll(expiredShows);
+    }
+
     // add show
     @Transactional
     public String addNewShow(ShowDetailedDto showDetailedDto){
