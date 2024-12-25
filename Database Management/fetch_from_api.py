@@ -20,11 +20,7 @@ headers = {
     "Authorization": api_key
 }
 
-# Fetch All Movies that doesn't have movie information yet
-# create a DB Operator
-db_operator=DatabaseOperator(host,user,password,db)
 
-films=db_operator.extract_for_api() # return all the films in database
 
 def fetch_movie_info(film):
     film_info={}
@@ -119,13 +115,21 @@ def fetch_movie_info(film):
     return film_info
 
 #-----------------------------------------------------------------------------------------
-for film in films:
-    film_info=fetch_movie_info(film)
-    print(film_info)
-    db_operator.upload_film_info(film_info)
 
-db_operator.update_film_id()
-db_operator.close()
+if __name__=='__main__':
+    # Fetch All Movies that doesn't have movie information yet
+    # create a DB Operator
+    db_operator=DatabaseOperator(host,user,password,db)
+
+    films=db_operator.extract_for_api() # return all the films in database
+
+    for film in films:
+        film_info=fetch_movie_info(film)
+        print(film_info)
+        db_operator.upload_film_info(film_info)
+
+    db_operator.update_film_id()
+    db_operator.close()
     
 
         
