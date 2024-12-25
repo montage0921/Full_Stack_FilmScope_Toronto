@@ -67,7 +67,7 @@ public class ShowController{
 
     // delete a film in a show
     @DeleteMapping("delete-film")
-    public ResponseEntity<String> deleteFilmInAShow(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
+    public ResponseEntity<String> deleteShowByFilm(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
     String theatre,@RequestParam("filmId") String filmTitle){
         showService.deleteFilm(showTitle,theatre,filmTitle);
         return ResponseEntity.ok(String.format("Film %s of show %s in theatre %s is successfully deleted", filmTitle,showTitle,theatre));
