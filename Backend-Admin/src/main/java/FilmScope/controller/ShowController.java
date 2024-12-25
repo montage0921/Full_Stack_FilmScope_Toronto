@@ -6,7 +6,12 @@ import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
 import FilmScope.entity.Film;
 import FilmScope.service.ShowService;
+import FilmScope.service.TMDBService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +23,7 @@ import java.util.List;
 @RequestMapping("/admin-filmscope")
 public class ShowController{
     private final ShowService showService;
+    private final TMDBService tmdbService;
 
     // get a list of movie screening info (id, title, theatre)
     @GetMapping
@@ -71,6 +77,24 @@ public class ShowController{
     String theatre,@RequestParam("filmId") String filmTitle){
         showService.deleteFilm(showTitle,theatre,filmTitle);
         return ResponseEntity.ok(String.format("Film %s of show %s in theatre %s is successfully deleted", filmTitle,showTitle,theatre));
+    }
+
+    // Obtain a film's detailed info from TMDB API via python flask app
+    // This will fetch detailed movie info based on film's title and year then store in MySQL's move_info table
+    @PostMapping("fetch-film-info")
+    public ResponseEntity<String> uploadFilmFromTMDB(@RequestParam("filmTitle") String filmTitle,@RequestParam("releaseYear") Integer releaseYear) throws JsonProcessingException {
+        String film_info= tmdbService.fetchMovieInfo(filmTitle,releaseYear);
+
+        ObjectMapper objectMapper=new ObjectMapper();
+
+        JsonNode rootNode=objectMapper.readTree(film_info);
+        int filmId=rootNode.path("film_info").path("film_id").asInt();
+
+        if(filmId==0){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("Movie %s not found in database",filmTitle));
+        }else{
+            return ResponseEntity.ok(film_info);
+        }
     }
 
 }
