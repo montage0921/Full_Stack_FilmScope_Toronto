@@ -138,7 +138,7 @@ public class ShowService {
     // each of them has same showTitle but a different film. So delete a film is like delete a whole show record
     public void deleteFilm(String showTitle, String theatre, String filmTitle){
         List<Show> shows=showRepository.findByShowTitle(showTitle);
-        Show show=shows.stream().filter(show1 -> show1.getFilmTitle().equals(filmTitle) ).toList().get(0);
+        Show show=shows.stream().filter(show1 -> show1.getTheatre().equals(theatre)).filter(show1 -> show1.getFilmTitle().equals(filmTitle) ).toList().get(0);
         showRepository.delete(show);
     }
 }
