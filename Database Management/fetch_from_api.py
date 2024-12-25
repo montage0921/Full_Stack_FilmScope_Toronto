@@ -1,4 +1,4 @@
-import DatabaseOperator
+from DatabaseOperator import DatabaseOperator
 import requests
 import time
 from dotenv import load_dotenv
@@ -22,7 +22,7 @@ headers = {
 
 # Fetch All Movies that doesn't have movie information yet
 # create a DB Operator
-db_operator=DatabaseOperator.DatabaseOperator(host,user,password,db)
+db_operator=DatabaseOperator(host,user,password,db)
 
 films=db_operator.extract_for_api() # return all the films in database
 
