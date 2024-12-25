@@ -125,4 +125,21 @@ public class ShowService {
 
         return FilmMapper.mapToFilmDto(film);
     }
+
+    // delete a show
+    public void deleteShow(String showTitle, String theatre){
+        List<Show> shows=showRepository.findByShowTitle(showTitle);
+        List<Show> showsInSomeTheatre=shows.stream().filter(show -> show.getTheatre().equals(theatre)).toList();
+        showRepository.deleteAll(showsInSomeTheatre);
+    }
+
+    // delete a showBy Film
+    // In our database, each unique film in a single show has a separate record
+    // for example, if a show "Lord of the Ring Trilogy" has 3 movies, then we have 3 records,
+    // each of them has same showTitle but a different film. So delete a film is like delete a whole show record
+    public void deleteFilm(String showTitle, String theatre, String filmTitle){
+        List<Show> shows=showRepository.findByShowTitle(showTitle);
+        Show show=shows.stream().filter(show1 -> show1.getFilmTitle().equals(filmTitle) ).toList().get(0);
+        showRepository.delete(show);
+    }
 }

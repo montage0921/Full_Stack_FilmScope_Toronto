@@ -57,4 +57,20 @@ public class ShowController{
         FilmDto updatedFilmRes=showService.updateFilm(filmId,updatedFilmDto);
         return ResponseEntity.ok(updatedFilmRes);
     }
+
+    // delete a show
+    @DeleteMapping("delete-show")
+    public ResponseEntity<String> deleteShow(@RequestParam("showTitle") String showTitle,@RequestParam("theatre") String theatre){
+        showService.deleteShow(showTitle,theatre);
+        return ResponseEntity.ok(String.format("Show %s in %s is successfully deleted", showTitle,theatre));
+    }
+
+    // delete a film in a show
+    @DeleteMapping("delete-film")
+    public ResponseEntity<String> deleteFilmInAShow(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
+    String theatre,@RequestParam("filmId") String filmTitle){
+        showService.deleteFilm(showTitle,theatre,filmTitle);
+        return ResponseEntity.ok(String.format("Film %d of show %s in theatre %s is successfully deleted", filmId,showTitle,theatre));
+    }
+
 }
