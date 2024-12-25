@@ -1,12 +1,11 @@
-import pymysql
-import pymysql.cursors
 import DatabaseOperator
 import requests
-import json
 import time
 from dotenv import load_dotenv
 import os
+from flask import Flask, request,jsonify
 
+# Load Environment Variables
 load_dotenv(r"C:\Users\19692\Downloads\Full_Stack_FilmScope_Toronto\Config\.env")
 api_key=os.getenv("API_KEY")
 host=os.getenv("DB_HOST")
