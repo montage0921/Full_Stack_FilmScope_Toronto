@@ -13,7 +13,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
+
+    public UserEntity(String username,String password,List<Roles> roles){
+        this.username=username;
+        this.password=password;
+        this.roles=roles;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
