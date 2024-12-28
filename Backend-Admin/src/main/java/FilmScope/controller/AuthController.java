@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
@@ -50,5 +47,25 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok("User Register Success");
+    }
+
+    @PostMapping("register-admin")
+    public ResponseEntity<String> registerAdmin(@RequestBody RegisterDto registerDto){
+        if(userRepository.existsByUsername(registerDto.getUsername())){
+            return ResponseEntity.badRequest().body("User is Created");
+        }
+
+        UserEntity adminUser=new UserEntity();
+        adminUser.setUsername(registerDto.getUsername());
+        adminUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+
+        Role roles=roleRepository.findByRole("ADMIN").get();
+
+        adminUser.setRoles(Collections.singletonList(roles));
+
+        userRepository.save(adminUser);
+
+        return ResponseEntity.ok("Admin Registered Successfully");
+
     }
 }
