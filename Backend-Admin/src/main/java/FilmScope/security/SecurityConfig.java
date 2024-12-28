@@ -32,28 +32,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth->auth.requestMatchers("/admin-filmscope").hasRole("ADMIN")
-                        .requestMatchers("/auth-filmscope/**").permitAll())
+                .authorizeHttpRequests(auth->auth
+                        .requestMatchers("/auth-filmscope/**").permitAll()
+                        .requestMatchers("/admin-filmscope/**").hasAuthority("ADMIN"))
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService users(){
-        UserDetails admin= User.builder()
-                .username("admin")
-                .password("{noop}12345stA")
-                .roles("ADMIN")
-                .build();
-
-        UserDetails normal_user=User.builder()
-                .username("gary")
-                .password("{noop}gary")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin,normal_user);
     }
 
     @Bean
