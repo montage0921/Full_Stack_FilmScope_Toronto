@@ -1,35 +1,33 @@
 package FilmScope.controller;
 
+import FilmScope.dto.LoginDto;
 import FilmScope.dto.RegisterDto;
 import FilmScope.entity.Role;
 import FilmScope.entity.UserEntity;
 import FilmScope.repository.RoleRepository;
 import FilmScope.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("auth-filmscope")
+@AllArgsConstructor
 public class AuthController {
     private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-                          RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
@@ -49,7 +47,7 @@ public class AuthController {
         return ResponseEntity.ok("User Register Success");
     }
 
-    @PostMapping("register-admin")
+    @PostMapping("register-admin-apply")
     public ResponseEntity<String> registerAdmin(@RequestBody RegisterDto registerDto){
         if(userRepository.existsByUsername(registerDto.getUsername())){
             return ResponseEntity.badRequest().body("User is Created");
@@ -59,13 +57,22 @@ public class AuthController {
         adminUser.setUsername(registerDto.getUsername());
         adminUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Role roles=roleRepository.findByRole("ADMIN").get();
+        Role roles=roleRepository.findByRole("PENDING ADMIN").get();
 
         adminUser.setRoles(Collections.singletonList(roles));
 
         userRepository.save(adminUser);
 
-        return ResponseEntity.ok("Admin Registered Successfully");
+        return ResponseEntity.ok("Your application for admin has been received and is awaiting approval");
+    }
 
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+        Authentication authentication =authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return ResponseEntity.ok("User Signed Success!");
     }
 }
