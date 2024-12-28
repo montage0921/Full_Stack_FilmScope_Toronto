@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +31,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(auth->auth.requestMatchers("/admin-filmscope").hasRole("ADMIN"))
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth->auth.requestMatchers("/admin-filmscope").hasRole("ADMIN")
+                        .requestMatchers("/auth-filmscope/**").permitAll())
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -46,7 +49,7 @@ public class SecurityConfig {
 
         UserDetails normal_user=User.builder()
                 .username("gary")
-                .password("gary")
+                .password("{noop}gary")
                 .roles("USER")
                 .build();
 
