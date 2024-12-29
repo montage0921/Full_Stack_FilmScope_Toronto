@@ -1,13 +1,14 @@
 package FilmScope.controller;
 
+import FilmScope.dto.AuthResponseDto;
 import FilmScope.dto.LoginDto;
 import FilmScope.dto.RegisterDto;
 import FilmScope.entity.Role;
 import FilmScope.entity.UserEntity;
 import FilmScope.repository.RoleRepository;
 import FilmScope.repository.UserRepository;
+import FilmScope.security.JWTGenerator;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("auth-filmscope")
@@ -28,6 +28,7 @@ public class AuthController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private JWTGenerator jwtGenerator;
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
@@ -67,12 +68,12 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto){
         Authentication authentication =authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return ResponseEntity.ok("User Signed Success!");
+        String token= jwtGenerator.generateToken(authentication);
+        return ResponseEntity.ok(new AuthResponseDto(token));
     }
 }
