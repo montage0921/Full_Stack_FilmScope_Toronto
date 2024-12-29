@@ -34,31 +34,9 @@ public class ShowService {
     public List<ShowListDto> getAllShows(){
         List<Show> shows= showRepository.findAll();
 
-        return shows.stream().map(show->new ShowListDto(show.getId(),show.getTheatre(),show.getShowTitle()))
+
+        return shows.stream().map(show->new ShowListDto(show.getId(),show.getTheatre(),show.getShowTitle(),show.getFilmTitle(),show.getShowTimes().keySet()))
                 .toList();
-    }
-
-    // get shows in recent 7 days in list view
-    public List<ShowListDto> getRecentShows(){
-        List<Show> shows=showRepository.findAll();
-        LocalDate today=LocalDate.now();
-        LocalDate oneWeekLater=today.plusDays(7);
-
-        List<Show> recentShows=shows.stream().filter(show->{
-            List<String> showDate=show.getShowTimes().keySet().stream().toList();
-
-            for (String dateStr:showDate){
-                LocalDate date=LocalDate.parse(dateStr);
-                if(!date.isBefore(today)&&date.isBefore(oneWeekLater)){
-                    return true;
-                }
-            }
-            return false;
-        }).toList();
-
-        return recentShows.stream().map(show -> {
-            return new ShowListDto(show.getId(),show.getTheatre(),show.getShowTitle());
-        }).toList();
     }
 
     // get detailed movie info

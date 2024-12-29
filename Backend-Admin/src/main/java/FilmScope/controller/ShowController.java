@@ -4,20 +4,16 @@ import FilmScope.dto.FilmDto;
 import FilmScope.dto.ShowDetailedDto;
 import FilmScope.dto.ShowDto;
 import FilmScope.dto.ShowListDto;
-import FilmScope.entity.Film;
 import FilmScope.service.ShowService;
 import FilmScope.service.TMDBService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,13 +28,6 @@ public class ShowController{
     public ResponseEntity<List<ShowListDto>> getShowList(){
         List<ShowListDto> shows=showService.getAllShows();
         return ResponseEntity.ok(shows);
-    }
-
-    // get recent movie screening list (in 7 days)
-    @GetMapping("recent")
-    public ResponseEntity<List<ShowListDto>> getRecentShowList(){
-        List<ShowListDto> recentShows=showService.getRecentShows();
-        return ResponseEntity.ok(recentShows);
     }
 
     // get a show's detailed info by showTitle
