@@ -1,9 +1,6 @@
 package FilmScope.controller;
 
-import FilmScope.dto.FilmDto;
-import FilmScope.dto.ShowDetailedDto;
-import FilmScope.dto.ShowDto;
-import FilmScope.dto.ShowListDto;
+import FilmScope.dto.*;
 import FilmScope.service.ShowService;
 import FilmScope.service.TMDBService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +33,11 @@ public class ShowController{
     @GetMapping("load")
     public Page<ShowListDto> load(@RequestParam int page, @RequestParam int size){
         return showService.load(page,size);
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<List<SearchResDto>> search(@RequestParam String query){
+        return ResponseEntity.ok(showService.search(query));
     }
 
     // get a show's detailed info by showTitle

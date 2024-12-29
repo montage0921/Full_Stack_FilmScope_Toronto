@@ -1,9 +1,6 @@
 package FilmScope.service;
 
-import FilmScope.dto.FilmDto;
-import FilmScope.dto.ShowDetailedDto;
-import FilmScope.dto.ShowDto;
-import FilmScope.dto.ShowListDto;
+import FilmScope.dto.*;
 import FilmScope.entity.Film;
 import FilmScope.entity.Show;
 import FilmScope.mapper.FilmMapper;
@@ -35,7 +32,7 @@ public class ShowService {
                 .toList();
     }
 
-    // pagination
+    // pagination loading
     public Page<ShowListDto> load(int page, int size){
         Pageable pageable= PageRequest.of(page,size);
         Page<Show> showPage=showRepository.findAll(pageable);
@@ -47,6 +44,23 @@ public class ShowService {
                 show.getFilmTitle(),
                 show.getShowTimes().keySet()
         ));
+    }
+
+    public List<SearchResDto> search(String query){
+        List<Show> matchedShow=showRepository.findByFilmTitleContaining(query);
+        System.out.println(matchedShow);
+        return matchedShow.stream().map(show->
+        {
+            Film film=filmRepository.findByFilmId(show.getFilmId());
+            String imageUrl=film!=null?film.getPosterPath():null;
+            return new SearchResDto(
+                    show.getId(),
+                    show.getShowTitle(),
+                    show.getFilmTitle(),
+                    show.getTheatre(),
+                    imageUrl);
+        }
+        ).toList();
     }
 
     // get detailed movie info
