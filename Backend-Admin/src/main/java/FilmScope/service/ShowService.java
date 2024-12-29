@@ -12,17 +12,15 @@ import FilmScope.repository.FilmRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import FilmScope.repository.ShowRepository;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -33,10 +31,22 @@ public class ShowService {
     // get all shows in list view (only id, showTitle and movie theatre)
     public List<ShowListDto> getAllShows(){
         List<Show> shows= showRepository.findAll();
-
-
         return shows.stream().map(show->new ShowListDto(show.getId(),show.getTheatre(),show.getShowTitle(),show.getFilmTitle(),show.getShowTimes().keySet()))
                 .toList();
+    }
+
+    // pagination
+    public Page<ShowListDto> load(int page, int size){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<Show> showPage=showRepository.findAll(pageable);
+
+        return showPage.map(show->new ShowListDto(
+                show.getId(),
+                show.getTheatre(),
+                show.getShowTitle(),
+                show.getFilmTitle(),
+                show.getShowTimes().keySet()
+        ));
     }
 
     // get detailed movie info
