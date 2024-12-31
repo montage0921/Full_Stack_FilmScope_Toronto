@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("auth-filmscope")
 @AllArgsConstructor

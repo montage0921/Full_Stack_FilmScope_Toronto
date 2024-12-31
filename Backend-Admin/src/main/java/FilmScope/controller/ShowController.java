@@ -8,13 +8,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173") // React App URL
 @RestController
 @AllArgsConstructor
 @RequestMapping("/admin-filmscope")
@@ -121,7 +121,4 @@ public class ShowController{
             return ResponseEntity.ok(addedShowStatus);
         }
     }
-
-
-
 }
