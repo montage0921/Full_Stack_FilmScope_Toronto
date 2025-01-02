@@ -1,5 +1,6 @@
 import React from "react";
 import { deleteShow } from "../../api/crudAPI";
+import { Link } from "react-router-dom";
 
 function ShowItem({ show, deleteFromList }) {
   const handleDelete = async () => {
@@ -14,9 +15,13 @@ function ShowItem({ show, deleteFromList }) {
                 hover:border-4"
     >
       <div className="w-1/6 ">{show.theatre}</div>
-      <button className="w-2/6 text-left hover:underline hover:text-blue-400 hover:font-semibold">
+
+      <Link
+        className="w-2/6 text-left hover:underline hover:text-blue-400 hover:font-semibold"
+        to={`/detailed-page-admin/${show.theatre}/${show.showName}`}
+      >
         {show.showName}
-      </button>
+      </Link>
       <div className="w-2/6">{show.filmName}</div>
       <div className="w-1/6">{show.showDate[0]}</div>
       <button className="w-6 hover:text-red-500" onClick={handleDelete}>
