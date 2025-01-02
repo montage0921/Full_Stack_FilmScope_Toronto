@@ -1,19 +1,25 @@
 import React from "react";
+import { deleteShow } from "../api/crudAPI";
 
-function ShowItem({ show }) {
+function ShowItem({ show, deleteFromList }) {
+  const handleDelete = async () => {
+    await deleteShow(show.showName, show.theatre);
+    deleteFromList(show.showName, show.theatre);
+  };
+
   return (
     <div
       className="h-16 my-2 rounded-lg border-blue-300 border-2 
                 flex items-center gap-4 px-5
-                hover:border-black"
+                hover:border-4"
     >
       <div className="w-1/6 ">{show.theatre}</div>
-      <button className="w-2/6 text-left hover:underline">
-        {show.ShowTitle}
+      <button className="w-2/6 text-left hover:underline hover:text-blue-400 hover:font-semibold">
+        {show.showName}
       </button>
-      <div className="w-2/6">{show.filmTitle}</div>
-      <div className="w-1/6">{show.startDate}</div>
-      <button className="w-6 hover:text-red-500">
+      <div className="w-2/6">{show.filmName}</div>
+      <div className="w-1/6">{show.showDate[0]}</div>
+      <button className="w-6 hover:text-red-500" onClick={handleDelete}>
         <svg
           width="24px"
           height="24px"

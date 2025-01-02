@@ -21,3 +21,14 @@ export const fetchShowList = async (pageSize) => {
     throw error;
   }
 };
+
+export const deleteShow = async (showTitle, theatre) => {
+  try {
+    await axios.delete(
+      `${baseURL}/delete-show?showTitle=${showTitle}&theatre=${theatre}`,
+      { headers: header }
+    );
+  } catch (error) {
+    throw error;
+  }
+};

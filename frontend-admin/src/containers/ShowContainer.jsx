@@ -31,6 +31,14 @@ function ShowContainer() {
     setPageSize((pre) => pre + 10);
   };
 
+  const deleteFromList = (showName, theatre) => {
+    setShowList((prev) =>
+      prev.filter(
+        (show) => !(show.showName === showName && show.theatre === theatre)
+      )
+    );
+  };
+
   return (
     <>
       {loginStatus === LoginStatus.SUCCESS ? (
@@ -40,7 +48,11 @@ function ShowContainer() {
             {showList
               .sort((a, b) => new Date(a.showDate[0]) - new Date(b.showDate[0]))
               .map((show) => (
-                <ShowItem key={show.id} show={show}></ShowItem>
+                <ShowItem
+                  key={show.id}
+                  show={show}
+                  deleteFromList={deleteFromList}
+                ></ShowItem>
               ))}
             {pageSize < totalItems && (
               <button
