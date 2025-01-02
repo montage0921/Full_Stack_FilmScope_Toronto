@@ -50,7 +50,7 @@ function ShowContainer() {
   return (
     <>
       {loginStatus === LoginStatus.SUCCESS ? (
-        <div className="col-start-2 row-start-2 row-span-1 mb-2">
+        <div className="col-start-2 row-start-2 row-span-1 my-2">
           <div className="flex flex-col px-2 ">
             {filteredList
               .sort((a, b) => new Date(a.showDate[0]) - new Date(b.showDate[0]))
