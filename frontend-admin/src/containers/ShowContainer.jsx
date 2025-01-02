@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import ShowItem from "../components/ShowItem";
-import Filter from "../components/Filter";
 import { useState, useEffect } from "react";
-import { LoginContext } from "../App";
+import { LoginContext, SearchContext } from "../App";
 import { LoginStatus } from "../utils/loginstatus";
 import { fetchShowList } from "../api/crudAPI";
 
@@ -11,6 +10,7 @@ function ShowContainer() {
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
   const { loginStatus } = useContext(LoginContext);
+  const { query, setQuery } = useContext(SearchContext);
 
   useEffect(() => {
     const loadShowList = async () => {
@@ -29,7 +29,15 @@ function ShowContainer() {
 
   const handleLoadMore = () => {
     setPageSize((pre) => pre + 10);
+    setQuery("");
   };
+
+  const filteredList = showList.filter(
+    (show) =>
+      show.showName.toLowerCase().includes(query.toLowerCase()) ||
+      show.theatre.toLowerCase().includes(query.toLowerCase()) ||
+      show.filmName.toLowerCase().includes(query.toLowerCase())
+  );
 
   const deleteFromList = (showName, theatre) => {
     setShowList((prev) =>
@@ -43,9 +51,8 @@ function ShowContainer() {
     <>
       {loginStatus === LoginStatus.SUCCESS ? (
         <div className="col-start-2 row-start-2 row-span-1 mb-2">
-          <Filter></Filter>
           <div className="flex flex-col px-2 ">
-            {showList
+            {filteredList
               .sort((a, b) => new Date(a.showDate[0]) - new Date(b.showDate[0]))
               .map((show) => (
                 <ShowItem
