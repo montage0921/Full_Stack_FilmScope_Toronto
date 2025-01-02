@@ -25,8 +25,8 @@ public class JWTGenerator {
 
         return Jwts.builder()
                 .claim("sub", username) // Add subject as a claim
-                .claim("iat", currentDate.getTime() / 1000) // Issued at in seconds
-                .claim("exp", expireDate.getTime() / 1000) // Expiration in seconds
+                .claim("iat", currentDate) // Issued at in seconds
+                .claim("exp", expireDate) // Expiration in seconds
                 .signWith(secretKey) // Use the Key object for signing
                 .compact();
 
