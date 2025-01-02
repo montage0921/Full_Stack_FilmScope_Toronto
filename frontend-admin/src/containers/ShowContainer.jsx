@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import ShowItem from "../components/ShowItem";
 import Filter from "../components/Filter";
 import { useState, useEffect } from "react";
 import apiAdmin from "../api";
+import { LoginContext } from "../App";
+import { LoginStatus } from "../utils/loginstatus";
 
 function ShowContainer() {
   const [showList, setShowList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const { loginStatus } = useContext(LoginContext);
 
   const dummy_data = [
     {
@@ -24,20 +27,26 @@ function ShowContainer() {
   ];
 
   return (
-    <div className="bg-red-300 col-start-2 row-start-2 row-span-1">
-      <Filter></Filter>
-      <div className="flex flex-col px-2 ">
-        {dummy_data.map((show, index) => (
-          <ShowItem key={index} show={show}></ShowItem>
-        ))}
-        <button
-          className="self-center w-36 h-10 border-blue-300 border-2 rounded-lg text-blue-300 font-bold
+    <>
+      {loginStatus === LoginStatus.SUCCESS ? (
+        <div className="bg-red-300 col-start-2 row-start-2 row-span-1">
+          <Filter></Filter>
+          <div className="flex flex-col px-2 ">
+            {dummy_data.map((show, index) => (
+              <ShowItem key={index} show={show}></ShowItem>
+            ))}
+            <button
+              className="self-center w-36 h-10 border-blue-300 border-2 rounded-lg text-blue-300 font-bold
                            hover:bg-blue-300 hover:text-white"
-        >
-          Load More
-        </button>
-      </div>
-    </div>
+            >
+              Load More
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-red-50"></div>
+      )}
+    </>
   );
 }
 

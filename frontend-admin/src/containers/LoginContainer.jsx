@@ -20,7 +20,7 @@ function LoginContainer({ clickLoginDropDown, setClickLoginDropDown }) {
       {clickLoginDropDown && (
         <div
           className="absolute flex flex-col  bg-blue-300 text-lg text-gray-500 rounded-lg  shadow w-56 top-10 right-0
-                        gap-3 items-center transition-all duration-300 overflow-hidden"
+                        gap-3 items-center pb-3"
         >
           {loginStatus === LoginStatus.SUCCESS ? (
             <>
