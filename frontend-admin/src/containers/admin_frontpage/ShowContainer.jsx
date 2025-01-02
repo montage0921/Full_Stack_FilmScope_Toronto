@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import ShowItem from "../../components/admin_frontpage/ShowItem";
 import { useState, useEffect } from "react";
-import { LoginContext, SearchContext } from "../Admin";
+import { SearchContext } from "../Admin";
 import { LoginStatus } from "../../utils/loginstatus";
 import { fetchShowList } from "../../api/crudAPI";
+import { AuthContext } from "../../context/AuthContext";
 
 function ShowContainer() {
   const [showList, setShowList] = useState([]);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
-  const { loginStatus } = useContext(LoginContext);
+  const { loginStatus } = useContext(AuthContext);
   const { query, setQuery } = useContext(SearchContext);
 
   useEffect(() => {

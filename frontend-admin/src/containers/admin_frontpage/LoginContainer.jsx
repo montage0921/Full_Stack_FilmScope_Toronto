@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react";
 import LoginIcon from "../../components/icons/LoginIcon";
 import LoginForm from "../../components/admin_frontpage/LoginForm";
-import { LoginContext } from "../Admin";
 import LogoutForm from "../../components/admin_frontpage/LogoutForm";
 import { LoginStatus } from "../../utils/loginstatus";
+import { AuthContext } from "../../context/AuthContext";
 
 function LoginContainer() {
   const { loginStatus, clickLoginDropDown, setClickLoginDropDown } =
-    useContext(LoginContext);
+    useContext(AuthContext);
 
   useEffect(() => {
     setClickLoginDropDown(!clickLoginDropDown);

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { LoginContext } from "../../containers/Admin";
+import { AuthContext } from "../../context/AuthContext";
 import { LoginStatus } from "../../utils/loginstatus";
 
 function LogoutForm() {
-  const { setLoginStatus } = useContext(LoginContext);
+  const { setLoginStatus } = useContext(AuthContext);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");

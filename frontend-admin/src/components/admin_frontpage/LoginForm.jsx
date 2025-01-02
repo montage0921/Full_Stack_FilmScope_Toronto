@@ -1,12 +1,12 @@
 import React, { useContext, useState } from "react";
-import { LoginContext } from "../../containers/Admin";
+import { AuthContext } from "../../context/AuthContext";
 import { sendLoginInfo } from "../../api/userAuth";
 import { LoginStatus } from "../../utils/loginstatus";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { loginStatus, setLoginStatus } = useContext(LoginContext);
+  const { loginStatus, setLoginStatus } = useContext(AuthContext);
 
   const handleUserName = (e) => {
     setUsername(e.target.value);
