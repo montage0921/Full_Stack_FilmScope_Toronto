@@ -1,5 +1,5 @@
 import React from "react";
-import github from "../assets/github.svg";
+import github from "../../assets/github.svg";
 function Footer() {
   return (
     <div

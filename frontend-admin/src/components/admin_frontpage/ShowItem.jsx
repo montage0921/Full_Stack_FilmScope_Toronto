@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteShow } from "../api/crudAPI";
+import { deleteShow } from "../../api/crudAPI";
 
 function ShowItem({ show, deleteFromList }) {
   const handleDelete = async () => {

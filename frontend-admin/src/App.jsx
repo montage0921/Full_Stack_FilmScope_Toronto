@@ -1,8 +1,8 @@
 import "./index.css";
-import NavBar from "./containers/NavBar";
-import Footer from "./components/Footer";
-import DashBoard from "./containers/DashBoard";
-import ShowContainer from "./containers/ShowContainer";
+import NavBar from "./containers/admin_frontpage/NavBar";
+import Footer from "./components/admin_frontpage/Footer";
+import DashBoard from "./containers/admin_frontpage/DashBoard";
+import ShowContainer from "./containers/admin_frontpage/ShowContainer";
 import { createContext, useState } from "react";
 import { LoginStatus } from "./utils/loginstatus";
 

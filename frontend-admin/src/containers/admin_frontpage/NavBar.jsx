@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
-import BarIcon from "../components/icons/BarIcon";
-import SearchIcons from "../components/icons/SearchIcons";
+import React, { useContext } from "react";
+import BarIcon from "../../components/icons/BarIcon";
+import SearchIcons from "../../components/icons/SearchIcons";
 import LoginContainer from "./LoginContainer";
-import { LoginContext, SearchContext } from "../App";
+import { SearchContext } from "../../App";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);

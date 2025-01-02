@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import ShowItem from "../components/ShowItem";
+import ShowItem from "../../components/admin_frontpage/ShowItem";
 import { useState, useEffect } from "react";
-import { LoginContext, SearchContext } from "../App";
-import { LoginStatus } from "../utils/loginstatus";
-import { fetchShowList } from "../api/crudAPI";
+import { LoginContext, SearchContext } from "../../App";
+import { LoginStatus } from "../../utils/loginstatus";
+import { fetchShowList } from "../../api/crudAPI";
 
 function ShowContainer() {
   const [showList, setShowList] = useState([]);

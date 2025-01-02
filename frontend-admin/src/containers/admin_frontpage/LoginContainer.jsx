@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import LoginIcon from "../components/icons/LoginIcon";
-import LoginForm from "../components/LoginForm";
-import { LoginContext } from "../App";
-import LogoutForm from "../components/LogoutForm";
-import { LoginStatus } from "../utils/loginstatus";
+import LoginIcon from "../../components/icons/LoginIcon";
+import LoginForm from "../../components/admin_frontpage/LoginForm";
+import { LoginContext } from "../../App";
+import LogoutForm from "../../components/admin_frontpage/LogoutForm";
+import { LoginStatus } from "../../utils/loginstatus";
 
 function LoginContainer() {
   const { loginStatus, clickLoginDropDown, setClickLoginDropDown } =

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { LoginContext } from "../App";
-import { sendLoginInfo } from "../api/userAuth";
-import { LoginStatus } from "../utils/loginstatus";
+import { LoginContext } from "../../App";
+import { sendLoginInfo } from "../../api/userAuth";
+import { LoginStatus } from "../../utils/loginstatus";
 
 function LoginForm() {
   const [username, setUsername] = useState("");

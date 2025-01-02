@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { LoginContext } from "../App";
-import { LoginStatus } from "../utils/loginstatus";
+import { LoginContext } from "../../App";
+import { LoginStatus } from "../../utils/loginstatus";
 
 function LogoutForm() {
   const { setLoginStatus } = useContext(LoginContext);
