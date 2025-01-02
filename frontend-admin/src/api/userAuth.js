@@ -7,9 +7,9 @@ export const sendLoginInfo = async (loginInfo, setLoginStatus) => {
   try {
     const response = await axios.post(`${baseUrl}/login`, loginInfo);
     if (response.status === 200) {
-      const token = response.data.accessToken;
-      setLoginStatus(LoginStatus.SUCCESS);
+      const token = await response.data.accessToken;
       localStorage.setItem("accessToken", token);
+      await setLoginStatus(LoginStatus.SUCCESS);
     }
   } catch (error) {
     setLoginStatus(LoginStatus.FAILED);

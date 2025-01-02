@@ -13,7 +13,7 @@ function ShowContainer() {
   const { query, setQuery } = useContext(SearchContext);
 
   useEffect(() => {
-    const loadShowList = async () => {
+    (async () => {
       if (loginStatus === LoginStatus.SUCCESS) {
         try {
           const data = await fetchShowList(pageSize);
@@ -23,8 +23,7 @@ function ShowContainer() {
           console.log(error);
         }
       }
-    };
-    loadShowList();
+    })();
   }, [loginStatus, pageSize]);
 
   const handleLoadMore = () => {
