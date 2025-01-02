@@ -8,15 +8,14 @@ const header = {
 
 export const fetchShowList = async (pageSize) => {
   try {
-    const response = await axios.get(
-      `${baseURL}/load?page=1&size=${pageSize}`,
-      {
-        headers: header,
-      }
-    );
+    const response = await axios.get(`${baseURL}/load?size=${pageSize}`, {
+      headers: header,
+    });
     if (response.status === 200) {
-      console.log(response.data.content);
-      return response.data.content;
+      return {
+        showLists: response.data.content,
+        totalItems: response.data.totalElements,
+      };
     }
   } catch (error) {
     throw error;
