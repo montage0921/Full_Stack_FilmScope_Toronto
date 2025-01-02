@@ -31,8 +31,8 @@ public class ShowController{
 
     // pagination
     @GetMapping("load")
-    public Page<ShowListDto> load(@RequestParam int page, @RequestParam int size){
-        return showService.load(page,size);
+    public Page<ShowListDto> load(@RequestParam int size){
+        return showService.load(size);
     }
 
     @GetMapping("search")

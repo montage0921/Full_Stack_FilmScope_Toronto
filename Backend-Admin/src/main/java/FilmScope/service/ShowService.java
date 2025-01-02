@@ -33,8 +33,8 @@ public class ShowService {
     }
 
     // pagination loading
-    public Page<ShowListDto> load(int page, int size){
-        Pageable pageable= PageRequest.of(page,size);
+    public Page<ShowListDto> load(int size){
+        Pageable pageable= PageRequest.of(0,size);
         Page<Show> showPage=showRepository.findAll(pageable);
 
         return showPage.map(show->new ShowListDto(
