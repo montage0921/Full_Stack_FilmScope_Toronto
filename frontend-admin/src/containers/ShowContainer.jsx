@@ -8,20 +8,6 @@ function ShowContainer() {
   const [showList, setShowList] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    const fetchShowList = async () => {
-      try {
-        const response = await apiAdmin.get(`/load?page=${pageNumber}&size=10`);
-        console.log(response.data);
-        setShowList(response.data);
-      } catch (error) {
-        console.error("Error fetchin show: ", error);
-      }
-    };
-
-    fetchShowList();
-  }, [pageNumber]);
-
   const dummy_data = [
     {
       theatre: "Paradise Theatre",
@@ -46,7 +32,7 @@ function ShowContainer() {
         ))}
         <button
           className="self-center w-36 h-10 border-blue-300 border-2 rounded-lg text-blue-300 font-bold
-                           hover:bg-blue-300 hover:text-white hover:translate-y-1"
+                           hover:bg-blue-300 hover:text-white"
         >
           Load More
         </button>

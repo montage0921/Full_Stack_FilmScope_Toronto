@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import BarIcon from "../components/icons/BarIcon";
 import SearchIcons from "../components/icons/SearchIcons";
-import LoginIcon from "../components/icons/LoginIcon";
-import LoginForm from "../components/LoginForm";
 import LoginContainer from "./LoginContainer";
 
-function Header() {
+function NavBar() {
   const [clickLoginDropDown, setClickLoginDropDown] = useState(false);
 
   return (
@@ -39,4 +37,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default NavBar;

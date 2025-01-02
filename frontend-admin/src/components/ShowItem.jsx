@@ -5,7 +5,7 @@ function ShowItem({ show }) {
     <div
       className="h-16 my-2 rounded-lg border-blue-300 border-2 
                 flex items-center gap-4 px-5
-                hover:translate-y-1"
+                hover:border-black"
     >
       <div className="w-1/6 ">{show.theatre}</div>
       <button className="w-2/6 text-left hover:underline">
