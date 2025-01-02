@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BarIcon from "../components/icons/BarIcon";
 import SearchIcons from "../components/icons/SearchIcons";
 import LoginContainer from "./LoginContainer";
+import { LoginContext, SearchContext } from "../App";
 
 function NavBar() {
-  const [clickLoginDropDown, setClickLoginDropDown] = useState(false);
+  const { query, setQuery } = useContext(SearchContext);
+
+  const handleSearch = (e) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <>
@@ -19,18 +24,15 @@ function NavBar() {
 
         <div className="relative flex gap-2 items-center">
           <span className="absolute left-1 top-1">
-            <button>
-              <SearchIcons></SearchIcons>
-            </button>
+            <SearchIcons></SearchIcons>
           </span>
           <input
             className="w-full px4 py-1 pl-12 rounded shadow outline-none text-black"
+            value={query}
+            onChange={handleSearch}
             type="text"
           />
-          <LoginContainer
-            clickLoginDropDown={clickLoginDropDown}
-            setClickLoginDropDown={setClickLoginDropDown}
-          ></LoginContainer>
+          <LoginContainer></LoginContainer>
         </div>
       </nav>
     </>

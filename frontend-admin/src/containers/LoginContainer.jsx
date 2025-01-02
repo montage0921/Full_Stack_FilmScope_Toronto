@@ -1,12 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import LoginIcon from "../components/icons/LoginIcon";
 import LoginForm from "../components/LoginForm";
 import { LoginContext } from "../App";
 import LogoutForm from "../components/LogoutForm";
 import { LoginStatus } from "../utils/loginstatus";
 
-function LoginContainer({ clickLoginDropDown, setClickLoginDropDown }) {
-  const { loginStatus } = useContext(LoginContext);
+function LoginContainer() {
+  const { loginStatus, clickLoginDropDown, setClickLoginDropDown } =
+    useContext(LoginContext);
+
+  useEffect(() => {
+    setClickLoginDropDown(!clickLoginDropDown);
+  }, [loginStatus]);
+
   return (
     <div>
       <button
