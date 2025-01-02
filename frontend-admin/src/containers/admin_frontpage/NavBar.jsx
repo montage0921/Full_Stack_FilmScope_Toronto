@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import BarIcon from "../../components/icons/BarIcon";
 import SearchIcons from "../../components/icons/SearchIcons";
 import LoginContainer from "./LoginContainer";
-import { SearchContext } from "../../App";
+import { SearchContext } from "../Admin";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);

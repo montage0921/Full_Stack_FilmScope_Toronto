@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import ShowItem from "../../components/admin_frontpage/ShowItem";
 import { useState, useEffect } from "react";
-import { LoginContext, SearchContext } from "../../App";
+import { LoginContext, SearchContext } from "../Admin";
 import { LoginStatus } from "../../utils/loginstatus";
 import { fetchShowList } from "../../api/crudAPI";
 

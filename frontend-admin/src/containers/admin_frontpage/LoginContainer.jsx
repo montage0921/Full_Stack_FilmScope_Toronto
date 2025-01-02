@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import LoginIcon from "../../components/icons/LoginIcon";
 import LoginForm from "../../components/admin_frontpage/LoginForm";
-import { LoginContext } from "../../App";
+import { LoginContext } from "../Admin";
 import LogoutForm from "../../components/admin_frontpage/LogoutForm";
 import { LoginStatus } from "../../utils/loginstatus";
 

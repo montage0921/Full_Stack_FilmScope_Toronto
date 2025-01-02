@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { LoginContext } from "../../App";
+import { LoginContext } from "../../containers/Admin";
 import { sendLoginInfo } from "../../api/userAuth";
 import { LoginStatus } from "../../utils/loginstatus";
 

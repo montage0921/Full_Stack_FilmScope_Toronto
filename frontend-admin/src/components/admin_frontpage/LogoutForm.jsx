@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { LoginContext } from "../../App";
+import { LoginContext } from "../../containers/Admin";
 import { LoginStatus } from "../../utils/loginstatus";
 
 function LogoutForm() {
