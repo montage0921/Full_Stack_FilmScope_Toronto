@@ -117,13 +117,27 @@ def fetch_movie_info(film):
         response_image=requests.get(url_image,headers=headers).json()
         backdrops=response_image["backdrops"]
         posters=response_image["posters"]
-        max_image=10
+        max_image=5
         poster_list=[]
         backdrop_list=[]
-        if posters and backdrops:
-            for i in range(max_image):
-                poster_list.append(posters[i])
-                backdrop_list.append(backdrops[i])
+        for i in range(max_image):
+            # for both backdrop and poster, only take aspect ratio, width,height and file path
+            # otherwise it may be too long for java string to handle
+            if backdrops[i]:
+                backdrop_obj={}
+                backdrop_obj["aspect_ratio"]=backdrops[i]["aspect_ratio"]
+                backdrop_obj["file_path"]=backdrops[i]["file_path"]
+                backdrop_obj["height"]=backdrops[i]["height"]
+                backdrop_obj["width"]=backdrops[i]["width"]
+                backdrop_list.append(backdrop_obj)
+            if posters[i]:
+                poster_obj={}
+                poster_obj["aspect_ratio"]=posters[i]["aspect_ratio"]
+                poster_obj["file_path"]=posters[i]["file_path"]
+                poster_obj["height"]=posters[i]["height"]
+                poster_obj["width"]=posters[i]["width"]
+                poster_list.append(poster_obj)
+
         film_info["backdrops"]=backdrop_list
         film_info["posters"]=poster_list
         
