@@ -14,7 +14,9 @@ public class ShowMapper {
                 show.getDirector(),
                 show.getReleaseYear(),
                 show.getFilmId(),
-                show.getPublished()
+                show.getPublished(),
+                show.getPoster(),
+                show.getBackdrop()
         );
     }
 
@@ -28,7 +30,9 @@ public class ShowMapper {
                 showDto.getDirector(),
                 showDto.getReleaseYear(),
                 showDto.getFilmId(),
-                showDto.getPublished()
+                showDto.getPublished(),
+                showDto.getPoster(),
+                showDto.getBackdrop()
         );
     }
 }

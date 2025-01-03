@@ -19,7 +19,10 @@ public class FilmMapper {
                 film.getRuntime(),
                 film.getPosterPath(),
                 film.getOverview(),
-                film.getImdbId()
+                film.getImdbId(),
+                film.getBackdrops(),
+                film.getPosters(),
+                film.getBackdropPath()
         );
     }
 
@@ -37,8 +40,11 @@ public class FilmMapper {
                 filmDto.getLanguages(),
                 filmDto.getRuntime(),
                 filmDto.getPosterPath(),
+                filmDto.getBackdropPath(),
                 filmDto.getOverview(),
-                filmDto.getImdbId()
+                filmDto.getImdbId(),
+                filmDto.getBackdrops(),
+                filmDto.getPosters()
         );
     }
 }
