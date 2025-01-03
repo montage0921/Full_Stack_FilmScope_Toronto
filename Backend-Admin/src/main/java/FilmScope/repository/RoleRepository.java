@@ -1,8 +1,10 @@
 package FilmScope.repository;
 
-import FilmScope.entity.Roles;
+import FilmScope.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface roleRepository extends JpaRepository<Roles,Integer> {
-    Roles findByRole(String name);
+import java.util.Optional;
+
+public interface RoleRepository extends JpaRepository<Role,Integer> {
+    Optional<Role> findByRole(String name);
 }

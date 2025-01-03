@@ -4,10 +4,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import javax.naming.AuthenticationException;
 import java.io.IOException;
 
+@Component
 public class JWTAuthEntryPoint implements AuthenticationEntryPoint {
 
     @Override

@@ -71,16 +71,4 @@ public class Film {
 
     @Column(name="imdb_id")
     private String imdbId;
-
-    @Column(name="backdrops")
-    @Convert(converter = JsonListConverter.class)
-    private List<String> backdrops;
-
-    @Column(name="posters")
-    @Convert(converter = JsonListConverter.class)
-    private List<String> posters;
-
-
-
-
 }

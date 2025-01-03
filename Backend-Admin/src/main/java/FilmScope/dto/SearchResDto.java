@@ -10,5 +10,5 @@ public class SearchResDto {
     private String showTitle;
     private String filmTitle;
     private String theatre;
-    private String imageUrl;
+    private String backdrop;
 }

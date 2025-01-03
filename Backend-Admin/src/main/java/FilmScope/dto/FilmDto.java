@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -28,7 +29,5 @@ public class FilmDto {
     private String posterPath;
     private String overview;
     private String imdbId;
-    private List<String> backdrops;
-    private List<String> posters;
     private String backdropPath;
 }

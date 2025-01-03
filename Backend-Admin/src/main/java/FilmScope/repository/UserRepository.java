@@ -1,9 +1,11 @@
 package FilmScope.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import FilmScope.entity.User;
+import FilmScope.entity.UserEntity;
 
-public interface UserRepository extends JpaRepository<User,Integer> {
-    User findByUsername(String username);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserEntity,Integer> {
+    Optional<UserEntity> findByUsername(String username);
     Boolean existsByUsername(String username);
 }

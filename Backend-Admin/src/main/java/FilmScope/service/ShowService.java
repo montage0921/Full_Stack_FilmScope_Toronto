@@ -48,18 +48,13 @@ public class ShowService {
 
     public List<SearchResDto> search(String query){
         List<Show> matchedShow=showRepository.findByFilmTitleContaining(query);
-        System.out.println(matchedShow);
         return matchedShow.stream().map(show->
-        {
-            Film film=filmRepository.findByFilmId(show.getFilmId());
-            String imageUrl=film!=null?film.getPosterPath():null;
-            return new SearchResDto(
-                    show.getId(),
-                    show.getShowTitle(),
-                    show.getFilmTitle(),
-                    show.getTheatre(),
-                    imageUrl);
-        }
+                new SearchResDto(
+                        show.getId(),
+                        show.getShowTitle(),
+                        show.getFilmTitle(),
+                        show.getTheatre(),
+                        show.getBackdrop())
         ).toList();
     }
 
@@ -71,13 +66,16 @@ public class ShowService {
         Boolean published=showsInATheatre.get(0).getPublished();
         Map<String,List<List<String>>> showtimes=showsInATheatre.get(0).getShowTimes();
 
+
         List<Integer> filmIDs=showsInATheatre.stream().map(Show::getFilmId).toList();
         List<Integer> IDs=showsInATheatre.stream().map(Show::getId).toList();
+        String poster=showsInATheatre.get(0).getPoster();
+        String backdrop=showsInATheatre.get(0).getBackdrop();
 
         List<Film> films=filmRepository.findByFilmIdIn(filmIDs);
         List<FilmDto> filmDtoList=films.stream().map(FilmMapper::mapToFilmDto).toList();
 
-        return new ShowDetailedDto(theatre,showTitle,showtimes,published,filmDtoList,filmIDs,IDs);
+        return new ShowDetailedDto(theatre,showTitle,showtimes,published,poster,backdrop,filmDtoList,filmIDs,IDs);
     }
 
     @Transactional
@@ -88,6 +86,8 @@ public class ShowService {
             show.setShowTimes(updatedShow.getShowtimes());
             show.setShowTitle(updatedShow.getShowTitle());
             show.setPublished(updatedShow.getPublished());
+            show.setPoster(updatedShow.getPoster());
+            show.setBackdrop(updatedShow.getBackdrop());
         }
         showRepository.saveAll((shows));
 
@@ -125,6 +125,7 @@ public class ShowService {
             // directors can be more than one however film info in showtime table is just for api search purpose, so no need to be accurate. Save one director is enough to get the accurate info im TMDB API
             show.setDirector(updatedFilmDto.getDirectors().get(0));
             show.setReleaseYear(updatedFilmDto.getReleaseYear());
+            show.setPoster(updatedFilmDto.getPosterPath());
         }
 
         return FilmMapper.mapToFilmDto(film);
@@ -175,6 +176,8 @@ public class ShowService {
         String theatre=showDetailedDto.getTheatre();
         Map<String,List<List<String>>> showtimes=showDetailedDto.getShowtimes();
         Boolean published=showDetailedDto.getPublished();
+        String poster=showDetailedDto.getPoster();
+        String backdrop=showDetailedDto.getBackdrop();
 
         try{
             for (FilmDto filmDto:filmDtoList){
@@ -183,7 +186,7 @@ public class ShowService {
                 Integer releaseYear=filmDto.getReleaseYear();
                 Integer filmId=filmDto.getFilmId();
 
-                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published);
+                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published,poster,backdrop);
                 Film film=FilmMapper.mapToFilmEntity(filmDto);
 
                 showRepository.save(show);

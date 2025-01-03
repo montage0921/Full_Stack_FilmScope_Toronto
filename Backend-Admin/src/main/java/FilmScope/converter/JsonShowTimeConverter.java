@@ -12,8 +12,6 @@ import jakarta.persistence.AttributeConverter;
 // Annotation to make a class JPA converter
 import jakarta.persistence.Converter;
 
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
