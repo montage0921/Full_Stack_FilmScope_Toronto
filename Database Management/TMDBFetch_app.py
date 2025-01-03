@@ -23,7 +23,7 @@ def fetch_movie_info_endpoint():
         film=request.json # get film ("film_title","year") from JAVA backend
         film_info=fetch_movie_info(film)
         db_operator.upload_film_info(film_info)
-        db_operator.update_film_id()
+        db_operator.sync_showtime_table()
         return jsonify({"status":"success","film_info":film_info}),200
     except Exception as e:
         return jsonify({"status":"error","message":str(e)}),500

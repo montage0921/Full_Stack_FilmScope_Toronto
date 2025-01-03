@@ -149,7 +149,7 @@ if __name__=='__main__':
         print(film_info)
         db_operator.upload_film_info(film_info)
 
-    db_operator.update_film_id()
+    db_operator.sync_showtime_table()
     db_operator.close()
     
 

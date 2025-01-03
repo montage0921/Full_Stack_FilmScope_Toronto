@@ -50,7 +50,7 @@ class DatabaseOperator():
             film_info.get("imdb_id", None),  # Use None for optional fields
             json.dumps(film_info.get("backdrops",[])),
             json.dumps(film_info.get("posters",[])),
-            film_info.get("poster_path","")
+            film_info.get("backdrop_path","")
         )
 
         try:
@@ -59,15 +59,19 @@ class DatabaseOperator():
         except pymysql.MySQLError as e:
              print(e)
     
-    def update_film_id(self):
-        update_id_query=update_query = """
+    # sync showtime table with film id, poster and backdrop
+    def sync_showtime_table(self):
+        update_query= """
             UPDATE showtime AS s
             JOIN movie_info AS m ON s.film_title = m.title AND s.year = m.release_year
-            SET s.film_id = m.film_id
+            SET 
+                s.film_id = m.film_id,
+                s.poster_path=m.poster_path,
+                s.backdrop_path=m.backdrop_path
             WHERE m.film_id IS NOT NULL;
             """
         try:
-            self.cursor.execute(update_id_query)
+            self.cursor.execute(update_query)
             self.connection.commit()
         except pymysql.MySQLError as e:
             print(e)
