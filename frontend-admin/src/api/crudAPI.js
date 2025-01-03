@@ -43,7 +43,7 @@ export const getDetailedShowInfo = async (showname, theatre) => {
     );
     if (response.status === 200) {
       const data = response.data;
-      console.log(data);
+      return data;
     }
   } catch (error) {
     throw error;
