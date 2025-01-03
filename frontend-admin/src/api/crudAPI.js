@@ -32,3 +32,20 @@ export const deleteShow = async (showTitle, theatre) => {
     throw error;
   }
 };
+
+// get showDetailed Info
+
+export const getDetailedShowInfo = async (showname, theatre) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/detailed-showInfo?showTitle=${showname}&theatre=${theatre}`,
+      { headers: header }
+    );
+    if (response.status === 200) {
+      const data = response.data;
+      console.log(data);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
