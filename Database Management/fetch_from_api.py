@@ -64,6 +64,10 @@ def fetch_movie_info(film):
         poster_path=movie_details_json.get("poster_path","")
         film_info["poster_path"]=poster_path
 
+        # get backdrop_path
+        backdrop_path=movie_details_json.get("backdrop_path")
+        film_info["backdrop_path"]=backdrop_path
+
         # get runtime
         runtime=movie_details_json.get("runtime",None)
         film_info["runtime"]=runtime

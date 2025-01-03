@@ -31,8 +31,8 @@ class DatabaseOperator():
         upload_query="""
                       INSERT INTO movie_info (film_id, title, original_title, directors, 
                       casts, genres, release_year, countries, languages, runtime, 
-                      poster_path, overview, imdb_id,backdrops,posters)
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)
+                      poster_path, overview, imdb_id,backdrops,posters,backdrop_path)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s)
                       """
         data_tuple = (
             film_info.get("film_id", None),  # Use None if `film_id` is missing
@@ -49,7 +49,8 @@ class DatabaseOperator():
             film_info.get("overview", "No overview available"),
             film_info.get("imdb_id", None),  # Use None for optional fields
             json.dumps(film_info.get("backdrops",[])),
-            json.dumps(film_info.get("posters",[]))
+            json.dumps(film_info.get("posters",[])),
+            film_info.get("poster_path","")
         )
 
         try:
