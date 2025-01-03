@@ -6,6 +6,9 @@ export default {
       colors: {
         bgBlack: "rgb(30,41,59)",
       },
+      fontFamily: {
+        libre: ['"Libre Franklin"', "sans-serif"],
+      },
     },
   },
   plugins: [],
