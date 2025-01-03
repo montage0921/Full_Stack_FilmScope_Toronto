@@ -27,4 +27,6 @@ public class ShowDto {
     private Integer releaseYear;
     private Integer filmId;
     private Boolean published;
+    private String poster;
+    private String backdrop;
 }

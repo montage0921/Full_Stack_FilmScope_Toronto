@@ -28,4 +28,7 @@ public class FilmDto {
     private String posterPath;
     private String overview;
     private String imdbId;
+    private List<String> backdrops;
+    private List<String> posters;
+    private String backdropPath;
 }
