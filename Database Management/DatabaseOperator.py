@@ -26,11 +26,13 @@ class DatabaseOperator():
         except pymysql.MySQLError as e:
             print("MySQL Error: ", e)
             return
-
+        
     def upload_film_info(self,film_info):
         upload_query="""
-                      INSERT INTO movie_info (film_id, title, original_title, directors, casts, genres, release_year, countries, languages, runtime, poster_path, overview, imdb_id)
-                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                      INSERT INTO movie_info (film_id, title, original_title, directors, 
+                      casts, genres, release_year, countries, languages, runtime, 
+                      poster_path, overview, imdb_id,backdrops,posters)
+                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s)
                       """
         data_tuple = (
             film_info.get("film_id", None),  # Use None if `film_id` is missing
@@ -45,7 +47,9 @@ class DatabaseOperator():
             film_info.get("runtime", 0),  # Default to 0 if runtime is missing
             film_info.get("poster_path", ""),
             film_info.get("overview", "No overview available"),
-            film_info.get("imdb_id", None)  # Use None for optional fields
+            film_info.get("imdb_id", None),  # Use None for optional fields
+            json.dumps(film_info.get("backdrops",[])),
+            json.dumps(film_info.get("posters",[]))
         )
 
         try:

@@ -107,6 +107,23 @@ def fetch_movie_info(film):
         film_info["title"]=title
         film_info["release_year"]=year
 
+        #-------------------------------------------------------------------------------------
+        # get backdrops and posters
+        url_image=f"https://api.themoviedb.org/3/movie/{tmdb_id}/images"
+        response_image=requests.get(url_image,headers=headers).json()
+        backdrops=response_image["backdrops"]
+        posters=response_image["posters"]
+        max_image=10
+        poster_list=[]
+        backdrop_list=[]
+        if posters and backdrops:
+            for i in range(max_image):
+                poster_list.append(posters[i])
+                backdrop_list.append(backdrops[i])
+        film_info["backdrops"]=backdrop_list
+        film_info["posters"]=poster_list
+        
+
     except Exception as e:
         #print(f"There is an error happend when extracting movie {title}({year}): {e}")
         film_info["title"]=title

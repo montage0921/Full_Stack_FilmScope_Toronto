@@ -14,7 +14,6 @@ user=os.getenv("DB_USER")
 password=os.getenv("DB_PASSWORD")
 db=os.getenv("DB_NAME")
 
-# create a DB Operator
 
 
 @app.route('/fetch-movie-info',methods=['POST'])
