@@ -62,11 +62,25 @@ public class Film {
     @Column(name="poster_path")
     private String posterPath;
 
+    @Column(name="backdrop_path")
+    private String backdropPath;
+
     @Lob // indicate it is a large object
     @Column(name="overview",columnDefinition = "TEXT")
     private String overview;
 
     @Column(name="imdb_id")
     private String imdbId;
+
+    @Column(name="backdrops")
+    @Convert(converter = JsonListConverter.class)
+    private List<String> backdrops;
+
+    @Column(name="posters")
+    @Convert(converter = JsonListConverter.class)
+    private List<String> posters;
+
+
+
 
 }

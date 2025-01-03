@@ -50,4 +50,10 @@ public class Show {
 
     @Column(name="published")
     private Boolean published;
+
+    @Column(name="poster")
+    private String poster;
+
+    @Column(name="backdrop")
+    private String backdrop;
 }
