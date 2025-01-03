@@ -51,9 +51,9 @@ public class Show {
     @Column(name="published")
     private Boolean published;
 
-    @Column(name="poster")
+    @Column(name="poster_path")
     private String poster;
 
-    @Column(name="backdrop")
+    @Column(name="backdrop_path")
     private String backdrop;
 }
