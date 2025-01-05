@@ -28,6 +28,7 @@ function EditShow() {
         published: showDetail.published,
         poster: showDetail.poster,
         backdrop: showDetail.backdrop,
+        customId: null,
       }));
       showDetail.ids && setShowIds(showDetail.ids);
     };
