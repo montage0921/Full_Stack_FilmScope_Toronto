@@ -49,3 +49,10 @@ export const getDetailedShowInfo = async (showname, theatre) => {
     throw error;
   }
 };
+
+// update show info
+export const updateShowAPI = async (id, showDto) => {
+  const response = await axios.put(`${baseURL}/update-show/${id}`, showDto, {
+    headers: header,
+  });
+};

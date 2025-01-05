@@ -4,8 +4,8 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Admin from "./containers/Admin.jsx";
 import AdminDetail from "./containers/AdminDetail.jsx";
-import { createContext } from "react";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import EditShow from "./containers/EditShow.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/detailed-page-admin/:theatre/:showname",
     element: <AdminDetail />,
+  },
+  {
+    path: "/detailed-page-admin/:theatre/:showname/edit",
+    element: <EditShow />,
   },
 ]);
 

@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { showDetailContext } from "../AdminDetail";
 import Backdrop from "../../components/admin_detailedpage/Backdrop";
 import ShowInfoCard from "../../components/admin_detailedpage/ShowInfoCard";
+import { Link } from "react-router-dom";
+import EditIcon from "../../components/icons/EditIcon";
 
 function BakcDropContainer() {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
@@ -28,6 +30,14 @@ function BakcDropContainer() {
              }`}
       >
         <ShowInfoCard />
+        {showDetail && (
+          <Link
+            className={`absolute top-2 right-5 ${!isHover && "hidden"}`}
+            to={`/detailed-page-admin/${showDetail.theatre}/${showDetail.showTitle}/edit`}
+          >
+            <EditIcon />
+          </Link>
+        )}
       </div>
     </div>
   );

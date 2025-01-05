@@ -12,7 +12,6 @@ function DateCard({ date, time }) {
 
   return (
     <div className="bg-dateCardGray w-3/4 p-5">
-      {console.log("sdsds", time)}
       <div className="font-bold text-2xl border-b-2 border-black pb-2">{`${dayOfWeek}, ${month} ${date2}`}</div>
       <div>
         {time.map((time_link, index) => (
