@@ -16,7 +16,8 @@ public class ShowMapper {
                 show.getFilmId(),
                 show.getPublished(),
                 show.getPoster(),
-                show.getBackdrop()
+                show.getBackdrop(),
+                show.getCustomId()
         );
     }
 
@@ -32,7 +33,8 @@ public class ShowMapper {
                 showDto.getFilmId(),
                 showDto.getPublished(),
                 showDto.getPoster(),
-                showDto.getBackdrop()
+                showDto.getBackdrop(),
+                showDto.getCustomId()
         );
     }
 }
