@@ -4,7 +4,6 @@ import FilmScope.dto.*;
 import FilmScope.entity.Film;
 import FilmScope.entity.Show;
 import FilmScope.mapper.FilmMapper;
-import FilmScope.mapper.ShowMapper;
 import FilmScope.repository.FilmRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -123,7 +122,7 @@ public class ShowService {
         filmRepository.save(film);
 
         // get show records by customId
-        List<Show> shows=showRepository.findByCustomId(customId);
+        List<Show> shows=showRepository.findByCustomIdIn(customId);
 
         for (Show show:shows){
             show.setFilmTitle(updatedFilmDto.getTitle());
@@ -148,10 +147,10 @@ public class ShowService {
     // In our database, each unique film in a single show has a separate record
     // for example, if a show "Lord of the Ring Trilogy" has 3 movies, then we have 3 records,
     // each of them has same showTitle but a different film. So delete a film means we need to delete a show record
-    public void deleteFilm(String showTitle, String theatre, String filmTitle){
-        List<Show> shows=showRepository.findByShowTitle(showTitle);
-        Show show=shows.stream().filter(show1 -> show1.getTheatre().equals(theatre)).filter(show1 -> show1.getFilmTitle().equals(filmTitle) ).toList().get(0);
-        showRepository.delete(show);
+    public void deleteFilm(Long customId,String theatre){
+        List<Show> shows=showRepository.findByCustomIdIn(customId);
+        List<Show> deleteShows=shows.stream().filter(show->show.getTheatre().equals(theatre)).toList();
+        showRepository.deleteAll(deleteShows);
     }
 
     // delete all expired shows

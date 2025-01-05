@@ -59,10 +59,10 @@ public class ShowController{
     }
 
     // update movie info by filmId
-    @PutMapping("update-film/{filmTitle}")
-    public ResponseEntity<FilmDto> updateFilm(@PathVariable("filmTitle") String filmTitle,@RequestBody
+    @PutMapping("update-film/{customId}")
+    public ResponseEntity<FilmDto> updateFilm(@PathVariable("customId") Long customId,@RequestBody
     FilmDto updatedFilmDto){
-        FilmDto updatedFilmRes=showService.updateFilm(filmTitle,updatedFilmDto);
+        FilmDto updatedFilmRes=showService.updateFilm(customId,updatedFilmDto);
         return ResponseEntity.ok(updatedFilmRes);
     }
 
@@ -75,10 +75,9 @@ public class ShowController{
 
     // delete a film in a show
     @DeleteMapping("delete-film")
-    public ResponseEntity<String> deleteShowByFilm(@RequestParam("showTitle") String showTitle,@RequestParam("theatre")
-    String theatre,@RequestParam("filmTitle") String filmTitle){
-        showService.deleteFilm(showTitle,theatre,filmTitle);
-        return ResponseEntity.ok(String.format("Film %s of show %s in theatre %s is successfully deleted", filmTitle,showTitle,theatre));
+    public ResponseEntity<String> deleteShowByFilm(@RequestParam("customId") Long customId,@RequestParam("theatre") String theatre){
+        showService.deleteFilm(customId,theatre);
+        return ResponseEntity.ok("Film is successfully deleted");
     }
 
     // delete all expired show
