@@ -16,7 +16,7 @@ class DatabaseOperator():
     
     def extract_for_api(self):
         extract_query="""
-                      SELECT DISTINCT film_title, year FROM showtime WHERE film_id =0
+                      SELECT DISTINCT film_title, year FROM showtime WHERE film_id =0 and custom_id IS NULL
                       """
         
         try:
@@ -67,8 +67,9 @@ class DatabaseOperator():
             SET 
                 s.film_id = m.film_id,
                 s.poster_path=m.poster_path,
-                s.backdrop_path=m.backdrop_path
-            WHERE m.film_id IS NOT NULL;
+                s.backdrop_path=m.backdrop_path,
+                s.custom_id=m.custom_id
+            WHERE m.custom_id IS NOT NULL ;
             """
         try:
             self.cursor.execute(update_query)
