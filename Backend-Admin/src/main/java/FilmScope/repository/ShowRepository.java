@@ -10,5 +10,5 @@ public interface ShowRepository extends JpaRepository<Show,Integer> {
     List<Show> findByFilmId(Integer filmId);
     List<Show> findByFilmTitle(String filmTitle);
     List<Show> findByFilmTitleContaining(String query);
-    List<Show> findByCustomIdIn(Long customId);
+    List<Show> findByCustomId(Long customId);
 }

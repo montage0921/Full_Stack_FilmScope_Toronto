@@ -122,7 +122,7 @@ public class ShowService {
         filmRepository.save(film);
 
         // get show records by customId
-        List<Show> shows=showRepository.findByCustomIdIn(customId);
+        List<Show> shows=showRepository.findByCustomId(customId);
 
         for (Show show:shows){
             show.setFilmTitle(updatedFilmDto.getTitle());
@@ -148,7 +148,7 @@ public class ShowService {
     // for example, if a show "Lord of the Ring Trilogy" has 3 movies, then we have 3 records,
     // each of them has same showTitle but a different film. So delete a film means we need to delete a show record
     public void deleteFilm(Long customId,String theatre){
-        List<Show> shows=showRepository.findByCustomIdIn(customId);
+        List<Show> shows=showRepository.findByCustomId(customId);
         List<Show> deleteShows=shows.stream().filter(show->show.getTheatre().equals(theatre)).toList();
         showRepository.deleteAll(deleteShows);
     }
