@@ -50,12 +50,12 @@ public class ShowController{
 
     // update show info by showTitle
     // only show_title and showtimes can be updated
-    @PutMapping("update-show/{showTitle}")
-    public ResponseEntity<List<ShowDto>> updateShow(@PathVariable("showTitle") String showTitle,
-                                              @RequestBody ShowDto updatedShow)
+    @PutMapping("update-show/{id}")
+    public ResponseEntity<String> updateShow(@PathVariable("id") Integer id,
+                                                    @RequestBody ShowDto updatedShow)
     {
-        List<ShowDto> updatedShows=showService.updateShow(showTitle,updatedShow);
-        return ResponseEntity.ok(updatedShows);
+        String message=showService.updateShow(id,updatedShow);
+        return ResponseEntity.ok(message);
     }
 
     // update movie info by filmId

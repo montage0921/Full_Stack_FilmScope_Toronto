@@ -80,18 +80,20 @@ public class ShowService {
 
     @Transactional
     // update show info
-    public List<ShowDto> updateShow(String showTitle,ShowDto updatedShow){
-        List<Show> shows=showRepository.findByShowTitle((showTitle));
-        for (Show show:shows){
-            show.setShowTimes(updatedShow.getShowtimes());
-            show.setShowTitle(updatedShow.getShowTitle());
-            show.setPublished(updatedShow.getPublished());
-            show.setPoster(updatedShow.getPoster());
-            show.setBackdrop(updatedShow.getBackdrop());
-        }
-        showRepository.saveAll((shows));
+    public String updateShow(Integer id,ShowDto updatedShow){
+        Show show = showRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Show not found with ID: " + id));
 
-        return shows.stream().map(ShowMapper::mapToShowDto).toList();
+        show.setShowTimes(updatedShow.getShowtimes());
+        show.setTheatre(updatedShow.getTheatre());
+        show.setShowTitle(updatedShow.getShowTitle());
+        show.setPublished(updatedShow.getPublished());
+        show.setPoster(updatedShow.getPoster());
+        show.setBackdrop(updatedShow.getBackdrop());
+
+        showRepository.save(show);
+
+        return "mission complete";
     }
 
     @Transactional
@@ -126,6 +128,7 @@ public class ShowService {
             show.setDirector(updatedFilmDto.getDirectors().get(0));
             show.setReleaseYear(updatedFilmDto.getReleaseYear());
             show.setPoster(updatedFilmDto.getPosterPath());
+            show.setBackdrop(updatedFilmDto.getBackdropPath());
         }
 
         return FilmMapper.mapToFilmDto(film);
