@@ -100,9 +100,9 @@ public class ShowService {
 
     @Transactional
     // update Film info
-    public FilmDto updateFilm(String filmTitle, FilmDto updatedFilmDto){
+    public FilmDto updateFilm(Long customId, FilmDto updatedFilmDto){
         // get film record by filmId from database
-        Film film=filmRepository.findByTitle(filmTitle);
+        Film film=filmRepository.findByCustomId(customId);
 
         // update it with new info from updatedFilmDto
         film.setTitle(updatedFilmDto.getTitle());
@@ -117,12 +117,13 @@ public class ShowService {
         film.setPosterPath(updatedFilmDto.getPosterPath());
         film.setOverview(updatedFilmDto.getOverview());
         film.setImdbId(updatedFilmDto.getImdbId());
+        film.setBackdropPath(updatedFilmDto.getBackdropPath());
 
         // save the change
         filmRepository.save(film);
 
-        // get show records by filmID
-        List<Show> shows=showRepository.findByFilmTitle(filmTitle);
+        // get show records by customId
+        List<Show> shows=showRepository.findByCustomId(customId);
 
         for (Show show:shows){
             show.setFilmTitle(updatedFilmDto.getTitle());

@@ -9,4 +9,6 @@ public interface FilmRepository extends  JpaRepository<Film,Integer>{
     Film findByFilmId(Integer filmId);
     Film findByTitle(String filmTitle);
     List<Film> findByFilmIdIn(List<Integer> filmIds);
+    List<Film> findByCustomIdIn(List<Long> customIds);
+    Film findByCustomId(Long customId);
 }
