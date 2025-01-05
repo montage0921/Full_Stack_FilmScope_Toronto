@@ -25,4 +25,5 @@ public class ShowDetailedDto {
     private List<FilmDto> detailedMovieInfo;
     private List<Integer> filmIds;
     private List<Integer> Ids;
+    private List<Long> customIds;
 }

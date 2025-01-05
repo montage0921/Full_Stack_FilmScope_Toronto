@@ -42,10 +42,11 @@ public class ShowService {
                 show.getTheatre(),
                 show.getShowTitle(),
                 show.getFilmTitle(),
-                show.getShowTimes().keySet()
+                show.getShowTimes().keySet() // a set of dates [2024-12-31,2025-01-01...]
         ));
     }
 
+    // we haven't used this yet
     public List<SearchResDto> search(String query){
         List<Show> matchedShow=showRepository.findByFilmTitleContaining(query);
         return matchedShow.stream().map(show->
@@ -69,13 +70,14 @@ public class ShowService {
 
         List<Integer> filmIDs=showsInATheatre.stream().map(Show::getFilmId).toList();
         List<Integer> IDs=showsInATheatre.stream().map(Show::getId).toList();
+        List<Long> customIDs=showsInATheatre.stream().map(Show::getCustomId).toList();
         String poster=showsInATheatre.get(0).getPoster();
         String backdrop=showsInATheatre.get(0).getBackdrop();
 
-        List<Film> films=filmRepository.findByFilmIdIn(filmIDs);
+        List<Film> films=filmRepository.findByCustomIdIn(customIDs);
         List<FilmDto> filmDtoList=films.stream().map(FilmMapper::mapToFilmDto).toList();
 
-        return new ShowDetailedDto(theatre,showTitle,showtimes,published,poster,backdrop,filmDtoList,filmIDs,IDs);
+        return new ShowDetailedDto(theatre,showTitle,showtimes,published,poster,backdrop,filmDtoList,filmIDs,IDs,customIDs);
     }
 
     @Transactional
