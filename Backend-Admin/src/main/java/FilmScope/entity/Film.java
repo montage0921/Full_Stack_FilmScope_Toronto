@@ -71,4 +71,7 @@ public class Film {
 
     @Column(name="imdb_id")
     private String imdbId;
+
+    @Column(name="custom_id")
+    private Long customId;
 }

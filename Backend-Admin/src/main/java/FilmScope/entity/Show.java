@@ -56,4 +56,7 @@ public class Show {
 
     @Column(name="backdrop_path")
     private String backdrop;
+
+    @Column(name="custom_id")
+    private Long customId;
 }
