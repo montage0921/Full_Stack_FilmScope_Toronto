@@ -30,4 +30,5 @@ public class FilmDto {
     private String overview;
     private String imdbId;
     private String backdropPath;
+    private Long customId;
 }

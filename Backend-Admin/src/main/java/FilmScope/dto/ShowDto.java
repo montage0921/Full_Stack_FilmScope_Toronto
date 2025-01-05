@@ -29,4 +29,5 @@ public class ShowDto {
     private Boolean published;
     private String poster;
     private String backdrop;
+    private Long customId;
 }
