@@ -190,8 +190,9 @@ public class ShowService {
                 String directors = filmDto.getDirectors().isEmpty() ? "" : filmDto.getDirectors().get(0);
                 Integer releaseYear=filmDto.getReleaseYear();
                 Integer filmId=filmDto.getFilmId();
+                Long customId=filmDto.getCustomId();
 
-                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published,poster,backdrop);
+                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published,poster,backdrop,customId);
                 Film film=FilmMapper.mapToFilmEntity(filmDto);
 
                 showRepository.save(show);
