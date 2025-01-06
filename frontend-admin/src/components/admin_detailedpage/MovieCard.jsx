@@ -1,12 +1,19 @@
 import React, { useContext } from "react";
 import { showDetailContext } from "../../containers/AdminDetail";
 import LabeledText from "../utils/LabeledText";
+import { Link } from "react-router-dom";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
-
+  console.log(movie);
   const handleDeleteFilm = (e) => {
     e.preventDefault();
+
+    // prevent user delete the only film in a show
+    if (showDetail.detailedMovieInfo.length <= 1) {
+      alert("You cannot delete the only film in this show!");
+      return;
+    }
   };
 
   return (
@@ -17,13 +24,18 @@ function MovieCard({ movie }) {
           <div className="text-4xl font-bold flex gap-5">
             {movie.title}
             <button
-              className="bg-red-300 text-base font-semibold w-20 h-8 self-center rounded-lg text-black
-              transition-w transition-h transition-text duration-300
-              hover:font-bold hover:w-26 hover:h-10 hover:text-lg"
+              className="bg-red-300 text-sm text-white font-semibold w-20 h-8 self-center rounded-lg
+              transition-all duration-300 transform hover:scale-105 hover:bg-red-500"
               onClick={handleDeleteFilm}
             >
-              delete
+              Delete
             </button>
+            <Link
+              className="bg-green-400 text-white text-sm self-center flex justify-center items-center 
+              font-semibold w-20 h-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:bg-green-500"
+            >
+              Edit
+            </Link>
           </div>
           {movie.title.trim() !== movie.originalTitle.trim() && (
             <div className="text-3xl font-semibold text-gray-600">
