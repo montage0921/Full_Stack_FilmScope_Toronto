@@ -8,6 +8,7 @@ import TextInputFilm from "../utils/TextInputFilm";
 import { updateFilm } from "../../api/crudAPI";
 import NumberInputFilm from "../utils/NumberInputFilm";
 import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditForm";
+import TextArea from "../utils/TextArea";
 
 function FilmEditForm() {
   const { customId, filmDto, setFilmDto } = useContext(MainContext);
@@ -26,6 +27,8 @@ function FilmEditForm() {
     setPoster,
     backdrop,
     setBackdrop,
+    overview,
+    setOverview,
   } = useContext(StrEditContext);
 
   const {
@@ -56,6 +59,7 @@ function FilmEditForm() {
     deepCopyFilmDto.directors = directors;
     deepCopyFilmDto.languages = languages;
     deepCopyFilmDto.countries = countries;
+    deepCopyFilmDto.overview = overview;
 
     // update dto
     setFilmDto(deepCopyFilmDto);
@@ -68,7 +72,7 @@ function FilmEditForm() {
   };
 
   return (
-    <form className="mt-3 flex flex-col items-center w-full">
+    <form className="mt-3 flex flex-col items-center w-full gap-2">
       <div className="text-4xl font-bold mb-3 text-gray-800">Edit Film</div>
       <button
         type="submit"
@@ -119,6 +123,7 @@ function FilmEditForm() {
         value={backdrop}
         handleFunction={setBackdrop}
       ></TextInputFilm>
+      <TextArea value={overview} handleFunction={setOverview} />
 
       {/* for data in array like casts, directors... */}
       <div className="mt-5">

@@ -17,7 +17,7 @@ function EditFilm() {
   const [genres, setGenres] = useState(null);
   const [languages, setLanguages] = useState(null);
 
-  const [overView, setOverView] = useState(null);
+  const [overview, setOverview] = useState(null);
   const [title, setTitle] = useState(null);
   const [originalTitle, setOriginalTitle] = useState(null);
   const [year, setYear] = useState(null);
@@ -38,7 +38,7 @@ function EditFilm() {
         setImdbId(newFilmDto?.imdbId);
         setLanguages(newFilmDto?.languages);
         setOriginalTitle(newFilmDto?.originalTitle);
-        setOverView(newFilmDto?.overView);
+        setOverview(newFilmDto?.overview);
         setYear(newFilmDto?.releaseYear);
         setRuntime(newFilmDto?.runtime);
         setTitle(newFilmDto?.title);
@@ -61,8 +61,8 @@ function EditFilm() {
     >
       <StrEditContext.Provider
         value={{
-          overView,
-          setOverView,
+          overview,
+          setOverview,
           title,
           setTitle,
           originalTitle,
