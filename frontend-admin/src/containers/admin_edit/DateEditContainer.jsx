@@ -37,7 +37,6 @@ function DateEditContainer({ date }) {
   const handleAddNewClick = (e) => {
     e.preventDefault();
     setIsAddNew(true);
-    console.log("Add");
   };
 
   const handleConfirmNewTime = (e) => {

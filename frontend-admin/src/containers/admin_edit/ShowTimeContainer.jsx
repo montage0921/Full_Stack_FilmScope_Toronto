@@ -16,6 +16,11 @@ function ShowTimeContainer() {
   const handleAddDate = (e) => {
     e.preventDefault();
 
+    if (newDate === "") {
+      alert("cannot be null");
+      return;
+    }
+
     const deepCopyShowDto = JSON.parse(JSON.stringify(showDto));
 
     // check if the date is before today
