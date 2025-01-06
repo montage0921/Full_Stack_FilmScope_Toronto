@@ -81,3 +81,14 @@ export const getFilm = async (customId) => {
     throw error;
   }
 };
+
+// update film
+export const updateFilm = async (customId, filmDto) => {
+  try {
+    await axios.put(`${baseURL}/update-film/${customId}`, filmDto, {
+      headers: header,
+    });
+  } catch (error) {
+    throw error;
+  }
+};

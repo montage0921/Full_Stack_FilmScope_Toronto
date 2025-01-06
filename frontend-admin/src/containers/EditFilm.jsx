@@ -56,7 +56,9 @@ function EditFilm() {
   //   console.log(customId, showname, theatre);
 
   return (
-    <MainContext.Provider value={{ showname, theatre }}>
+    <MainContext.Provider
+      value={{ showname, theatre, filmDto, setFilmDto, customId }}
+    >
       <StrEditContext.Provider
         value={{
           overView,
