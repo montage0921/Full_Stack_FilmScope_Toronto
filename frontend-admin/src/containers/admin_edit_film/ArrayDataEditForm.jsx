@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ElementTag from "../../components/admin_edit_film/ElementTag";
+import AddTagIcon from "../../components/icons/AddTagIcon";
+import TagInput from "../../components/utils/TagInput";
 
 function ArrayDataEditForm({ data, setter, name }) {
+  const [addMode, setAddMode] = useState(false);
+
+  const handleAddNew = () => {
+    setAddMode(true);
+  };
+
   return (
     <div className="w-[450px] ">
       <div className="flex justify-center text-xl font-semibold text-gray-800 border-b-2 mb-3">
@@ -16,6 +24,14 @@ function ArrayDataEditForm({ data, setter, name }) {
             setter={setter}
           />
         ))}
+        {addMode && (
+          <TagInput
+            setter={setter}
+            data={data}
+            setAddMode={setAddMode}
+          ></TagInput>
+        )}
+        <AddTagIcon size={50} handleFunction={handleAddNew} />
       </div>
     </div>
   );
