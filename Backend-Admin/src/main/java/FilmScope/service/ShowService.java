@@ -135,10 +135,16 @@ public class ShowService {
         for (Show show:shows){
             show.setFilmTitle(updatedFilmDto.getTitle());
             // directors can be more than one however film info in showtime table is just for api search purpose, so no need to be accurate. Save one director is enough to get the accurate info im TMDB API
-            show.setDirector(updatedFilmDto.getDirectors().get(0));
+            if (updatedFilmDto.getDirectors() != null && !updatedFilmDto.getDirectors().isEmpty()) {
+                show.setDirector(updatedFilmDto.getDirectors().get(0));
+            } else {
+                show.setDirector(null); // Or handle this case as needed
+            }
+
             show.setReleaseYear(updatedFilmDto.getReleaseYear());
             show.setPoster(updatedFilmDto.getPosterPath());
             show.setBackdrop(updatedFilmDto.getBackdropPath());
+            showRepository.save(show);
         }
 
         return mapToFilmDto(film);
