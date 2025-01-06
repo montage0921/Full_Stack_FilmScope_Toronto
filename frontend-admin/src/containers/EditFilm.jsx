@@ -21,7 +21,7 @@ function EditFilm() {
   }, []);
 
   //   console.log(customId, showname, theatre);
-  return <div>{filmDto?.title}</div>;
+  return <div>{filmDto && console.log(filmDto)}</div>;
 }
 
 export default EditFilm;

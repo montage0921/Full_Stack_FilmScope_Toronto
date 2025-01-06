@@ -5,6 +5,7 @@ import { getDetailedShowInfo } from "../api/crudAPI";
 import BakcDropContainer from "./admin_detailed/BakcDropContainer";
 import MovieCardContainer from "./admin_detailed/MovieCardContainer";
 import ShowTimeContainer from "./admin_detailed/ShowTimeContainer";
+import ReturnButton from "../components/admin_detailedpage/ReturnButton";
 
 export const showDetailContext = createContext();
 
@@ -23,12 +24,13 @@ function AdminDetail() {
 
   return (
     <showDetailContext.Provider value={{ showDetail, setShowDetail }}>
-      <div>
+      <div className="relative">
         <BakcDropContainer />
         <div className="flex">
           <MovieCardContainer />
           <ShowTimeContainer />
         </div>
+        <ReturnButton />
       </div>
     </showDetailContext.Provider>
   );
