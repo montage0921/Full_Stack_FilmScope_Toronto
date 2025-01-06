@@ -21,8 +21,6 @@ function AdminDetail() {
     handleShowInfoFetch(showname, theatre);
   }, []);
 
-  console.log(showDetail);
-
   return (
     <showDetailContext.Provider value={{ showDetail, setShowDetail }}>
       <div>
