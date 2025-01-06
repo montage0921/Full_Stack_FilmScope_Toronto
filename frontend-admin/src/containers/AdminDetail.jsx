@@ -19,7 +19,7 @@ function AdminDetail() {
     };
 
     handleShowInfoFetch(showname, theatre);
-  }, [showDetail]);
+  }, []);
 
   console.log(showDetail);
 
