@@ -10,7 +10,7 @@ function FormContainer() {
     <div className="relative bg-white/40  text-gray-800 backdrop-blur-lg rounded-lg shadow-lg w-3/5 h-4/5 font-libre p-4 overflow-auto">
       <Link
         to={`/detailed-page-admin/${showDto.theatre}/${showDto.showTitle}`}
-        className="text-2xl text-white font-semibold text-green-800"
+        className="text-2xl font-semibold text-green-800"
       >
         Return
       </Link>
