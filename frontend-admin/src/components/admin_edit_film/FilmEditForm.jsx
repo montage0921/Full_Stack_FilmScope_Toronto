@@ -40,6 +40,8 @@ function FilmEditForm() {
     setLanguages,
     countries,
     setCountries,
+    genres,
+    setGenres,
   } = useContext(ArrEditContext);
 
   const handleUpdateFilm = async (e) => {
@@ -60,6 +62,7 @@ function FilmEditForm() {
     deepCopyFilmDto.languages = languages;
     deepCopyFilmDto.countries = countries;
     deepCopyFilmDto.overview = overview;
+    deepCopyFilmDto.genres = genres;
 
     // update dto
     setFilmDto(deepCopyFilmDto);
@@ -143,6 +146,7 @@ function FilmEditForm() {
           setter={setCountries}
           name="Countries"
         />
+        <ArrayDataEditForm data={genres} setter={setGenres} name="Genres" />
       </div>
     </form>
   );
