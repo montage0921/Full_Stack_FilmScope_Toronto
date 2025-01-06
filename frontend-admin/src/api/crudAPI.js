@@ -56,3 +56,10 @@ export const updateShowAPI = async (id, showDto) => {
     headers: header,
   });
 };
+
+// delete a film
+export const deleteFilm = async (customId, theatre) => {
+  await axios.put(
+    `${baseURL}/delete-film?customId=${customId}&theatre=${theatre}`
+  );
+};

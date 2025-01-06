@@ -2,17 +2,41 @@ import React, { useContext } from "react";
 import { showDetailContext } from "../../containers/AdminDetail";
 import LabeledText from "../utils/LabeledText";
 import { Link } from "react-router-dom";
+import { deleteFilm, getDetailedShowInfo } from "../../api/crudAPI";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
   console.log(movie);
-  const handleDeleteFilm = (e) => {
+
+  const handleDeleteFilm = async (e) => {
     e.preventDefault();
 
-    // prevent user delete the only film in a show
     if (showDetail.detailedMovieInfo.length <= 1) {
       alert("You cannot delete the only film in this show!");
       return;
+    }
+
+    try {
+      // Delete the film
+      await deleteFilm(movie.customId, showDetail.theatre);
+      console.log("The film is deleted successfully!");
+
+      // Fetch updated show details
+      const newShowDetail = await getDetailedShowInfo(
+        showDetail.showTitle,
+        showDetail.theatre
+      );
+      setShowDetail(newShowDetail);
+
+      alert("Film deleted successfully!");
+    } catch (error) {
+      console.error(
+        "Failed to delete the film or update the show detail:",
+        error
+      );
+      alert(
+        "An error occurred while deleting the film. Please try again later."
+      );
     }
   };
 
