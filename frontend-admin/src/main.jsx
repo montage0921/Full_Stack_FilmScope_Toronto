@@ -6,6 +6,7 @@ import Admin from "./containers/Admin.jsx";
 import AdminDetail from "./containers/AdminDetail.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import EditShow from "./containers/EditShow.jsx";
+import EditFilm from "./containers/EditFilm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/detailed-page-admin/:theatre/:showname/edit",
     element: <EditShow />,
+  },
+  {
+    path: "/detailed-page-admin/:customId/:showname/:theatre/edit",
+    element: <EditFilm />,
   },
 ]);
 

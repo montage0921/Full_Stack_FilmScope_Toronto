@@ -55,6 +55,7 @@ function MovieCard({ movie }) {
               Delete
             </button>
             <Link
+              to={`/detailed-page-admin/${movie.customId}/${showDetail.showTitle}/${showDetail.theatre}/edit`}
               className="bg-green-400 text-white text-sm self-center flex justify-center items-center 
               font-semibold w-20 h-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:bg-green-500"
             >

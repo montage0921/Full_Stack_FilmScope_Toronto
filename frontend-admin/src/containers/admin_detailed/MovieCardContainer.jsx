@@ -6,6 +6,8 @@ import Loading from "../../components/utils/Loading";
 function MovieCardContainer() {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
 
+  console.log(showDetail);
+
   if (showDetail?.detailedMovieInfo) {
     return (
       <div className="w-4/5">

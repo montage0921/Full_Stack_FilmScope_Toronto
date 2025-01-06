@@ -60,6 +60,24 @@ export const updateShowAPI = async (id, showDto) => {
 // delete a film
 export const deleteFilm = async (customId, theatre) => {
   await axios.put(
-    `${baseURL}/delete-film?customId=${customId}&theatre=${theatre}`
+    `${baseURL}/delete-film?customId=${customId}&theatre=${theatre}`,
+    {
+      headers: header,
+    }
   );
+};
+
+// fetch a film based on custom id
+export const getFilm = async (customId) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/get-film?customId=${customId}`,
+      {
+        headers: header,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

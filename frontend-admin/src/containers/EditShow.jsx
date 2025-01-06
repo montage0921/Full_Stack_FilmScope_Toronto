@@ -35,7 +35,6 @@ function EditShow() {
 
     handleShowInfoFetch(showname, theatre);
   }, []);
-  console.log("from edit page", showDto);
 
   return (
     <editContext.Provider value={{ showDto, setShowDto, showIds }}>
