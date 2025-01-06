@@ -40,6 +40,12 @@ public class ShowController{
         return ResponseEntity.ok(showService.search(query));
     }
 
+    @GetMapping("get-film")
+    public ResponseEntity<FilmDto> getFilm(@RequestParam Long customId){
+        FilmDto filmDto=showService.getFilm(customId);
+        return ResponseEntity.ok(filmDto);
+    }
+
     // get a show's detailed info by showTitle
     @GetMapping("detailed-showInfo")
     public ResponseEntity<ShowDetailedDto> getDetailedShowInfo(@RequestParam String showTitle,
@@ -89,8 +95,6 @@ public class ShowController{
         } catch (Exception e){
             return ResponseEntity.badRequest().body(String.format("Error:%s",e.getMessage()));
         }
-
-
     }
 
     // Obtain a film's detailed info from TMDB API via python flask app

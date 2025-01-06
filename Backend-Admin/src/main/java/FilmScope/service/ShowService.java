@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import static FilmScope.mapper.FilmMapper.mapToFilmDto;
+
 @Service
 @AllArgsConstructor
 public class ShowService {
@@ -79,6 +81,12 @@ public class ShowService {
         return new ShowDetailedDto(theatre,showTitle,showtimes,published,poster,backdrop,filmDtoList,filmIDs,IDs,customIDs);
     }
 
+    // get a film based on custom id
+    public FilmDto getFilm(Long custom_id){
+        Film film=filmRepository.findByCustomId(custom_id);
+        return mapToFilmDto(film);
+    }
+
     @Transactional
     // update show info
     public String updateShow(Integer id,ShowDto updatedShow){
@@ -133,7 +141,7 @@ public class ShowService {
             show.setBackdrop(updatedFilmDto.getBackdropPath());
         }
 
-        return FilmMapper.mapToFilmDto(film);
+        return mapToFilmDto(film);
     }
 
     // delete a show
