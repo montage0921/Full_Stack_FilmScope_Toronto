@@ -41,7 +41,7 @@ function EditShow() {
       <div
         className="flex justify-center items-center w-screen h-screen"
         style={{
-          backgroundImage: `url("https://image.tmdb.org/t/p/original${showDto.backdrop}")`,
+          backgroundImage: `url("${showDto.backdrop}")`,
         }}
       >
         <FormContainer />

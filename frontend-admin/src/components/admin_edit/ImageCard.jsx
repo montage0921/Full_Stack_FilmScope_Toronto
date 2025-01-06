@@ -7,7 +7,7 @@ function ImageCard() {
     <div className="absolute top-20 left-[100px]">
       <img
         className=" bg-orange-200 w-[150px] h-[225px] rounded-lg"
-        src={`https://image.tmdb.org/t/p/w300/${showDto.poster}`}
+        src={showDto.poster}
         alt={showDto.showTitle}
       />
     </div>

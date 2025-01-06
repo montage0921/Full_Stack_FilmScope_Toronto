@@ -6,7 +6,6 @@ import { deleteFilm, getDetailedShowInfo } from "../../api/crudAPI";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
-  console.log(movie);
 
   const handleDeleteFilm = async (e) => {
     e.preventDefault();
@@ -42,7 +41,7 @@ function MovieCard({ movie }) {
 
   return (
     <div className="px-5 md:px-20 lg:px-56 py-10 mb-9 flex gap-5 font-libre">
-      <img src={`https://image.tmdb.org/t/p/w300/${movie.posterPath}`} alt="" />
+      <img src={movie.posterPath} alt="" />
       <div className="flex flex-col gap-3">
         <div>
           <div className="text-4xl font-bold flex gap-5">
