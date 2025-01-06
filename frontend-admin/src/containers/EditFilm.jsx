@@ -19,7 +19,7 @@ function EditFilm() {
 
   const [overView, setOverView] = useState(null);
   const [title, setTitle] = useState(null);
-  const [originialTitle, setOriginialTitle] = useState(null);
+  const [originalTitle, setOriginalTitle] = useState(null);
   const [year, setYear] = useState(null);
   const [runtime, setRuntime] = useState(null);
   const [imdbId, setImdbId] = useState(null);
@@ -38,7 +38,7 @@ function EditFilm() {
         setGenres(newFilmDto?.genres);
         setImdbId(newFilmDto?.imdbId);
         setLanguages(newFilmDto?.languages);
-        setOriginialTitle(newFilmDto?.originialTitle);
+        setOriginalTitle(newFilmDto?.originalTitle);
         setOverView(newFilmDto?.overView);
         setYear(newFilmDto?.releaseYear);
         setRuntime(newFilmDto?.runtime);
@@ -65,8 +65,8 @@ function EditFilm() {
           setOverView,
           title,
           setTitle,
-          originialTitle,
-          setOriginialTitle,
+          originalTitle,
+          setOriginalTitle,
           year,
           setYear,
           runtime,

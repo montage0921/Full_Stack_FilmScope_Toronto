@@ -1,11 +1,34 @@
 import React, { useContext } from "react";
-import { MainContext, StrEditContext } from "../../containers/EditFilm";
+import {
+  ArrEditContext,
+  MainContext,
+  StrEditContext,
+} from "../../containers/EditFilm";
 import TextInputFilm from "../utils/TextInputFilm";
 import { updateFilm } from "../../api/crudAPI";
+import NumberInputFilm from "../utils/NumberInputFilm";
+import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditForm";
 
 function FilmEditForm() {
   const { customId, filmDto, setFilmDto } = useContext(MainContext);
-  const { title, setTitle } = useContext(StrEditContext);
+  const {
+    title,
+    setTitle,
+    originalTitle,
+    setOriginalTitle,
+    year,
+    setYear,
+    runtime,
+    setRuntime,
+    imdbId,
+    setImdbId,
+    poster,
+    setPoster,
+    backdrop,
+    setBackdrop,
+  } = useContext(StrEditContext);
+
+  const { casts, setCasts } = useContext(ArrEditContext);
 
   const handleUpdateFilm = async (e) => {
     e.preventDefault();
@@ -14,6 +37,12 @@ function FilmEditForm() {
 
     // update each field
     deepCopyFilmDto.title = title;
+    deepCopyFilmDto.originalTitle = originalTitle;
+    deepCopyFilmDto.releaseYear = year;
+    deepCopyFilmDto.runtime = runtime;
+    deepCopyFilmDto.imdbId = imdbId;
+    deepCopyFilmDto.posterPath = poster;
+    deepCopyFilmDto.backdropPath = backdrop;
 
     // update dto
     setFilmDto(deepCopyFilmDto);
@@ -26,7 +55,7 @@ function FilmEditForm() {
   };
 
   return (
-    <form className="mt-3 flex flex-col items-center">
+    <form className="mt-3 flex flex-col items-center w-full">
       <div className="text-4xl font-bold mb-3 text-gray-800">Edit Film</div>
       <button
         type="submit"
@@ -36,12 +65,52 @@ function FilmEditForm() {
       >
         Update
       </button>
+
       <TextInputFilm
         name={"Titles: "}
         value={title}
         handleFunction={setTitle}
-        inputWidth={"w-3/5"}
       ></TextInputFilm>
+
+      <TextInputFilm
+        name={"Original Title: "}
+        value={originalTitle}
+        handleFunction={setOriginalTitle}
+      ></TextInputFilm>
+      <div className="flex w-2/5 gap-24">
+        <NumberInputFilm
+          name={"Year: "}
+          value={year}
+          handleFunction={setYear}
+          inputWidth={"w-3/5"}
+        ></NumberInputFilm>
+        <NumberInputFilm
+          name={"Runtime: "}
+          value={runtime}
+          handleFunction={setRuntime}
+          inputWidth={"w-3/5"}
+        ></NumberInputFilm>
+      </div>
+      <TextInputFilm
+        name={"IMDB ID: "}
+        value={imdbId}
+        handleFunction={setImdbId}
+      ></TextInputFilm>
+      <TextInputFilm
+        name={"Poster URL: "}
+        value={poster}
+        handleFunction={setPoster}
+      ></TextInputFilm>
+      <TextInputFilm
+        name={"Backdrop URL: "}
+        value={backdrop}
+        handleFunction={setBackdrop}
+      ></TextInputFilm>
+
+      {/* for data in array like casts, directors... */}
+      <div className="mt-5">
+        <ArrayDataEditForm data={casts} setter={setCasts} />
+      </div>
     </form>
   );
 }
