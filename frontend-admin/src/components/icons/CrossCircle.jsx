@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import { editContext } from "../../containers/EditShow";
 
-function CrossCircle({ size, date, handleFunction }) {
-  const { showDto, setShowDto } = useContext(editContext);
-
+function CrossCircle({ size, handleFunction }) {
   return (
     <svg
       style={{ width: `${size}px`, height: `${size}px` }}

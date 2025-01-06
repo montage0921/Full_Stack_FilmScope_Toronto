@@ -43,6 +43,7 @@ function FilmEditForm() {
     deepCopyFilmDto.imdbId = imdbId;
     deepCopyFilmDto.posterPath = poster;
     deepCopyFilmDto.backdropPath = backdrop;
+    deepCopyFilmDto.casts = casts;
 
     // update dto
     setFilmDto(deepCopyFilmDto);
@@ -109,7 +110,7 @@ function FilmEditForm() {
 
       {/* for data in array like casts, directors... */}
       <div className="mt-5">
-        <ArrayDataEditForm data={casts} setter={setCasts} />
+        <ArrayDataEditForm data={casts} setter={setCasts} name="Casts" />
       </div>
     </form>
   );

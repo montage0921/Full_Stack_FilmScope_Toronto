@@ -26,7 +26,6 @@ function EditFilm() {
   const [backdrop, setBackdrop] = useState(null);
   const [poster, setPoster] = useState(null);
 
-  console.log(filmDto);
   useEffect(() => {
     const getFilmAPI = async (customId) => {
       try {
@@ -45,6 +44,7 @@ function EditFilm() {
         setTitle(newFilmDto?.title);
         setPoster(newFilmDto?.posterPath);
         setBackdrop(newFilmDto?.backdropPath);
+        console.log(newFilmDto);
       } catch (error) {
         console.log(error);
       }
