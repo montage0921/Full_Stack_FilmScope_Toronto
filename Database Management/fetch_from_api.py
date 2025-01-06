@@ -62,11 +62,11 @@ def fetch_movie_info(film):
 
         # get poster_path
         poster_path=movie_details_json.get("poster_path","")
-        film_info["poster_path"]=poster_path
+        film_info["poster_path"]="https://image.tmdb.org/t/p/w300"+poster_path
 
         # get backdrop_path
         backdrop_path=movie_details_json.get("backdrop_path")
-        film_info["backdrop_path"]=backdrop_path
+        film_info["backdrop_path"]="https://image.tmdb.org/t/p/original"+backdrop_path
 
         # get runtime
         runtime=movie_details_json.get("runtime",None)
