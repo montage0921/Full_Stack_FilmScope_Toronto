@@ -4,13 +4,27 @@ import LabeledText from "../utils/LabeledText";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
+
+  const handleDeleteFilm = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="px-5 md:px-20 lg:px-56 py-10 mb-9 flex gap-5 font-libre">
       <img src={`https://image.tmdb.org/t/p/w300/${movie.posterPath}`} alt="" />
-
       <div className="flex flex-col gap-3">
         <div>
-          <div className="text-5xl font-bold">{movie.title}</div>
+          <div className="text-4xl font-bold flex gap-5">
+            {movie.title}
+            <button
+              className="bg-red-300 text-base font-semibold w-20 h-8 self-center rounded-lg text-black
+              transition-w transition-h transition-text duration-300
+              hover:font-bold hover:w-26 hover:h-10 hover:text-lg"
+              onClick={handleDeleteFilm}
+            >
+              delete
+            </button>
+          </div>
           {movie.title.trim() !== movie.originalTitle.trim() && (
             <div className="text-3xl font-semibold text-gray-600">
               {movie.originalTitle}
