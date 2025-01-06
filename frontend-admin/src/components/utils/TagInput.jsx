@@ -6,21 +6,19 @@ function TagInput({ setter, data, setAddMode }) {
   const [newInput, setNewInput] = useState(""); // Add state for input value
 
   const handleInput = () => {
-    const trimmedInput = newInput.trim(); // Remove extra spaces
-
-    if (!trimmedInput) {
+    if (!newInput) {
       alert("Input cannot be empty");
       return;
     }
 
-    if (data.includes(trimmedInput)) {
+    if (data.includes(newInput)) {
       alert("Value already exists");
       return;
     }
 
     // Update the data with the new value
     const deepCopyData = [...data];
-    deepCopyData.push(trimmedInput);
+    deepCopyData.push(newInput);
     setter(deepCopyData);
 
     // Exit Add Mode
