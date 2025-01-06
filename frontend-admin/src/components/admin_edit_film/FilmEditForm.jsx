@@ -28,7 +28,16 @@ function FilmEditForm() {
     setBackdrop,
   } = useContext(StrEditContext);
 
-  const { casts, setCasts } = useContext(ArrEditContext);
+  const {
+    casts,
+    setCasts,
+    directors,
+    setDirectors,
+    languages,
+    setLanguages,
+    countries,
+    setCountries,
+  } = useContext(ArrEditContext);
 
   const handleUpdateFilm = async (e) => {
     e.preventDefault();
@@ -44,6 +53,9 @@ function FilmEditForm() {
     deepCopyFilmDto.posterPath = poster;
     deepCopyFilmDto.backdropPath = backdrop;
     deepCopyFilmDto.casts = casts;
+    deepCopyFilmDto.directors = directors;
+    deepCopyFilmDto.languages = languages;
+    deepCopyFilmDto.countries = countries;
 
     // update dto
     setFilmDto(deepCopyFilmDto);
@@ -111,6 +123,21 @@ function FilmEditForm() {
       {/* for data in array like casts, directors... */}
       <div className="mt-5">
         <ArrayDataEditForm data={casts} setter={setCasts} name="Casts" />
+        <ArrayDataEditForm
+          data={directors}
+          setter={setDirectors}
+          name="Directors"
+        />
+        <ArrayDataEditForm
+          data={languages}
+          setter={setLanguages}
+          name="Languages"
+        />
+        <ArrayDataEditForm
+          data={countries}
+          setter={setCountries}
+          name="Countries"
+        />
       </div>
     </form>
   );

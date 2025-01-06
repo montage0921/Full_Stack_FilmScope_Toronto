@@ -11,8 +11,8 @@ function ArrayDataEditForm({ data, setter, name }) {
   };
 
   return (
-    <div className="w-[450px] ">
-      <div className="flex justify-center text-xl font-semibold text-gray-800 border-b-2 mb-3">
+    <div className="w-[450px] my-5 ">
+      <div className="flex justify-center text-xl font-semibold text-gray-800 border-b-2 mb-3 ">
         Edit {name}
       </div>
       <div className="grid grid-cols-4 gap-2 text-center">

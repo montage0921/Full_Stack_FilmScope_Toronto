@@ -32,7 +32,7 @@ function EditFilm() {
         const newFilmDto = await getFilm(customId);
         setFilmDto(newFilmDto);
         setCasts(newFilmDto?.casts);
-        setCountries(newFilmDto?.setCountries);
+        setCountries(newFilmDto?.countries);
         setDirectors(newFilmDto?.directors);
         setGenres(newFilmDto?.genres);
         setImdbId(newFilmDto?.imdbId);
