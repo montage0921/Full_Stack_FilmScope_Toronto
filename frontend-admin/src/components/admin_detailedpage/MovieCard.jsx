@@ -41,7 +41,7 @@ function MovieCard({ movie }) {
 
   return (
     <div className="px-5 md:px-20 lg:px-56 py-10 mb-9 flex gap-5 font-libre">
-      <img src={movie.posterPath} alt="" />
+      <img className="h-full w-2/5" src={movie.posterPath} alt="" />
       <div className="flex flex-col gap-3">
         <div>
           <div className="text-4xl font-bold flex gap-5">
