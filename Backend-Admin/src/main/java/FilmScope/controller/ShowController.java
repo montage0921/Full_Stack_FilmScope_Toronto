@@ -99,7 +99,7 @@ public class ShowController{
 
     // Obtain a film's detailed info from TMDB API via python flask app
     // This will fetch detailed movie info based on film's title and year then store in MySQL's move_info table
-    @PostMapping("fetch-film-info")
+    @GetMapping("fetch-film-info")
     public ResponseEntity<String> uploadFilmFromTMDB(@RequestParam("filmTitle") String filmTitle,@RequestParam("releaseYear") Integer releaseYear) throws JsonProcessingException {
         String film_info= tmdbService.fetchMovieInfo(filmTitle,releaseYear);
 
