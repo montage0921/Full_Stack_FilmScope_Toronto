@@ -92,3 +92,15 @@ export const updateFilm = async (customId, filmDto) => {
     throw error;
   }
 };
+
+export const searchTMDB = async (filmTitle, year) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/fetch-film-info?filmTitle=${filmTitle}&releaseYear=${year}`,
+      { headers: header }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

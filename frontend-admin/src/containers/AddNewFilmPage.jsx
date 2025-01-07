@@ -20,6 +20,7 @@ function AddNewFilmPage() {
     releaseYear: 0,
     countries: [],
     languages: [],
+    filmId: null,
     runtime: 0,
     posterPath:
       "https://images.unsplash.com/photo-1571847140471-1d7766e825ea?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmlsbSUyMHBvc3RlcnxlbnwwfHwwfHx8MA%3D%3D",
@@ -42,6 +43,7 @@ function AddNewFilmPage() {
   const [imdbId, setImdbId] = useState(filmDto.imdbId);
   const [backdrop, setBackdrop] = useState(filmDto.backdropPath);
   const [poster, setPoster] = useState(filmDto.posterPath);
+  const [filmId, setFilmId] = useState(filmDto.filmId);
 
   // I get showDetial because it contains info that we need to sync the showtime table
   // when I add the film
@@ -73,12 +75,12 @@ function AddNewFilmPage() {
           setRuntime,
           imdbId,
           setImdbId,
+          filmId,
+          setFilmId,
           backdrop,
           setBackdrop,
           poster,
           setPoster,
-          filmDto,
-          setFilmDto,
         }}
       >
         <ArrEditContext.Provider

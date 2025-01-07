@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ArrEditContext,
   MainContext,
@@ -11,9 +11,7 @@ import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditFor
 import SearchTMDB from "../../containers/admin_add_new_film/SearchTMDB";
 
 function NewFilmEditForm() {
-  const [isDropDown, setIsDropDown] = useState(false);
-
-  const { filmDto, setFilmDto } = useContext(MainContext);
+  const [isDropDown, setIsDropDown] = useState(false); // drop down for tmdb search
   const {
     title,
     setTitle,
@@ -31,7 +29,15 @@ function NewFilmEditForm() {
     setBackdrop,
     overview,
     setOverview,
+    filmId,
+    setFilmId,
   } = useContext(StrEditContext);
+
+  useEffect(() => {
+    setIsDropDown(false);
+  }, [title]); // if we get something, the title is a must-have, then the dropdown should close
+
+  const { filmDto, setFilmDto } = useContext(MainContext);
 
   const {
     casts,
@@ -84,6 +90,7 @@ function NewFilmEditForm() {
     setYear(0);
     setRuntime(0);
     setImdbId("");
+    setFilmId("");
     setPoster(
       "https://images.unsplash.com/photo-1571847140471-1d7766e825ea?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmlsbSUyMHBvc3RlcnxlbnwwfHwwfHx8MA%3D%3D"
     );
@@ -109,6 +116,7 @@ function NewFilmEditForm() {
       countries: [],
       languages: [],
       runtime: 0,
+      filmId: null,
       posterPath:
         "https://images.unsplash.com/photo-1571847140471-1d7766e825ea?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmlsbSUyMHBvc3RlcnxlbnwwfHwwfHx8MA%3D%3D",
       overview: "",
@@ -180,6 +188,11 @@ function NewFilmEditForm() {
         name={"IMDB ID: "}
         value={imdbId}
         handleFunction={setImdbId}
+      ></TextInputFilm>
+      <TextInputFilm
+        name={"TMDB (Film) ID: "}
+        value={filmId}
+        handleFunction={setFilmId}
       ></TextInputFilm>
       <TextInputFilm
         name={"Poster URL: "}
