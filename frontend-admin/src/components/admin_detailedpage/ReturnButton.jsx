@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 
 function ReturnButton() {
   return (
-    <Link to={"/"} className="absolute w-10 h-10 stroke-white  top-10 right-10">
+    <Link
+      to={"/"}
+      className="absolute w-[80px] h-[80px] m-5 stroke-black hover:stroke-gray-800"
+    >
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12.9998 8L6 14L12.9998 21"

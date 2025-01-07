@@ -26,11 +26,11 @@ function AdminDetail() {
     <showDetailContext.Provider value={{ showDetail, setShowDetail }}>
       <div className="relative">
         <BakcDropContainer />
+        <ReturnButton />
         <div className="flex">
           <MovieCardContainer />
           <ShowTimeContainer />
         </div>
-        <ReturnButton />
       </div>
     </showDetailContext.Provider>
   );
