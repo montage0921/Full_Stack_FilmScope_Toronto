@@ -59,12 +59,14 @@ export const updateShowAPI = async (id, showDto) => {
 
 // delete a film
 export const deleteFilm = async (customId, theatre) => {
-  await axios.put(
-    `${baseURL}/delete-film?customId=${customId}&theatre=${theatre}`,
-    {
-      headers: header,
-    }
-  );
+  try {
+    await axios.delete(
+      `${baseURL}/delete-film?customId=${customId}&theatre=${theatre}`,
+      { headers: header }
+    );
+  } catch (error) {
+    throw error;
+  }
 };
 
 // fetch a film based on custom id
@@ -93,11 +95,54 @@ export const updateFilm = async (customId, filmDto) => {
   }
 };
 
+// searchTMDB
 export const searchTMDB = async (filmTitle, year) => {
   try {
     const response = await axios.get(
       `${baseURL}/fetch-film-info?filmTitle=${filmTitle}&releaseYear=${year}`,
       { headers: header }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// add film
+export const addNewFilm = async (filmDto) => {
+  try {
+    const response = await axios.post(`${baseURL}/add-film`, filmDto, {
+      headers: header,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// fetch customId
+export const fetchCustomId = async (filmTitle, year) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/find-customId?filmTitle=${filmTitle}&year=${year}`,
+      { headers: header }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// sync show with new film
+export const syncShowWithNewFilm = async (showDto) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/sync-show-with-new-film`,
+      showDto,
+      {
+        headers: header,
+      }
     );
     return response.data;
   } catch (error) {

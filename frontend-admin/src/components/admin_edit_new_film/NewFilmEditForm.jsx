@@ -9,9 +9,17 @@ import NumberInputFilm from "../utils/NumberInputFilm";
 import TextArea from "../utils/TextArea";
 import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditForm";
 import SearchTMDB from "../../containers/admin_add_new_film/SearchTMDB";
+import {
+  addNewFilm,
+  fetchCustomId,
+  syncShowWithNewFilm,
+} from "../../api/crudAPI";
 
 function NewFilmEditForm() {
-  const [isDropDown, setIsDropDown] = useState(false); // drop down for tmdb search
+  const [isDropDown, setIsDropDown] = useState(false); // dropdown state
+
+  const { filmDto, setFilmDto, showDetail } = useContext(MainContext);
+
   const {
     title,
     setTitle,
@@ -33,12 +41,6 @@ function NewFilmEditForm() {
     setFilmId,
   } = useContext(StrEditContext);
 
-  useEffect(() => {
-    setIsDropDown(false);
-  }, [title]); // if we get something, the title is a must-have, then the dropdown should close
-
-  const { filmDto, setFilmDto } = useContext(MainContext);
-
   const {
     casts,
     setCasts,
@@ -52,39 +54,64 @@ function NewFilmEditForm() {
     setGenres,
   } = useContext(ArrEditContext);
 
+  // Close dropdown when title changes
+  useEffect(() => {
+    setIsDropDown(false);
+  }, [title]);
+
   const handleAddNewFilm = async (e) => {
     e.preventDefault();
-    // get a copy
-    const deepCopyFilmDto = JSON.parse(JSON.stringify(filmDto));
 
-    // update each field
-    deepCopyFilmDto.title = title;
-    deepCopyFilmDto.originalTitle = originalTitle;
-    deepCopyFilmDto.releaseYear = year;
-    deepCopyFilmDto.runtime = runtime;
-    deepCopyFilmDto.imdbId = imdbId;
-    deepCopyFilmDto.posterPath = poster;
-    deepCopyFilmDto.backdropPath = backdrop;
-    deepCopyFilmDto.casts = casts;
-    deepCopyFilmDto.directors = directors;
-    deepCopyFilmDto.languages = languages;
-    deepCopyFilmDto.countries = countries;
-    deepCopyFilmDto.overview = overview;
-    deepCopyFilmDto.genres = genres;
+    // Construct the new film data object
+    const newFilmDto = {
+      filmId, // Ensure this is correctly set and unique
+      title,
+      originalTitle,
+      releaseYear: year,
+      runtime,
+      imdbId,
+      posterPath: poster,
+      backdropPath: backdrop,
+      casts,
+      directors,
+      languages,
+      countries,
+      overview,
+      genres,
+      // Add other necessary fields if any
+    };
 
-    // update dto
-    setFilmDto(deepCopyFilmDto);
     try {
-      console.log("The movie has been successfully updated!");
-      console.log(deepCopyFilmDto);
+      // Send the new film data to the backend
+      await addNewFilm(newFilmDto);
+      const customId = await fetchCustomId(
+        newFilmDto.title,
+        newFilmDto.releaseYear
+      );
+      console.log(showDetail);
+      const showDto = {
+        theatre: showDetail.theatre,
+        showTitle: showDetail.showTitle,
+        showtimes: showDetail.showtimes,
+        filmTitle: title,
+        director: directors[0],
+        releaseYear: year,
+        filmId,
+        published: showDetail.published,
+        poster,
+        backdrop,
+        customId,
+      };
+      await syncShowWithNewFilm(showDto);
     } catch (error) {
-      console.log(error);
+      console.error("Error adding new film:", error);
+      // Optionally, display an error message to the user
     }
   };
 
   const handleClearForm = (e) => {
     e.preventDefault();
-    e.preventDefault();
+    // Clear all individual states and filmDto
     setTitle("");
     setOriginalTitle("");
     setYear(0);
@@ -105,38 +132,36 @@ function NewFilmEditForm() {
     setGenres([]);
 
     setFilmDto({
-      ...filmDto, // Optional: Copy existing state if needed
       filmId: null,
       title: "",
       originalTitle: "",
-      directors: [],
-      casts: [],
-      genres: [],
       releaseYear: 0,
-      countries: [],
-      languages: [],
       runtime: 0,
-      filmId: null,
+      imdbId: null,
       posterPath:
         "https://images.unsplash.com/photo-1571847140471-1d7766e825ea?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZmlsbSUyMHBvc3RlcnxlbnwwfHwwfHx8MA%3D%3D",
-      overview: "",
-      imdbId: null,
       backdropPath:
         "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?q=80&w=3774&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      overview: "",
+      casts: [],
+      directors: [],
+      genres: [],
+      countries: [],
+      languages: [],
     });
   };
 
   return (
-    <form
+    <div
       className="mt-3 flex flex-col items-center w-full gap-2"
       onSubmit={(e) => e.preventDefault()}
     >
       <div className="text-4xl font-bold mb-3 text-gray-800">Add New Film</div>
 
       {/* Three Buttons */}
-      <div className="flex gap-3 relative ">
+      <div className="flex gap-3 relative">
         <button
-          type="submit"
+          type="button"
           className="font-semibold transition-all duration-200 transform hover:scale-105 bg-white text-gray-900 p-1 rounded-lg mb-2 flex items-center space-x-2 group"
           onClick={handleAddNewFilm}
         >
@@ -206,7 +231,7 @@ function NewFilmEditForm() {
       ></TextInputFilm>
       <TextArea value={overview} handleFunction={setOverview} />
 
-      {/* for data in array like casts, directors... */}
+      {/* Array fields */}
       <div className="mt-5">
         <ArrayDataEditForm data={casts} setter={setCasts} name="Casts" />
         <ArrayDataEditForm
@@ -226,7 +251,8 @@ function NewFilmEditForm() {
         />
         <ArrayDataEditForm data={genres} setter={setGenres} name="Genres" />
       </div>
-    </form>
+    </div>
   );
 }
+
 export default NewFilmEditForm;

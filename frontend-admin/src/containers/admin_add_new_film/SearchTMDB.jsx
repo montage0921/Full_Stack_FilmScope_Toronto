@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { searchTMDB } from "../../api/crudAPI";
 import { useContext } from "react";
 import { StrEditContext, ArrEditContext } from "../AddNewFilmPage";
