@@ -1,10 +1,14 @@
 from flask import Flask, request,jsonify
+from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from DatabaseOperator import DatabaseOperator
 from fetch_from_api import fetch_movie_info
 
 app=Flask(__name__)
+CORS(app, resources={
+    r"/fetch-movie-info": {"origins": "http://localhost:5173"}
+})
 
 # Load Environment Variables
 load_dotenv(r"C:\Users\19692\Downloads\Full_Stack_FilmScope_Toronto\Config\.env")
@@ -22,8 +26,6 @@ def fetch_movie_info_endpoint():
     try:
         film=request.json # get film ("film_title","year") from JAVA backend
         film_info=fetch_movie_info(film)
-        db_operator.upload_film_info(film_info)
-        db_operator.sync_showtime_table()
         return jsonify({"status":"success","film_info":film_info}),200
     except Exception as e:
         return jsonify({"status":"error","message":str(e)}),500
