@@ -4,6 +4,7 @@ import FilmScope.dto.*;
 import FilmScope.entity.Film;
 import FilmScope.entity.Show;
 import FilmScope.mapper.FilmMapper;
+import FilmScope.mapper.ShowMapper;
 import FilmScope.repository.FilmRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -185,6 +186,42 @@ public class ShowService {
 
         showRepository.deleteAll(expiredShows);
     }
+
+    // add film
+    public String addNewFilm(FilmDto filmDto){
+        try{
+            Film film=FilmMapper.mapToFilmEntity(filmDto);
+            filmRepository.save(film);
+            return "Success";
+        }
+        catch(Exception e){
+            return "Failed";
+        }
+    }
+
+    public Long getCustomId(String filmTitle, Integer year) {
+        Film film = filmRepository.findByTitle(filmTitle);
+        if (film == null) {
+            throw new IllegalArgumentException("Film not found for title: " + filmTitle);
+        }
+        if (film.getReleaseYear().equals(year)) {
+            return film.getCustomId();
+        } else {
+            throw new IllegalArgumentException("Film found, but year does not match: " + year);
+        }
+    }
+
+    public String syncShowWithNewFilm(ShowDto showDto){
+        Show show= ShowMapper.mapToShowEntity(showDto);
+        showRepository.save(show);
+        try{
+            showRepository.save(show);
+            return "Success";
+        } catch(Exception e){
+            return "Failed";
+        }
+    }
+
 
     // add show
     @Transactional

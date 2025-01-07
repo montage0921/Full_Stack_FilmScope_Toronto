@@ -23,7 +23,7 @@ public class ShowMapper {
 
     public static Show mapToShowEntity(ShowDto showDto){
         return new Show(
-                showDto.getId(),
+                null,
                 showDto.getTheatre(),
                 showDto.getShowTitle(),
                 showDto.getShowtimes(),

@@ -6,6 +6,7 @@ import FilmScope.service.TMDBService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -113,6 +114,29 @@ public class ShowController{
         }else{
             return ResponseEntity.ok(film_info);
         }
+    }
+
+    @PostMapping("add-film")
+    public ResponseEntity<String> addNewFilm(@RequestBody FilmDto filmDto) {
+        System.out.println("Request received to add film: " + filmDto);
+        String addNewFilmStatus = showService.addNewFilm(filmDto);
+        if (addNewFilmStatus.contains("Error")) {
+            return ResponseEntity.badRequest().body(addNewFilmStatus);
+        } else {
+            return ResponseEntity.ok(addNewFilmStatus);
+        }
+    }
+
+    @GetMapping("find-customId")
+    public ResponseEntity<Long> getCustomId(@PathParam("filmTitle") String filmTitle,@PathParam("year") Integer year){
+        Long customId=showService.getCustomId(filmTitle,year);
+        return ResponseEntity.ok(customId);
+    }
+
+    @PostMapping("sync-show-with-new-film")
+    public ResponseEntity<String> syncShowWithNewFilm(@RequestBody ShowDto showDto){
+        String syncStatus=showService.syncShowWithNewFilm(showDto);
+        return ResponseEntity.ok(syncStatus);
     }
 
     @PostMapping("add-show")

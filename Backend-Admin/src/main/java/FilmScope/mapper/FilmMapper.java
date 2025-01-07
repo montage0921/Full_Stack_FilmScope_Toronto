@@ -27,7 +27,7 @@ public class FilmMapper {
 
     public static Film mapToFilmEntity(FilmDto filmDto){
         return new Film(
-                filmDto.getId(),
+                null,
                 filmDto.getFilmId(),
                 filmDto.getTitle(),
                 filmDto.getOriginalTitle(),
@@ -42,7 +42,7 @@ public class FilmMapper {
                 filmDto.getBackdropPath(),
                 filmDto.getOverview(),
                 filmDto.getImdbId(),
-                filmDto.getCustomId()
+                null
         );
     }
 }
