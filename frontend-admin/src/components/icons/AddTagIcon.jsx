@@ -4,7 +4,7 @@ function AddTagIcon({ size, handleFunction }) {
   return (
     <div
       style={{ width: `${size}px`, height: `${size}px` }}
-      className="stroke-gray-800 hover:cursor-pointer hover:stroke-white ml-3"
+      className="stroke-gray-800 hover:cursor-pointer ml-3"
       onClick={handleFunction}
     >
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

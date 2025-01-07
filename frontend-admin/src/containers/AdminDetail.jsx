@@ -6,6 +6,7 @@ import BakcDropContainer from "./admin_detailed/BakcDropContainer";
 import MovieCardContainer from "./admin_detailed/MovieCardContainer";
 import ShowTimeContainer from "./admin_detailed/ShowTimeContainer";
 import ReturnButton from "../components/admin_detailedpage/ReturnButton";
+import AddNewFilmButton from "../components/utils/AddNewFilmButton";
 
 export const showDetailContext = createContext();
 
@@ -28,7 +29,7 @@ function AdminDetail() {
         <BakcDropContainer />
         <ReturnButton />
         <div className="flex">
-          <MovieCardContainer />
+          <MovieCardContainer></MovieCardContainer>
           <ShowTimeContainer />
         </div>
       </div>
