@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         bgBlack: "rgb(30,41,59)",
+        dateCardGray: "rgb(244,244,244)",
       },
       fontFamily: {
         libre: ['"Libre Franklin"', "sans-serif"],
