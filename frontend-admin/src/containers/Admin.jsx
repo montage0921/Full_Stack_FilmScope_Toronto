@@ -4,21 +4,25 @@ import Footer from "../components/admin_frontpage/Footer";
 import DashBoard from "./admin_frontpage/DashBoard";
 import ShowContainer from "./admin_frontpage/ShowContainer";
 import { createContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export const SearchContext = createContext();
+export const ShowListContext = createContext();
 
 function Admin() {
   const [query, setQuery] = useState("");
+  const [showList, setShowList] = useState([]);
 
   return (
-    <SearchContext.Provider value={{ query, setQuery }}>
-      <div className="grid grid-rows-[64px_auto_64px] grid-cols-[20%_80%] h-screen">
-        <NavBar />
-        <DashBoard />
-        <ShowContainer />
-        <Footer />
-      </div>
-    </SearchContext.Provider>
+    <ShowListContext.Provider value={{ showList, setShowList }}>
+      <SearchContext.Provider value={{ query, setQuery }}>
+        <div className="flex flex-col h-screen">
+          <NavBar />
+          <ShowContainer />
+          <Footer />
+        </div>
+      </SearchContext.Provider>
+    </ShowListContext.Provider>
   );
 }
 

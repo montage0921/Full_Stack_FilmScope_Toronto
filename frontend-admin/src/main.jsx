@@ -8,6 +8,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import EditShow from "./containers/EditShow.jsx";
 import EditFilm from "./containers/EditFilm.jsx";
 import AddNewFilmPage from "./containers/AddNewFilmPage.jsx";
+import AddNewShowPage from "./containers/AddNewShowPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/add-new-film/:theatre/:showname",
     element: <AddNewFilmPage />,
+  },
+  {
+    path: "/add-new-show",
+    element: <AddNewShowPage />,
   },
 ]);
 

@@ -3,9 +3,11 @@ import BarIcon from "../../components/icons/BarIcon";
 import SearchIcons from "../../components/icons/SearchIcons";
 import LoginContainer from "./LoginContainer";
 import { SearchContext } from "../Admin";
+import { AuthContext } from "../../context/AuthContext";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);
+  const { loginStatus } = useContext(AuthContext);
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
@@ -14,12 +16,11 @@ function NavBar() {
   return (
     <>
       <nav
-        className="bg-blue-400 h-16 text-2xl text-white col-start-2 row-start-1 px-3
+        className="bg-blue-400 h-20 text-2xl text-white px-3
                      flex justify-between items-center"
       >
         <div className="flex gap-2 justify-center items-center">
-          <BarIcon></BarIcon>
-          <span>FilmScope Toronto Admin</span>
+          <span>FilmScopeToronto Admin</span>
         </div>
 
         <div className="relative flex gap-2 items-center">

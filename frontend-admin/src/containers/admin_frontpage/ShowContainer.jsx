@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import ShowItem from "../../components/admin_frontpage/ShowItem";
 import { useState, useEffect } from "react";
-import { SearchContext } from "../Admin";
+import { SearchContext, ShowListContext } from "../Admin";
 import { LoginStatus } from "../../utils/loginstatus";
 import { fetchShowList } from "../../api/crudAPI";
 import { AuthContext } from "../../context/AuthContext";
 
 function ShowContainer() {
-  const [showList, setShowList] = useState([]);
+  const { showList, setShowList } = useContext(ShowListContext);
   const [pageSize, setPageSize] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
   const { loginStatus } = useContext(AuthContext);
@@ -50,7 +50,7 @@ function ShowContainer() {
   return (
     <>
       {loginStatus === LoginStatus.SUCCESS ? (
-        <div className="col-start-2 row-start-2 row-span-1 my-2">
+        <div className="my-2">
           <div className="flex flex-col px-2 ">
             {filteredList
               .sort((a, b) => new Date(a.showDate[0]) - new Date(b.showDate[0]))
@@ -73,7 +73,7 @@ function ShowContainer() {
           </div>
         </div>
       ) : (
-        <div className="bg-red-50"> Please Login </div>
+        <div className="bg-red-50 h-screen"> Please Login </div>
       )}
     </>
   );
