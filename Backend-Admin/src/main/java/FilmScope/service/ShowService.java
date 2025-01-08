@@ -158,6 +158,11 @@ public class ShowService {
         showRepository.deleteAll(showsInSomeTheatre);
     }
 
+    // delete show by id
+    public void deleteShowById(Integer id){
+        showRepository.deleteById(id);
+    }
+
     // delete a showBy Film
     // In our database, each unique film in a single show has a separate record
     // for example, if a show "Lord of the Ring Trilogy" has 3 movies, then we have 3 records,
@@ -225,35 +230,28 @@ public class ShowService {
 
     // add show
     @Transactional
-    public String addNewShow(ShowDetailedDto showDetailedDto){
-        List<FilmDto> filmDtoList=showDetailedDto.getDetailedMovieInfo();
-
-        String show_title=showDetailedDto.getShowTitle();
-        String theatre=showDetailedDto.getTheatre();
-        Map<String,List<List<String>>> showtimes=showDetailedDto.getShowtimes();
-        Boolean published=showDetailedDto.getPublished();
-        String poster=showDetailedDto.getPoster();
-        String backdrop=showDetailedDto.getBackdrop();
-
+    public String addNewShow(ShowDto showDto){
+        System.out.println(showDto.getShowTitle());
+        System.out.println(showDto.getTheatre());
+        System.out.println(showDto.getDirector());
+        System.out.println(showDto.getId());
+        System.out.println(showDto.getCustomId());
+        System.out.println(showDto.getFilmId());
+        System.out.println(showDto.getShowtimes());
+        System.out.println("----------------------");
+        Show show=ShowMapper.mapToShowEntity(showDto);
+        System.out.println(show.getShowTitle());
+        System.out.println(show.getTheatre());
+        System.out.println(show.getDirector());
+        System.out.println(show.getId());
+        System.out.println(show.getCustomId());
+        System.out.println(show.getFilmId());
+        System.out.println(show.getShowTimes());
         try{
-            for (FilmDto filmDto:filmDtoList){
-                String filmTitle=filmDto.getTitle();
-                String directors = filmDto.getDirectors().isEmpty() ? "" : filmDto.getDirectors().get(0);
-                Integer releaseYear=filmDto.getReleaseYear();
-                Integer filmId=filmDto.getFilmId();
-                Long customId=filmDto.getCustomId();
-
-                Show show=new Show(null,theatre,show_title,showtimes,filmTitle,directors,releaseYear,filmId,published,poster,backdrop,customId);
-                Film film=FilmMapper.mapToFilmEntity(filmDto);
-
-                showRepository.save(show);
-                filmRepository.save(film);
-            }
-            return "Show and Films added successfully";
-        } catch(DataIntegrityViolationException e){
-            return "Error: duplicate record";
+            showRepository.save(show);
+            return "Success";
         } catch(Exception e){
-            return String.format("Error %s",e.getMessage());
+            return e.getMessage();
         }
     }
 }

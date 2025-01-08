@@ -80,6 +80,12 @@ public class ShowController{
         return ResponseEntity.ok(String.format("Show %s in %s is successfully deleted", showTitle,theatre));
     }
 
+    @DeleteMapping("delete-show-id")
+    public ResponseEntity<String> deleteShowById(@RequestParam("id") Integer id){
+        showService.deleteShowById(id);
+        return ResponseEntity.ok("the show is deleted successfully");
+    }
+
     // delete a film in a show
     @DeleteMapping("delete-film")
     public ResponseEntity<String> deleteShowByFilm(@RequestParam("customId") Long customId,@RequestParam("theatre") String theatre){
@@ -140,8 +146,8 @@ public class ShowController{
     }
 
     @PostMapping("add-show")
-    public ResponseEntity<String> addNewShow(ShowDetailedDto newShowDetails){
-        String addedShowStatus=showService.addNewShow(newShowDetails);
+    public ResponseEntity<String> addNewShow(@RequestBody ShowDto showDto){
+        String addedShowStatus=showService.addNewShow(showDto);
         if(addedShowStatus.contains("Error")){
             return ResponseEntity.badRequest().body(addedShowStatus);
         }else{
