@@ -3,7 +3,8 @@ import SearchIcons from "../../components/icons/SearchIcons";
 import LoginContainer from "./LoginContainer";
 import { SearchContext, ShowListContext } from "../Admin";
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteExpiredShows } from "../../api/crudAPI";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);
@@ -12,6 +13,18 @@ function NavBar() {
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
+  };
+
+  const navigate = useNavigate();
+
+  const handleDeleteExpireSHow = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteExpiredShows();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -25,7 +38,10 @@ function NavBar() {
           <button className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300">
             <Link to="/add-new-show">Add New Show</Link>
           </button>
-          <button className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300">
+          <button
+            className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300"
+            onClick={handleDeleteExpireSHow}
+          >
             Delete Expire Show
           </button>
         </div>

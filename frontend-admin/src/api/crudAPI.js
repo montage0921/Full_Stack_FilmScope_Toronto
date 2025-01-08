@@ -171,3 +171,14 @@ export const addNewShow = async (showDto) => {
     throw error;
   }
 };
+
+// delete expired show
+export const deleteExpiredShows = async () => {
+  try {
+    await axios.delete(`${baseURL}/delete-expired-show`, {
+      headers: header,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
