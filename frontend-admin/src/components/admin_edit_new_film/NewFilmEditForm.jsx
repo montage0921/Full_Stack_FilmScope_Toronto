@@ -11,6 +11,7 @@ import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditFor
 import SearchTMDB from "../../containers/admin_add_new_film/SearchTMDB";
 import {
   addNewFilm,
+  deleteShowById,
   fetchCustomId,
   syncShowWithNewFilm,
 } from "../../api/crudAPI";
@@ -62,6 +63,11 @@ function NewFilmEditForm() {
   const handleAddNewFilm = async (e) => {
     e.preventDefault();
 
+    if (title === "") {
+      alert("Must Enter the title");
+      return;
+    }
+
     // Construct the new film data object
     const newFilmDto = {
       filmId, // Ensure this is correctly set and unique
@@ -88,7 +94,6 @@ function NewFilmEditForm() {
         newFilmDto.title,
         newFilmDto.releaseYear
       );
-      console.log(showDetail);
       const showDto = {
         theatre: showDetail.theatre,
         showTitle: showDetail.showTitle,
@@ -103,6 +108,9 @@ function NewFilmEditForm() {
         customId,
       };
       await syncShowWithNewFilm(showDto);
+      if (showDetail.customIds[0] === null) {
+        await deleteShowById(showDetail.ids[0]);
+      }
     } catch (error) {
       console.error("Error adding new film:", error);
       // Optionally, display an error message to the user

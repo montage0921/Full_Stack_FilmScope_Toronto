@@ -14,6 +14,7 @@ function ShowTimeContainer() {
   };
 
   const handleAddDate = (e) => {
+    console.log(showDto);
     e.preventDefault();
 
     if (newDate === "") {
@@ -22,6 +23,8 @@ function ShowTimeContainer() {
     }
 
     const deepCopyShowDto = JSON.parse(JSON.stringify(showDto));
+    if (!deepCopyShowDto.showtimes) deepCopyShowDto.showtimes = {};
+    console.log(deepCopyShowDto);
 
     // check if the date is before today
     const selectDate = new Date(newDate);

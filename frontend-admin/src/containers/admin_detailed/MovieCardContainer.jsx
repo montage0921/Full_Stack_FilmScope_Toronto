@@ -11,8 +11,8 @@ function MovieCardContainer() {
   if (showDetail?.detailedMovieInfo) {
     return (
       <div className="flex flex-col w-4/5 items-center">
-        {showDetail?.detailedMovieInfo.map((movie) => (
-          <MovieCard key={showDetail?.ids[0]} movie={movie} />
+        {showDetail?.detailedMovieInfo.map((movie, index) => (
+          <MovieCard key={showDetail?.ids[index]} movie={movie} />
         ))}
         <Link
           className="mb-5 w-1/5"

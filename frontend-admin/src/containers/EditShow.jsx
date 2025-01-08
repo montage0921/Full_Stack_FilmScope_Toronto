@@ -15,6 +15,7 @@ function EditShow() {
     const handleShowInfoFetch = async (showname, theatre) => {
       const showDetail = await getDetailedShowInfo(showname, theatre);
       setShowDetail(showDetail);
+      console.log(showDetail);
       setShowDto((prevShowDto) => ({
         ...prevShowDto,
         id: null,

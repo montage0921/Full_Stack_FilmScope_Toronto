@@ -33,6 +33,16 @@ export const deleteShow = async (showTitle, theatre) => {
   }
 };
 
+export const deleteShowById = async (id) => {
+  try {
+    await axios.delete(`${baseURL}/delete-show-id?id=${id}`, {
+      headers: header,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 // get showDetailed Info
 
 export const getDetailedShowInfo = async (showname, theatre) => {
@@ -144,6 +154,18 @@ export const syncShowWithNewFilm = async (showDto) => {
         headers: header,
       }
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// add a new show
+export const addNewShow = async (showDto) => {
+  try {
+    const response = await axios.post(`${baseURL}/add-show`, showDto, {
+      headers: header,
+    });
     return response.data;
   } catch (error) {
     throw error;

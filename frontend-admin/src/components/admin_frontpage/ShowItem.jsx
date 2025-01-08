@@ -11,7 +11,7 @@ function ShowItem({ show, deleteFromList }) {
   return (
     <div
       className="h-16 my-2 rounded-lg border-blue-300 border-2 
-                flex items-center gap-4 px-5
+                flex items-center gap-4 px-5 font-libre
                 hover:border-4"
     >
       <div className="w-1/6 ">{show.theatre}</div>
