@@ -9,10 +9,6 @@ function LoginContainer() {
   const { loginStatus, clickLoginDropDown, setClickLoginDropDown } =
     useContext(AuthContext);
 
-  useEffect(() => {
-    setClickLoginDropDown(!clickLoginDropDown);
-  }, [loginStatus]);
-
   return (
     <div>
       <button
@@ -23,6 +19,7 @@ function LoginContainer() {
       >
         <LoginIcon></LoginIcon>
       </button>
+      {console.log(clickLoginDropDown)}
       {clickLoginDropDown && (
         <div
           className="absolute flex flex-col  bg-blue-300 text-lg text-gray-500 rounded-lg  shadow w-56 top-12 right-0

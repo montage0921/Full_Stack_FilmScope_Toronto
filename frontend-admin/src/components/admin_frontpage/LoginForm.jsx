@@ -6,7 +6,12 @@ import { LoginStatus } from "../../utils/loginstatus";
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { loginStatus, setLoginStatus } = useContext(AuthContext);
+  const {
+    loginStatus,
+    setLoginStatus,
+    setClickLoginDropDown,
+    clickLoginDropDown,
+  } = useContext(AuthContext);
 
   const handleUserName = (e) => {
     setUsername(e.target.value);
@@ -23,7 +28,10 @@ function LoginForm() {
       username: username,
       password: password,
     };
-    await sendLoginInfo(loginInfo, setLoginStatus);
+    const result = await sendLoginInfo(loginInfo, setLoginStatus, loginStatus);
+    if (result === LoginStatus.SUCCESS) {
+      setClickLoginDropDown(false);
+    }
   };
 
   return (

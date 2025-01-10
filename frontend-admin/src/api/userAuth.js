@@ -10,6 +10,7 @@ export const sendLoginInfo = async (loginInfo, setLoginStatus) => {
       const token = await response.data.accessToken;
       localStorage.setItem("accessToken", token);
       await setLoginStatus(LoginStatus.SUCCESS);
+      return LoginStatus.SUCCESS;
     }
   } catch (error) {
     setLoginStatus(LoginStatus.FAILED);

@@ -5,11 +5,11 @@ import { SearchContext, ShowListContext } from "../Admin";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteExpiredShows } from "../../api/crudAPI";
+import { LoginStatus } from "../../utils/loginstatus";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);
   const { loginStatus } = useContext(AuthContext);
-  const { showList, setShowList } = useContext(ShowListContext);
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
@@ -35,15 +35,19 @@ function NavBar() {
       >
         <div className="flex gap-2 justify-center items-center">
           <span className="mr-3">FilmScopeToronto Admin</span>
-          <button className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300">
-            <Link to="/add-new-show">Add New Show</Link>
-          </button>
-          <button
-            className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300"
-            onClick={handleDeleteExpireSHow}
-          >
-            Delete Expire Show
-          </button>
+          {loginStatus === LoginStatus.SUCCESS && (
+            <div className="py-2 flex gap-2">
+              <button className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300">
+                <Link to="/add-new-show">Add New Show</Link>
+              </button>
+              <button
+                className="bg-gray-400 hover:bg-gray-500 text-white text-base font-semibold px-4 py-1 rounded-lg transition-all duration-300"
+                onClick={handleDeleteExpireSHow}
+              >
+                Delete Expire Show
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="relative flex gap-2 items-center">

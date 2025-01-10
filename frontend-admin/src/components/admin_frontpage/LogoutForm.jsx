@@ -3,11 +3,12 @@ import { AuthContext } from "../../context/AuthContext";
 import { LoginStatus } from "../../utils/loginstatus";
 
 function LogoutForm() {
-  const { setLoginStatus } = useContext(AuthContext);
+  const { setLoginStatus, setClickLoginDropDown } = useContext(AuthContext);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     setLoginStatus(LoginStatus.NOT_ATTEMPTED);
+    setClickLoginDropDown(false);
   };
 
   return (
