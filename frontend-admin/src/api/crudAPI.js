@@ -8,6 +8,7 @@ const header = {
 
 export const fetchShowList = async (pageSize) => {
   try {
+    console.log(token);
     const response = await axios.get(`${baseURL}/load?size=${pageSize}`, {
       headers: header,
     });

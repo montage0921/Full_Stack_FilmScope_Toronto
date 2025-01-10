@@ -18,7 +18,11 @@ function ShowContainer() {
       if (loginStatus === LoginStatus.SUCCESS) {
         try {
           const data = await fetchShowList(pageSize);
-          setShowList(data.showLists);
+          const showLists = data.showLists;
+          showLists.sort(
+            (a, b) => new Date(a.showDate[0]) - new Date(b.showDate[0])
+          );
+          setShowList(showLists);
           setTotalItems(data.totalItems);
         } catch (error) {
           console.log(error);

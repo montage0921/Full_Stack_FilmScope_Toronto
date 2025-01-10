@@ -9,6 +9,7 @@ import EditShow from "./containers/EditShow.jsx";
 import EditFilm from "./containers/EditFilm.jsx";
 import AddNewFilmPage from "./containers/AddNewFilmPage.jsx";
 import AddNewShowPage from "./containers/AddNewShowPage.jsx";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <ToastContainer />
     </AuthProvider>
   </StrictMode>
 );

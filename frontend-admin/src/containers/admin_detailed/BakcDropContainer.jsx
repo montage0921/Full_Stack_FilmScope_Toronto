@@ -11,7 +11,7 @@ function BakcDropContainer() {
 
   return (
     <div
-      className="bg-black w-full h-[950px] text-white font-libre relative"
+      className="bg-black w-full h-screen text-white font-libre relative"
       onMouseEnter={() => {
         setIsHover(true);
       }}
