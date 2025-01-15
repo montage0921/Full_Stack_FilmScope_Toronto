@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { searchTMDB } from "../../api/crudAPI";
 import { useContext } from "react";
 import { StrEditContext, ArrEditContext } from "../AddNewFilmPage";
+import { toast, Slide } from "react-toastify";
 
 function SearchTMDB() {
   const [filmTitleQuery, setFilmTitleQuery] = useState("");
@@ -41,7 +42,17 @@ function SearchTMDB() {
       setGenres(film_info.genres);
       setImdbId(film_info.imdb_id);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     }
   };
 

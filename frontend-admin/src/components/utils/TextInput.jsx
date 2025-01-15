@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { editContext } from "../../containers/EditShow";
 
 function TextInput({ keyName, value, name }) {
-  const { showDto, setShowDto } = useContext(editContext);
+  const { setShowDto } = useContext(editContext);
   return (
     <div className="flex flex-col w-2/5">
       <label htmlFor={keyName} className="text-lg font-semibold text-gray-800 ">

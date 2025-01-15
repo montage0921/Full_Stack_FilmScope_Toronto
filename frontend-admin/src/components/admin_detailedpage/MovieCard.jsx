@@ -3,6 +3,7 @@ import { showDetailContext } from "../../containers/AdminDetail";
 import LabeledText from "../utils/LabeledText";
 import { Link } from "react-router-dom";
 import { deleteFilm, getDetailedShowInfo } from "../../api/crudAPI";
+import { toast, Slide } from "react-toastify";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
@@ -11,14 +12,23 @@ function MovieCard({ movie }) {
     e.preventDefault();
 
     if (showDetail.detailedMovieInfo.length <= 1) {
-      alert("You cannot delete the only film in this show!");
+      toast.error("Sorry bu you can't delete your only film", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
 
     try {
       // Delete the film
       await deleteFilm(movie.customId, showDetail.theatre);
-      console.log("The film is deleted successfully!");
 
       // Fetch updated show details
       const newShowDetail = await getDetailedShowInfo(
@@ -27,7 +37,17 @@ function MovieCard({ movie }) {
       );
       setShowDetail(newShowDetail);
 
-      alert("Film deleted successfully!");
+      toast.success("🎉The film is deleted successfully!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     } catch (error) {
       console.error(
         "Failed to delete the film or update the show detail:",

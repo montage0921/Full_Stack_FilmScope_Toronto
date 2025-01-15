@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteExpiredShows } from "../../api/crudAPI";
 import { LoginStatus } from "../../utils/loginstatus";
+import { toast, Slide } from "react-toastify";
 
 function NavBar() {
   const { query, setQuery } = useContext(SearchContext);
@@ -22,8 +23,29 @@ function NavBar() {
     try {
       await deleteExpiredShows();
       navigate("/");
+      toast.success("All expired show has been deleted!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log(error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     }
   };
 

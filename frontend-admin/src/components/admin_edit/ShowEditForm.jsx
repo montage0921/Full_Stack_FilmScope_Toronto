@@ -4,19 +4,43 @@ import TextInput from "../utils/TextInput";
 import SelectBox from "../utils/SelectBox";
 import ShowTimeContainer from "../../containers/admin_edit/ShowTimeContainer";
 import { updateShowAPI } from "../../api/crudAPI";
+import { toast, Slide } from "react-toastify";
 
 function ShowEditForm() {
-  const { showDto, setShowDto, showIds } = useContext(editContext);
+  const { showDto, showIds } = useContext(editContext);
 
   const handleUpdateShowDto = async (e) => {
     e.preventDefault();
     try {
+      if (!showDto.showTitle.trim())
+        throw new Error("Show title cannot be null");
+      if (!showDto.theatre.trim()) throw new Error("Theatre cannot be null");
+
       const updates = showIds.map((id) => updateShowAPI(id, showDto));
       await Promise.all(updates);
-      alert("Show updated successfully!");
+      toast.success("Show has been updated", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log("Failed", error);
-      alert("Failed to update");
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     }
   };
 

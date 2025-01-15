@@ -4,6 +4,7 @@ import TextInputShow from "../utils/TextInputShow";
 import CheckBox from "../utils/CheckBox";
 import { addNewShow } from "../../api/crudAPI";
 import { useNavigate } from "react-router-dom";
+import { toast, Slide } from "react-toastify";
 
 function NewShowEditForm() {
   const { showDto, setShowDto } = useContext(ShowDtoContext);
@@ -12,18 +13,48 @@ function NewShowEditForm() {
   const handleAddnewShow = async (e) => {
     e.preventDefault();
     if (showDto.showTitle === "") {
-      alert("must have show title");
+      toast.error("Show title is mandatory", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
     if (showDto.theatre === "") {
-      alert("must have theatre name");
+      toast.error("Theatre is mandatory", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
     try {
       await addNewShow(showDto);
       navigate(`/detailed-page-admin/${showDto.theatre}/${showDto.showTitle}`);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     }
   };
 

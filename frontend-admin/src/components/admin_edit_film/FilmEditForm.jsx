@@ -9,6 +9,7 @@ import { updateFilm } from "../../api/crudAPI";
 import NumberInputFilm from "../utils/NumberInputFilm";
 import ArrayDataEditForm from "../../containers/admin_edit_film/ArrayDataEditForm";
 import TextArea from "../utils/TextArea";
+import { toast, Slide } from "react-toastify";
 
 function FilmEditForm() {
   const { customId, filmDto, setFilmDto } = useContext(MainContext);
@@ -65,12 +66,34 @@ function FilmEditForm() {
     deepCopyFilmDto.genres = genres;
 
     // update dto
+
     setFilmDto(deepCopyFilmDto);
     try {
+      if (!title.trim()) throw new Error("Title cannot be empty");
       await updateFilm(customId, deepCopyFilmDto);
-      console.log("The movie has been successfully updated!");
+      toast.success("Film info has been updated", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     } catch (error) {
-      console.log(error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
     }
   };
 

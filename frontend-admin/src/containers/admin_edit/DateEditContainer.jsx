@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { editContext } from "../EditShow";
 import TimeEditCard from "../../components/admin_edit/TimeEditCard";
 import CrossCircle from "../../components/icons/CrossCircle";
+import { toast, Slide } from "react-toastify";
 
 function DateEditContainer({ date }) {
   const { showDto, setShowDto } = useContext(editContext);
@@ -48,12 +49,32 @@ function DateEditContainer({ date }) {
     );
 
     if (isDuplicate) {
-      alert("Time already exists for this date!");
+      toast.error("This date is already created", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
 
     if (newLink === "") {
-      alert("Link for ticket is mandatory");
+      toast.error("Link for ticket is mandatory", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
 

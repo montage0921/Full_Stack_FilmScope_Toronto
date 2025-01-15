@@ -15,11 +15,12 @@ import {
   fetchCustomId,
   syncShowWithNewFilm,
 } from "../../api/crudAPI";
+import { toast, Slide } from "react-toastify";
 
 function NewFilmEditForm() {
   const [isDropDown, setIsDropDown] = useState(false); // dropdown state
 
-  const { filmDto, setFilmDto, showDetail } = useContext(MainContext);
+  const { setFilmDto, showDetail } = useContext(MainContext);
 
   const {
     title,
@@ -64,7 +65,17 @@ function NewFilmEditForm() {
     e.preventDefault();
 
     if (title === "") {
-      alert("Must Enter the title");
+      toast.error("Must enter a title", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       return;
     }
 
@@ -107,12 +118,25 @@ function NewFilmEditForm() {
         backdrop,
         customId,
       };
+      // when a new show is created, there is a record in database that most fields are empty
+      // when add a new film for this kind of show, it add a new record with film info
+      // so after successfully add the film, we need to delete the first record with empty fields
       await syncShowWithNewFilm(showDto);
       if (showDetail.customIds[0] === null) {
         await deleteShowById(showDetail.ids[0]);
       }
     } catch (error) {
-      console.error("Error adding new film:", error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+      });
       // Optionally, display an error message to the user
     }
   };
