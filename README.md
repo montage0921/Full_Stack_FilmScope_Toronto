@@ -1,8 +1,12 @@
 # Full_Stack_FilmScope_Toronto
 
-## Admin Panel of FilmScope Toronto
+FilmScope Toronto is a movie showtime aggregation website designed for cinephiles in the GTA. It collects indie movie showtimes and ticket information from over 15 theaters across the region, offering a convenient way to stay updated on the latest screenings in Toronto!
 
-This branch contains the entire codebase for the admin panel of FilmScope Toronto, a project I developed independently from start to finish. It provides a straightforward and user-friendly interface to manage movies and their showtime information in the database, with functionalities for admin-only authentication, as well as viewing, adding, deleting, and updating movie and showtime details.
+Yes, you read that right! No more opening 10+ tabs to figure out which theater is showing The Godfather right now!
+
+---
+
+## Admin Panel of FilmScope Toronto
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -12,12 +16,12 @@ This branch contains the entire codebase for the admin panel of FilmScope Toront
 - [Usage](#usage)
 - [License](#license)
 
-
 ## Introduction
 
-FilmScope Toronto is a movie showtime aggregation website designed for cinephiles in the GTA. It collects indie movie showtimes and ticket information from over 15 theaters across the region, offering a convenient way to stay updated on the latest screenings in Toronto!
+This branch contains the entire codebase for the admin panel of FilmScope Toronto, a project I developed independently from start to finish. It provides a straightforward and user-friendly interface to manage movies and their showtime information in the database, with functionalities for admin-only authentication, as well as viewing, adding, deleting, and updating movie and showtime details.
 
-Yes, you read that right! No more opening 10+ tabs to figure out which theater is showing The Godfather right now!
+
+
 
 ---
 
