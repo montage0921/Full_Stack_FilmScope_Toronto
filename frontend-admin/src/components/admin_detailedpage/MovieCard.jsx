@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { showDetailContext } from "../../containers/AdminDetail";
-import LabeledText from "../utils/LabeledText";
 import { Link } from "react-router-dom";
 import { deleteFilm, getDetailedShowInfo } from "../../api/crudAPI";
 import { toast, Slide } from "react-toastify";
+import TagDetailPage from "./TagDetailPage";
 
 function MovieCard({ movie }) {
   const { showDetail, setShowDetail } = useContext(showDetailContext);
+  const [activeTab, setActiveTab] = useState("Overview");
 
   const handleDeleteFilm = async (e) => {
     e.preventDefault();
@@ -60,12 +61,22 @@ function MovieCard({ movie }) {
   };
 
   return (
-    <div className="px-5 md:px-20 lg:px-56 py-10 flex gap-5 font-libre">
-      <img className="h-full w-2/5" src={movie.posterPath} alt="" />
-      <div className="relative flex flex-col gap-3">
+    <div className=" md:px-20 lg:px-26 py-10 flex gap-5 font-libre">
+      <img
+        className="w-[150px] h-[225px] border border-gray-400 rounded-sm object-cover"
+        src={movie.posterPath}
+        alt=""
+      />
+
+      <div className="relative flex flex-col gap-3 ">
         <div>
-          <div className="text-4xl font-bold flex gap-5">
-            {movie.title}
+          <div className="text-4xl font-bold flex gap-5">{movie.title}</div>
+          {movie.title.trim() !== movie.originalTitle.trim() && (
+            <div className="text-3xl font-semibold text-gray-600">
+              {movie.originalTitle}
+            </div>
+          )}
+          <div className="flex gap-2 mt-1">
             <button
               className="bg-red-300 text-sm text-white font-semibold w-20 h-8 self-center rounded-lg
               transition-all duration-300 transform hover:scale-105 hover:bg-red-500"
@@ -81,46 +92,99 @@ function MovieCard({ movie }) {
               Edit
             </Link>
           </div>
-          {movie.title.trim() !== movie.originalTitle.trim() && (
-            <div className="text-3xl font-semibold text-gray-600">
-              {movie.originalTitle}
-            </div>
-          )}
         </div>
 
-        <div className="h-full flex flex-col justify-between text-base">
-          <div>
-            <LabeledText text="Year: "></LabeledText>
-            {movie.releaseYear}
-          </div>
-          <div>
-            <LabeledText text="Runtime: "></LabeledText>
-            {movie.runtime} min
-          </div>
-          <div>
-            <LabeledText text="Director: "></LabeledText>
-            {movie.directors.join("/")}
-          </div>
-          <div>
-            <LabeledText text="Casts: "></LabeledText>
-            {movie.casts.join("/")}
-          </div>
-          <div>
-            <LabeledText text="Genres: "></LabeledText>
-            {movie.genres.join("/")}
-          </div>
-          <div>
-            <LabeledText text="Languages: "></LabeledText>
-            {movie.languages.join("/")}
-          </div>
-          <div>
-            <LabeledText text="Countries: "></LabeledText>
-            {movie.countries.join("/")}
-          </div>
-          <div>
-            <LabeledText text="Overview: "></LabeledText>
-            <div>{movie.overview}</div>
-          </div>
+        {/* Tabs */}
+        <div className="flex">
+          {["Overview", "Director/Casts", "Detail"].map((tab) => (
+            <buton
+              key={tab}
+              className={`px-16 border-b-2 hover:border-b-2 hover:border-green-600 hover:text-green-600 hover:cursor-pointer
+              ${
+                activeTab === tab
+                  ? "border-green-600 text-green-600"
+                  : "border-gray-500"
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </buton>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="w-[620px] min-h-[100px] text-gray-600">
+          {/* Overview */}
+          {activeTab === "Overview" && movie.overview}
+          {/* Director/Casts */}
+          {activeTab === "Director/Casts" && (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-end">
+                <div>Director</div>
+                <div className="flex-grow border-b border-dotted border-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.directors.map((obj) => (
+                    <TagDetailPage key={obj} name={obj} />
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div>Casts</div>
+                <div className="flex-grow border-t border-dotted border-t-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.casts.map((obj) => (
+                    <TagDetailPage key={obj} name={obj} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Detail */}
+          {activeTab === "Detail" && (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-end">
+                <div>Release Year</div>
+                <div className="flex-grow border-b border-dotted border-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.releaseYear}
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div>Runtime</div>
+                <div className="flex-grow border-b border-dotted border-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.runtime}min
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div>Languages</div>
+                <div className="flex-grow border-t border-dotted border-t-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.languages.map((obj) => (
+                    <TagDetailPage key={obj} name={obj} />
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div>Genres</div>
+                <div className="flex-grow border-t border-dotted border-t-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.genres.map((obj) => (
+                    <TagDetailPage key={obj} name={obj} />
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-end">
+                <div>Countries</div>
+                <div className="flex-grow border-t border-dotted border-t-gray-600 mx-1"></div>
+                <div className="w-60 flex flex-wrap gap-1">
+                  {movie.countries.map((obj) => (
+                    <TagDetailPage key={obj} name={obj} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

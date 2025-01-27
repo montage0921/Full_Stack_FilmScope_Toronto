@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 import AddTagIcon from "../../components/icons/AddTagIcon";
 
 function MovieCardContainer() {
-  const { showDetail, setShowDetail } = useContext(showDetailContext);
+  const { showDetail } = useContext(showDetailContext);
 
   if (showDetail?.detailedMovieInfo) {
     return (
-      <div className="flex flex-col w-4/5 items-center bg-blue-200">
+      <div className="flex flex-col w-4/5 items-center">
         {showDetail?.detailedMovieInfo.map((movie, index) => (
           <MovieCard key={showDetail?.ids[index]} movie={movie} />
         ))}
