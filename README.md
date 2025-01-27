@@ -13,7 +13,7 @@ This branch contains the entire codebase for the admin panel of FilmScope Toront
 - [License](#license)
 
 
-## Introduction 🎦
+## Introduction
 
 FilmScope Toronto is a movie showtime aggregation website designed for cinephiles in the GTA. It collects indie movie showtimes and ticket information from over 15 theaters across the region, offering a convenient way to stay updated on the latest screenings in Toronto!
 
